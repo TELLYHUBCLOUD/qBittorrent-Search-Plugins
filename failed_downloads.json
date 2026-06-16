@@ -1,0 +1,41 @@
+{
+  "public": [
+    {
+      "engine": "MagnetDL with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/magnetdl.py",
+      "reason": "HTTP Error 404: Not Found"
+    },
+    {
+      "engine": "Nyaa.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/pantsu.py",
+      "reason": "HTTP Error 404: Not Found"
+    },
+    {
+      "engine": "Sukebei.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/sukebei.py",
+      "reason": "HTTP Error 404: Not Found"
+    },
+    {
+      "engine": "ThePirateBay with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/thepiratebay.py",
+      "reason": "HTTP Error 404: Not Found"
+    },
+    {
+      "engine": "TorrentDownload with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/torrentdownload.py",
+      "reason": "HTTP Error 404: Not Found"
+    },
+    {
+      "engine": "Torrenflix",
+      "url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrenflix.py",
+      "reason": "HTTP Error 404: Not Found"
+    }
+  ],
+  "private": [
+    {
+      "engine": "Pornolab",
+      "url": "https://raw.githubusercontent.com/TainakaDrums/qbPornolab/master/pornolab.py",
+      "reason": "HTTP Error 404: Not Found"
+    }
+  ]
+}
