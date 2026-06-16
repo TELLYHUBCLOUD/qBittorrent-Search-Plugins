@@ -1,0 +1,1784 @@
+{
+  "version": "2.0",
+  "last_update": null,
+  "plugins": {
+    "pub_academictorrents": {
+      "metadata": {
+        "engine_name": "Academic Torrents",
+        "engine_site": "https://academictorrents.com/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.2",
+        "last_update": "19/Mar2023",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5 **READ REPOSITORY NOTES**",
+        "filename": "academictorrents.py",
+        "is_public": true
+      },
+      "hash": "5a4e025814e1fc8a",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/academictorrents.py",
+      "first_seen": "2026-06-16T15:38:16.810883",
+      "last_updated": "2026-06-16T15:40:56.816875",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_acgrip": {
+      "metadata": {
+        "engine_name": "acgrip",
+        "engine_site": "https://acg.rip/",
+        "author": "Yun",
+        "author_repo": "https://github.com/Cc050511/qBit-search-plugins",
+        "version": "1.0",
+        "last_update": "24/Apr2023",
+        "comments": "✔ qbt 4.5.2 / Python 3.10",
+        "filename": "acgrip.py",
+        "is_public": true
+      },
+      "hash": "f7df6d770895c73c",
+      "source_url": "https://raw.githubusercontent.com/Cc050511/qBit-search-plugins/main/acgrip.py",
+      "first_seen": "2026-06-16T15:38:17.385063",
+      "last_updated": "2026-06-16T15:40:57.045990",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_ali213": {
+      "metadata": {
+        "engine_name": "ali213.net",
+        "engine_site": "http://down.ali213.net/",
+        "author": "hannsen",
+        "author_repo": "https://github.com/hannsen/qbittorrent_search_plugins/",
+        "version": "1.00",
+        "last_update": "25/Dec2017",
+        "comments": "✔ qbt 4.1.x / Python 3.5.0 ❗ qbt 4.3.0.1 / Python 3.9",
+        "filename": "ali213.py",
+        "is_public": true
+      },
+      "hash": "ca6167e6717896f4",
+      "source_url": "https://raw.githubusercontent.com/hannsen/qbittorrent_search_plugins/master/ali213.py",
+      "first_seen": "2026-06-16T15:38:17.936140",
+      "last_updated": "2026-06-16T15:40:57.282479",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_anidex": {
+      "metadata": {
+        "engine_name": "anidex.info",
+        "engine_site": "http://anidex.info/",
+        "author": "Ni Ndogo",
+        "author_repo": "https://github.com/nindogo",
+        "version": "0.02",
+        "last_update": "06/Jul2019",
+        "comments": "✔ qbt 4.1.x / Python 3.5.0",
+        "filename": "anidex.py",
+        "is_public": true
+      },
+      "hash": "79a66e01e573e2df",
+      "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/anidex.py",
+      "first_seen": "2026-06-16T15:38:18.466511",
+      "last_updated": "2026-06-16T15:40:57.518848",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_animetosho": {
+      "metadata": {
+        "engine_name": "animetosho.org",
+        "engine_site": "http://animetosho.org/",
+        "author": "AlaaBrahim",
+        "author_repo": "https://github.com/AlaaBrahim",
+        "version": "1.1.0",
+        "last_update": "14/Nov2024",
+        "comments": "✔ qbt 4.5.x / Python 3.x.x",
+        "filename": "animetosho.py",
+        "is_public": true
+      },
+      "hash": "00f041833a06de3f",
+      "source_url": "https://raw.githubusercontent.com/AlaaBrahim/qBitTorrent-animetosho-search-plugin/main/animetosho.py",
+      "first_seen": "2026-06-16T15:38:19.055815",
+      "last_updated": "2026-06-16T15:40:57.744917",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_apachetorrent": {
+      "metadata": {
+        "engine_name": "Apache Torrent",
+        "engine_site": "https://apachetorrent.com/",
+        "author": "bebetoh",
+        "author_repo": "https://github.com/bebetoh",
+        "version": "1.0.0",
+        "last_update": "05/Apr2026",
+        "comments": "✔ qbt 5.1.x / Python 3.11.x",
+        "filename": "apachetorrent.py",
+        "is_public": true
+      },
+      "hash": "528566aa9144ccfe",
+      "source_url": "https://gist.githubusercontent.com/bebetoh/3bb49cdf2b3718937b5446db1e4a4915/raw/1819e3ed75faa0da1571173a677081dc107054aa/apachetorrent.py",
+      "first_seen": "2026-06-16T15:38:19.642907",
+      "last_updated": "2026-06-16T15:40:57.993800",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_audiobookbay": {
+      "metadata": {
+        "engine_name": "AudioBook Bay (ABB)",
+        "engine_site": "http://theaudiobookbay.se/",
+        "author": "nKlido",
+        "author_repo": "https://github.com/nklido/qBittorrent_search_engines",
+        "version": "0.4",
+        "last_update": "22/Feb2025",
+        "comments": "✔ qbt 5.0.x / Python 3.12.x",
+        "filename": "audiobookbay.py",
+        "is_public": true
+      },
+      "hash": "a815c16da570e58b",
+      "source_url": "https://raw.githubusercontent.com/nklido/qBittorrent_search_engines/master/engines/audiobookbay.py",
+      "first_seen": "2026-06-16T15:38:20.220731",
+      "last_updated": "2026-06-16T15:40:58.230165",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_bitsearch": {
+      "metadata": {
+        "engine_name": "Bit Search",
+        "engine_site": "https://bitsearch.to/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.1",
+        "last_update": "13/Apr/2024",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "bitsearch.py",
+        "is_public": true
+      },
+      "hash": "21b856f02ebcc284",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/bitsearch.py",
+      "first_seen": "2026-06-16T15:38:20.829148",
+      "last_updated": "2026-06-16T15:40:58.461105",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_bt4gprx": {
+      "metadata": {
+        "engine_name": "bt4gprx",
+        "engine_site": "https://bt4gprx.com/",
+        "author": "TuckerWarlock",
+        "author_repo": "https://github.com/TuckerWarlock/qbittorrent-search-plugins",
+        "version": "2.0",
+        "last_update": "27/Aug2023",
+        "comments": "✔ qbt 4.5.x / Python 3.10.x❗ Working when DDOS cloudfareprotection is disabled",
+        "filename": "bt4gprx.py",
+        "is_public": true
+      },
+      "hash": "9c6cc2672592239c",
+      "source_url": "https://raw.githubusercontent.com/TuckerWarlock/qbittorrent-search-plugins/main/bt4gprx.com/bt4gprx.py",
+      "first_seen": "2026-06-16T15:38:21.511849",
+      "last_updated": "2026-06-16T15:40:58.688462",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_btdig": {
+      "metadata": {
+        "engine_name": "btdig",
+        "engine_site": "https://btdig.com/",
+        "author": "galaris",
+        "author_repo": "https://github.com/galaris/BTDigg-qBittorrent-plugin",
+        "version": "1.1",
+        "last_update": "24/Jul2024",
+        "comments": "✔ qbt 4.6.4 / Python 3.9.x",
+        "filename": "btdig.py",
+        "is_public": true
+      },
+      "hash": "32ea79f5686fff4e",
+      "source_url": "https://raw.githubusercontent.com/galaris/BTDigg-qBittorrent-plugin/main/btdig.py",
+      "first_seen": "2026-06-16T15:38:22.085294",
+      "last_updated": "2026-06-16T15:40:58.961415",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_calidadtorrent": {
+      "metadata": {
+        "engine_name": "CalidadTorrent",
+        "engine_site": "https://calidadtorrent.com/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "24/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "calidadtorrent.py",
+        "is_public": true
+      },
+      "hash": "6cf8c997c762c807",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/calidadtorrent.py",
+      "first_seen": "2026-06-16T15:38:22.936292",
+      "last_updated": "2026-06-16T15:40:59.179474",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_cloudtorrents": {
+      "metadata": {
+        "engine_name": "CloudTorrents",
+        "engine_site": "https://cloudtorrents.com/",
+        "author": "elazar",
+        "author_repo": "https://github.com/elazar",
+        "version": "1.0",
+        "last_update": "31/Dec2024",
+        "comments": "✔ qbt 5.0.3 / Python 3.9.0",
+        "filename": "cloudtorrents.py",
+        "is_public": true
+      },
+      "hash": "861485972efd8f44",
+      "source_url": "https://raw.githubusercontent.com/elazar/qbittorrent-search-plugins/refs/heads/add-cloudtorrents-plugin/nova3/engines/cloudtorrents.py",
+      "first_seen": "2026-06-16T15:38:23.515241",
+      "last_updated": "2026-06-16T15:40:59.431438",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_cpasbien": {
+      "metadata": {
+        "engine_name": "Cpasbien",
+        "engine_site": "http://www.cpasbien.moe",
+        "author": "MarcBresson",
+        "author_repo": "https://github.com/MarcBresson/cpasbien",
+        "version": "2.2",
+        "last_update": "24/Dec2023",
+        "comments": "✔ qbt 4.5.x / Python 3.11.x",
+        "filename": "cpasbien.py",
+        "is_public": true
+      },
+      "hash": "69884cfd0e78708f",
+      "source_url": "https://raw.githubusercontent.com/MarcBresson/cpasbien/master/src/cpasbien.py",
+      "first_seen": "2026-06-16T15:38:24.082565",
+      "last_updated": "2026-06-16T15:40:59.664635",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_darklibria": {
+      "metadata": {
+        "engine_name": "dark-libria",
+        "engine_site": "https://dark-libria.it/",
+        "author": "Bugsbringer",
+        "author_repo": "https://github.com/bugsbringer/qbit-plugins",
+        "version": "0.10",
+        "last_update": "20/Jun2020",
+        "comments": "✔ qbt 4.2.x / Python 3.5.0",
+        "filename": "darklibria.py",
+        "is_public": true
+      },
+      "hash": "c2e2cd728b69e3a1",
+      "source_url": "https://raw.githubusercontent.com/bugsbringer/qbit-plugins/master/darklibria.py",
+      "first_seen": "2026-06-16T15:38:24.752055",
+      "last_updated": "2026-06-16T15:40:59.897525",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_divxtotal": {
+      "metadata": {
+        "engine_name": "divxtotal",
+        "engine_site": "https://divxtotal.wtf/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "07/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "divxtotal.py",
+        "is_public": true
+      },
+      "hash": "cec809857e1087a1",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/divxtotal.py",
+      "first_seen": "2026-06-16T15:38:25.339042",
+      "last_updated": "2026-06-16T15:41:00.133899",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_dmhy": {
+      "metadata": {
+        "engine_name": "DMHY",
+        "engine_site": "https://share.dmhy.org/",
+        "author": "dchika",
+        "author_repo": "https://github.com/diazchika/dmhy",
+        "version": "1.0",
+        "last_update": "8/Jul2024",
+        "comments": "✔ qbt 4.6.x / Python >= 3.7",
+        "filename": "dmhy.py",
+        "is_public": true
+      },
+      "hash": "f946209618a8cbe8",
+      "source_url": "https://raw.githubusercontent.com/diazchika/dmhy/main/dmhy.py",
+      "first_seen": "2026-06-16T15:38:25.932959",
+      "last_updated": "2026-06-16T15:41:00.578392",
+      "update_count": 3,
+      "action": "updated"
+    },
+    "pub_dodi_repacks": {
+      "metadata": {
+        "engine_name": "DODI Repacks",
+        "engine_site": "https://dodi-repacks.site/",
+        "author": "Bioux1",
+        "author_repo": "https://github.com/Bioux1/qbtSearchPlugins",
+        "version": "1.1",
+        "last_update": "01/May2025",
+        "comments": "✔ qbt 5.1.0 / Python 3.13.3",
+        "filename": "dodi_repacks.py",
+        "is_public": true
+      },
+      "hash": "51b49a2c181088da",
+      "source_url": "https://raw.githubusercontent.com/Bioux1/qbtSearchPlugins/main/dodi_repacks.py",
+      "first_seen": "2026-06-16T15:38:27.153195",
+      "last_updated": "2026-06-16T15:41:00.812869",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_dontorrent": {
+      "metadata": {
+        "engine_name": "dontorrent",
+        "engine_site": "https://dontorrent.equipment/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "07/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "dontorrent.py",
+        "is_public": true
+      },
+      "hash": "f9a0ada328c01598",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/dontorrent.py",
+      "first_seen": "2026-06-16T15:38:27.730080",
+      "last_updated": "2026-06-16T15:41:01.277408",
+      "update_count": 3,
+      "action": "updated"
+    },
+    "pub_elitetorrent": {
+      "metadata": {
+        "engine_name": "Elitetorrent",
+        "engine_site": "https://www.elitetorrent.com/",
+        "author": "iordic",
+        "author_repo": "https://github.com/iordic/qbittorrent-search-plugins",
+        "version": "1.5",
+        "last_update": "21/Sep2024",
+        "comments": "✔ qbt 4.6.7 / Python 3.9.5",
+        "filename": "elitetorrent.py",
+        "is_public": true
+      },
+      "hash": "181186dbb86f5b3b",
+      "source_url": "https://raw.githubusercontent.com/iordic/qbittorrent-search-plugins/master/engines/elitetorrent.py",
+      "first_seen": "2026-06-16T15:38:28.949231",
+      "last_updated": "2026-06-16T15:41:01.510449",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_esmeraldatorrent": {
+      "metadata": {
+        "engine_name": "esmeraldatorrent",
+        "engine_site": "https://esmeraldatorrent.com/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "07/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "esmeraldatorrent.py",
+        "is_public": true
+      },
+      "hash": "1004b06f4bac2af3",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/esmeraldatorrent.py",
+      "first_seen": "2026-06-16T15:38:29.556932",
+      "last_updated": "2026-06-16T15:41:01.739636",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_eztvx": {
+      "metadata": {
+        "engine_name": "EZTV",
+        "engine_site": "https://eztvx.to/",
+        "author": "DrPurp",
+        "author_repo": "https://github.com/DrPurp/eztvx-qbittorrent-plugin",
+        "version": "2.00",
+        "last_update": "18/Apr2026",
+        "comments": "✔ qbt 5.x / Python 3.x — Uses official EZTV JSON API",
+        "filename": "eztvx.py",
+        "is_public": true
+      },
+      "hash": "07383109341fd035",
+      "source_url": "https://raw.githubusercontent.com/DrPurp/eztvx-qbittorrent-plugin/main/eztvx.py",
+      "first_seen": "2026-06-16T15:38:30.132664",
+      "last_updated": "2026-06-16T15:41:01.970645",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_fitgirl_repacks": {
+      "metadata": {
+        "engine_name": "FitGirl Repacks",
+        "engine_site": "https://fitgirl-repacks.site/",
+        "author": "Bioux1",
+        "author_repo": "https://github.com/Bioux1/qbtSearchPlugins",
+        "version": "1.1",
+        "last_update": "01/May2025",
+        "comments": "✔ qbt 5.1.0 / Python 3.13.3",
+        "filename": "fitgirl_repacks.py",
+        "is_public": true
+      },
+      "hash": "3285f800eac78beb",
+      "source_url": "https://raw.githubusercontent.com/Bioux1/qbtSearchPlugins/main/fitgirl_repacks.py",
+      "first_seen": "2026-06-16T15:38:30.760214",
+      "last_updated": "2026-06-16T15:41:02.202863",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_glotorrents": {
+      "metadata": {
+        "engine_name": "GloTorrents",
+        "engine_site": "https://glodls.to/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.5",
+        "last_update": "28/Jul2022",
+        "comments": "✔ qbt 4.3.5 / Python 3.8.5",
+        "filename": "glotorrents.py",
+        "is_public": true
+      },
+      "hash": "66f7ac3ec14f7739",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/glotorrents.py",
+      "first_seen": "2026-06-16T15:38:31.289171",
+      "last_updated": "2026-06-16T15:41:02.435659",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_goggames": {
+      "metadata": {
+        "engine_name": "Gog-games",
+        "engine_site": "https://gog-games.to/",
+        "author": "tolotp",
+        "author_repo": "https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda",
+        "version": "1.0",
+        "last_update": "10/Mar/2026",
+        "comments": "✔ qbt 4.5.x+ / Python 3.9.x+❗ Pls read this INFO",
+        "filename": "goggames.py",
+        "is_public": true
+      },
+      "hash": "756bf172b89051f1",
+      "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/goggames.py",
+      "first_seen": "2026-06-16T15:38:31.873542",
+      "last_updated": "2026-06-16T15:41:02.650076",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_kickasstorrents": {
+      "metadata": {
+        "engine_name": "Kickass Torrent",
+        "engine_site": "https://katcr.to/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "28/Jul2022",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "kickasstorrents.py",
+        "is_public": true
+      },
+      "hash": "b3e9f714f06936a9",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/kickasstorrents.py",
+      "first_seen": "2026-06-16T15:38:32.503401",
+      "last_updated": "2026-06-16T15:41:02.890900",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_linuxtracker": {
+      "metadata": {
+        "engine_name": "Linux Tracker",
+        "engine_site": "http://linuxtracker.org/",
+        "author": "Made Of MagicAnd Wires",
+        "author_repo": "https://github.com/MadeOfMagicAndWires/qBit-plugins",
+        "version": "1.00",
+        "last_update": "12/Apr2017",
+        "comments": "✔ qbt 4.1.x / Python 3.5.0",
+        "filename": "linuxtracker.py",
+        "is_public": true
+      },
+      "hash": "1e0bd56b2146f8b1",
+      "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/6074a7cccb90dfd5c81b7eaddd3138adec7f3377/engines/linuxtracker.py",
+      "first_seen": "2026-06-16T15:38:32.982849",
+      "last_updated": "2026-06-16T15:41:03.143592",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_magnetdl": {
+      "metadata": {
+        "engine_name": "MagnetDL",
+        "engine_site": "http://www.magnetdl.com/",
+        "author": "Ni Ndogo",
+        "author_repo": "https://github.com/nindogo/qbtSearchScripts",
+        "version": "1.3",
+        "last_update": "25/Jul2018",
+        "comments": "✔ qbt 4.0.x / Python 3.5.0",
+        "filename": "magnetdl.py",
+        "is_public": true
+      },
+      "hash": "e87857e3c48a9bc7",
+      "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/magnetdl.py",
+      "first_seen": "2026-06-16T15:38:33.486220",
+      "last_updated": "2026-06-16T15:41:03.377989",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_maxitorrent": {
+      "metadata": {
+        "engine_name": "MaxiTorrent",
+        "engine_site": "https://maxitorrent.com/",
+        "author": "joseeloren",
+        "author_repo": "https://github.com/joseeloren/qbittorrent-search-plugins",
+        "version": "1.25",
+        "last_update": "16/Apr2021",
+        "comments": "✔ qbt 4.3.x / Python 3.5.0",
+        "filename": "maxitorrent.py",
+        "is_public": true
+      },
+      "hash": "7dfd624b206f74a4",
+      "source_url": "https://raw.githubusercontent.com/joseeloren/search-plugins/master/nova3/engines/maxitorrent.py",
+      "first_seen": "2026-06-16T15:38:38.991500",
+      "last_updated": "2026-06-16T15:41:08.161591",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_mejortorrent": {
+      "metadata": {
+        "engine_name": "MejorTorrent",
+        "engine_site": "https://www21.mejortorrent.zip/",
+        "author": "iordic",
+        "author_repo": "https://github.com/iordic/qbittorrent-search-plugins",
+        "version": "1.0",
+        "last_update": "27/Sep2024",
+        "comments": "✔ qbt 4.6.7 / Python 3.9.5",
+        "filename": "mejortorrent.py",
+        "is_public": true
+      },
+      "hash": "3ba2a8d31316970a",
+      "source_url": "https://raw.githubusercontent.com/iordic/qbittorrent-search-plugins/master/engines/mejortorrent.py",
+      "first_seen": "2026-06-16T15:38:39.526391",
+      "last_updated": "2026-06-16T15:41:08.393446",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_mikan": {
+      "metadata": {
+        "engine_name": "Mikan Project",
+        "engine_site": "https://mikanime.tv",
+        "author": "Cycloctane",
+        "author_repo": "https://github.com/Cycloctane/qBittorrent-plugins",
+        "version": "0.4",
+        "last_update": "08/May/2025",
+        "comments": "✔ qbt 4.5.x / Python 3.9.x",
+        "filename": "mikan.py",
+        "is_public": true
+      },
+      "hash": "91d6a0a308443fbb",
+      "source_url": "https://raw.githubusercontent.com/Cycloctane/qBittorrent-plugins/master/engines/mikan.py",
+      "first_seen": "2026-06-16T15:38:40.060612",
+      "last_updated": "2026-06-16T15:41:08.626435",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_mikanani": {
+      "metadata": {
+        "engine_name": "mikanani",
+        "engine_site": "https://mikanani.me",
+        "author": "Yun",
+        "author_repo": "https://github.com/Cc050511/qBit-search-plugins",
+        "version": "1.2",
+        "last_update": "11/Feb2024",
+        "comments": "✔ qbt 4.5.2 / Python 3.10",
+        "filename": "mikanani.py",
+        "is_public": true
+      },
+      "hash": "6718aa913e7f244b",
+      "source_url": "https://raw.githubusercontent.com/Cc050511/qBit-search-plugins/main/mikanani.py",
+      "first_seen": "2026-06-16T15:38:40.552615",
+      "last_updated": "2026-06-16T15:41:08.861048",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_mypornclub": {
+      "metadata": {
+        "engine_name": "My Porn Club",
+        "engine_site": "https://myporn.club/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.1",
+        "last_update": "09/Nov/2024",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "mypornclub.py",
+        "is_public": true
+      },
+      "hash": "11aa1fdbe2e9ffa4",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/mypornclub.py",
+      "first_seen": "2026-06-16T15:38:41.033896",
+      "last_updated": "2026-06-16T15:41:09.094179",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_naranjatorrent": {
+      "metadata": {
+        "engine_name": "naranjatorrent",
+        "engine_site": "https://naranjatorrent.com/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "07/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "naranjatorrent.py",
+        "is_public": true
+      },
+      "hash": "b0aee03a25844b2a",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/naranjatorrent.py",
+      "first_seen": "2026-06-16T15:38:41.545607",
+      "last_updated": "2026-06-16T15:41:09.327421",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_nekobt": {
+      "metadata": {
+        "engine_name": "nekoBT",
+        "engine_site": "https://nekobt.to/",
+        "author": "tolotp",
+        "author_repo": "https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda",
+        "version": "1.0",
+        "last_update": "06/Mar/2026",
+        "comments": "✔ qbt 4.5.x+ / Python 3.9.x+",
+        "filename": "nekobt.py",
+        "is_public": true
+      },
+      "hash": "29aba65332f19823",
+      "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/nekobt.py",
+      "first_seen": "2026-06-16T15:38:42.075860",
+      "last_updated": "2026-06-16T15:41:09.562683",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_nyaapantsu": {
+      "metadata": {
+        "engine_name": "Nyaa.pantsu",
+        "engine_site": "https://nyaa.pantsu.cat/",
+        "author": "Made Of MagicAnd Wires",
+        "author_repo": "https://github.com/MadeOfMagicAndWires/qBit-plugins",
+        "version": "1.3",
+        "last_update": "02/Jan2021",
+        "comments": "✔ qbt 4.0.x / Python 3.5.0",
+        "filename": "nyaapantsu.py",
+        "is_public": true
+      },
+      "hash": "32d4b6488d72d6a4",
+      "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/refs/heads/main/engines/nyaapantsu.py",
+      "first_seen": "2026-06-16T15:38:44.949543",
+      "last_updated": "2026-06-16T15:41:13.204473",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_nyaasi": {
+      "metadata": {
+        "engine_name": "Nyaa.si",
+        "engine_site": "https://nyaa.si/",
+        "author": "Made Of MagicAnd Wires",
+        "author_repo": "https://github.com/MadeOfMagicAndWires/qBit-plugins",
+        "version": "1.1",
+        "last_update": "01/Mar2019",
+        "comments": "✔ qbt 4.4.3.1 / Python 3.10.5",
+        "filename": "nyaasi.py",
+        "is_public": true
+      },
+      "hash": "8b38deb7d22d86c3",
+      "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/master/engines/nyaasi.py",
+      "first_seen": "2026-06-16T15:38:45.454431",
+      "last_updated": "2026-06-16T15:41:13.436738",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_onlinefix": {
+      "metadata": {
+        "engine_name": "Online-Fix",
+        "engine_site": "https://online-fix.me/",
+        "author": "caiocinel",
+        "author_repo": "https://github.com/caiocinel/onlinefix-qbittorrent-plugin",
+        "version": "1.0",
+        "last_update": "10/Aug2024",
+        "comments": "✔ qbt 4.6.5 / Python 3.12.4",
+        "filename": "onlinefix.py",
+        "is_public": true
+      },
+      "hash": "614fbe675d23bc60",
+      "source_url": "https://raw.githubusercontent.com/caiocinel/onlinefix-qbittorrent-plugin/main/onlinefix.py",
+      "first_seen": "2026-06-16T15:38:45.952333",
+      "last_updated": "2026-06-16T15:41:13.673914",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_pediatorrent": {
+      "metadata": {
+        "engine_name": "PediaTorrent",
+        "engine_site": "https://pediatorrent.com/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "24/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "pediatorrent.py",
+        "is_public": true
+      },
+      "hash": "33539ee6edd1733d",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/pediatorrent.py",
+      "first_seen": "2026-06-16T15:38:46.482655",
+      "last_updated": "2026-06-16T15:41:14.152132",
+      "update_count": 3,
+      "action": "updated"
+    },
+    "pub_pirateiro": {
+      "metadata": {
+        "engine_name": "Pirateiro",
+        "engine_site": "https://pirateiro.com/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "28/Jul2022",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "pirateiro.py",
+        "is_public": true
+      },
+      "hash": "3618b5279966057e",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/pirateiro.py",
+      "first_seen": "2026-06-16T15:38:47.554813",
+      "last_updated": "2026-06-16T15:41:14.384239",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_redetorrent": {
+      "metadata": {
+        "engine_name": "Rede Torrent",
+        "engine_site": "https://redetorrent.com/",
+        "author": "bebetoh",
+        "author_repo": "https://github.com/bebetoh",
+        "version": "1.0.0",
+        "last_update": "05/Apr2026",
+        "comments": "✔ qbt 5.1.x / Python 3.11.x",
+        "filename": "redetorrent.py",
+        "is_public": true
+      },
+      "hash": "ce2016fc6bd2c6a0",
+      "source_url": "https://gist.githubusercontent.com/bebetoh/b5e1f4731462de9b837f5026617b1d4a/raw/e71d0020078d56d3f7e9a903ca7b4d44774e10f7/redetorrent.py",
+      "first_seen": "2026-06-16T15:38:48.147409",
+      "last_updated": "2026-06-16T15:41:14.637483",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_rockbox": {
+      "metadata": {
+        "engine_name": "RockBox",
+        "engine_site": "https://rawkbawx.rocks/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "17/Jun2021",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "rockbox.py",
+        "is_public": true
+      },
+      "hash": "fe17c0a0a51029ab",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/rockbox.py",
+      "first_seen": "2026-06-16T15:38:48.664630",
+      "last_updated": "2026-06-16T15:41:14.867441",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_rutor": {
+      "metadata": {
+        "engine_name": "Rutor",
+        "engine_site": "http://rutor.info/",
+        "author": "imDMG",
+        "author_repo": "https://github.com/imDMG/qBt_SE",
+        "version": "1.17",
+        "last_update": "20/Nov2025",
+        "comments": "✔ qbt 4.2.x / Python 3.7+",
+        "filename": "rutor.py",
+        "is_public": true
+      },
+      "hash": "6007fa2a3063fe02",
+      "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/rutor.py",
+      "first_seen": "2026-06-16T15:38:49.154453",
+      "last_updated": "2026-06-16T15:41:15.097881",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_sktorrent": {
+      "metadata": {
+        "engine_name": "SkTorrent",
+        "engine_site": "https://sktorrent.eu",
+        "author": "Ashalda",
+        "author_repo": "https://github.com/Ashalda/sktorrent-qbt",
+        "version": "1.1",
+        "last_update": "27/Dec2025",
+        "comments": "✔ qbt 5.1.x / Python 3.9.x WORKING WITHOUT LOGIN - EVERYTHING EXCEPT XXX AND SOFTWARE",
+        "filename": "sktorrent.py",
+        "is_public": true
+      },
+      "hash": "a917b482741a0b30",
+      "source_url": "https://raw.githubusercontent.com/Ashalda/sktorrent-qbt/refs/heads/main/sktorrent.py",
+      "first_seen": "2026-06-16T15:38:49.653970",
+      "last_updated": "2026-06-16T15:41:15.318311",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_smallgames": {
+      "metadata": {
+        "engine_name": "small-games.info",
+        "engine_site": "http://small-games.info/",
+        "author": "hannsen",
+        "author_repo": "https://github.com/hannsen/qbittorrent_search_plugins/",
+        "version": "1.00",
+        "last_update": "25/Dec2017",
+        "comments": "✔ qbt 4.0.x / Python 3.5.0",
+        "filename": "smallgames.py",
+        "is_public": true
+      },
+      "hash": "7d1086be858e8b4f",
+      "source_url": "https://raw.githubusercontent.com/hannsen/qbittorrent_search_plugins/master/smallgames.py",
+      "first_seen": "2026-06-16T15:38:50.161372",
+      "last_updated": "2026-06-16T15:41:15.531188",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_snowfl": {
+      "metadata": {
+        "engine_name": "Snowfl",
+        "engine_site": "https://snowfl.com",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.3",
+        "last_update": "28/Jul2022",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5 **READ REPOSITORY NOTES**",
+        "filename": "snowfl.py",
+        "is_public": true
+      },
+      "hash": "04a1f767f03c1813",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/snowfl.py",
+      "first_seen": "2026-06-16T15:38:50.753687",
+      "last_updated": "2026-06-16T15:41:15.756454",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_solidtorrents": {
+      "metadata": {
+        "engine_name": "SolidTorrents.to",
+        "engine_site": "https://solidtorrents.to/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "05/Jan/2024",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "solidtorrents.py",
+        "is_public": true
+      },
+      "hash": "b71443fdb67f3714",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/solidtorrents.py",
+      "first_seen": "2026-06-16T15:38:51.268353",
+      "last_updated": "2026-06-16T15:41:15.988920",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_subsplease": {
+      "metadata": {
+        "engine_name": "SubsPlease.org",
+        "engine_site": "https://subsplease.org/",
+        "author": "PlutoMonkey (kli885)",
+        "author_repo": "https://github.com/kli885/qBittorent-SubsPlease-Search-Plugin",
+        "version": "1.0",
+        "last_update": "07/Sep2024",
+        "comments": "✔ qbt 4.5.0 / Python 3.8.x",
+        "filename": "subsplease.py",
+        "is_public": true
+      },
+      "hash": "3348ff9076b03c34",
+      "source_url": "https://raw.githubusercontent.com/kli885/qBittorent-SubsPlease-Search-Plugin/main/subsplease.py",
+      "first_seen": "2026-06-16T15:38:51.786106",
+      "last_updated": "2026-06-16T15:41:16.226326",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_sukebeisi": {
+      "metadata": {
+        "engine_name": "Sukebei (Nyaa)",
+        "engine_site": "https://sukebei.nyaa.si/",
+        "author": "vt-idiot",
+        "author_repo": "https://github.com/vt-idiot/qBit-SukebeiNyaa-plugin",
+        "version": "1.11",
+        "last_update": "21/Jun2022",
+        "comments": "✔ qbt 4.4.3.1 / Python 3.10.5",
+        "filename": "sukebeisi.py",
+        "is_public": true
+      },
+      "hash": "353cb88a05a37f6c",
+      "source_url": "https://github.com/vt-idiot/qBit-SukebeiNyaa-plugin/raw/master/engines/sukebeisi.py",
+      "first_seen": "2026-06-16T15:38:52.981599",
+      "last_updated": "2026-06-16T15:41:16.650104",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_nyaa": {
+      "metadata": {
+        "engine_name": "Sukebei Nyaa",
+        "engine_site": "https://sukebei.nyaa.si/",
+        "author": "phuongtailtranminh",
+        "author_repo": "https://github.com/phuongtailtranminh/qBittorrent-Nyaa-Search-Plugin/",
+        "version": "1.01",
+        "last_update": "19/May2017",
+        "comments": "✔ qbt 4.0.x / Python 3.5.0",
+        "filename": "nyaa.py",
+        "is_public": true
+      },
+      "hash": "416a318040aa6359",
+      "source_url": "https://raw.githubusercontent.com/phuongtailtranminh/qBittorrent-Nyaa-Search-Plugin/master/nyaa.py",
+      "first_seen": "2026-06-16T15:38:53.499889",
+      "last_updated": "2026-06-16T15:41:16.891809",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_thepiratebay": {
+      "metadata": {
+        "engine_name": "ThePirateBay",
+        "engine_site": "https://thepiratebay.org/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "13/Nov2021",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "thepiratebay.py",
+        "is_public": true
+      },
+      "hash": "0a8e83eeaf15aa65",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/thepiratebay.py",
+      "first_seen": "2026-06-16T15:38:56.309651",
+      "last_updated": "2026-06-16T15:41:19.569736",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_therarbg": {
+      "metadata": {
+        "engine_name": "The RarBg",
+        "engine_site": "https://therarbg.com/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.3",
+        "last_update": "20/Oct/2024",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "therarbg.py",
+        "is_public": true
+      },
+      "hash": "4e748cbe68989c3d",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/therarbg.py",
+      "first_seen": "2026-06-16T15:39:02.618810",
+      "last_updated": "2026-06-16T15:41:24.428316",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_tomadivx": {
+      "metadata": {
+        "engine_name": "TomaDivx",
+        "engine_site": "https://tomadivx.net/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.1",
+        "last_update": "07/Nov/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "tomadivx.py",
+        "is_public": true
+      },
+      "hash": "fed83e5beacad5c3",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/tomadivx.py",
+      "first_seen": "2026-06-16T15:39:03.145892",
+      "last_updated": "2026-06-16T15:41:24.660362",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_tokyotoshokan": {
+      "metadata": {
+        "engine_name": "Tokyo Toshokan",
+        "engine_site": "https://tokyotosho.info/index.php",
+        "author": "BrunoReX",
+        "author_repo": "https://github.com/BrunoReX/qBittorrent-Search-Plugin-TokyoToshokan",
+        "version": "2.3",
+        "last_update": "18/Mar2018",
+        "comments": "✔ qbt 4.0.x / Python 3.5.0 ❌qbt 4.6+ Will break the plugin system. #274 / #284",
+        "filename": "tokyotoshokan.py",
+        "is_public": true
+      },
+      "hash": "e0cac329d5787d9a",
+      "source_url": "https://raw.githubusercontent.com/BrunoReX/qBittorrent-Search-Plugin-TokyoToshokan/master/tokyotoshokan.py",
+      "first_seen": "2026-06-16T15:39:03.745081",
+      "last_updated": "2026-06-16T15:41:24.891596",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_torrent9": {
+      "metadata": {
+        "engine_name": "Torrent9",
+        "engine_site": "https://www.torrent9.fm",
+        "author": "menegop",
+        "author_repo": "https://raw.githubusercontent.com/menegop/qbfrench",
+        "version": "2.0",
+        "last_update": "01/Jan2023",
+        "comments": "✔ qbt 4.3.6 / Python 3.8",
+        "filename": "torrent9.py",
+        "is_public": true
+      },
+      "hash": "e178e65032c2dd6e",
+      "source_url": "https://raw.githubusercontent.com/menegop/qbfrench/master/torrent9.py",
+      "first_seen": "2026-06-16T15:39:04.364322",
+      "last_updated": "2026-06-16T15:41:25.130004",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_torrentdownload": {
+      "metadata": {
+        "engine_name": "TorrentDownload",
+        "engine_site": "https://torrentdownload.info/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "28/Jul2022",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "torrentdownload.py",
+        "is_public": true
+      },
+      "hash": "33a6a92307e3020e",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/torrentdownload.py",
+      "first_seen": "2026-06-16T15:39:04.861030",
+      "last_updated": "2026-06-16T15:41:25.359553",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_torrentdownloads": {
+      "metadata": {
+        "engine_name": "Torrent Downloads Pro",
+        "engine_site": "https://torrentdownloads.pro/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.1",
+        "last_update": "20/Oct/2024",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "torrentdownloads.py",
+        "is_public": true
+      },
+      "hash": "c97e0405d5b9cd4d",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrentdownloads.py",
+      "first_seen": "2026-06-16T15:39:10.176561",
+      "last_updated": "2026-06-16T15:41:30.134285",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_torrentgalaxy": {
+      "metadata": {
+        "engine_name": "TorrentGalaxy",
+        "engine_site": "https://torrentgalaxy.to/",
+        "author": "Ni Ndogo",
+        "author_repo": "https://github.com/nindogo",
+        "version": "0.08",
+        "last_update": "9/Nov2024",
+        "comments": "✔ qbt 4.1.6+ / Python 3.11.4",
+        "filename": "torrentgalaxy.py",
+        "is_public": true
+      },
+      "hash": "9448cbebc24ebf2d",
+      "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/torrentgalaxy.py",
+      "first_seen": "2026-06-16T15:39:13.196488",
+      "last_updated": "2026-06-16T15:41:32.795973",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_traht": {
+      "metadata": {
+        "engine_name": "TrahT",
+        "engine_site": "https://traht.org/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "27/Dec/2023",
+        "comments": "✔ qbt 4.6.x / Python 3.9.x",
+        "filename": "traht.py",
+        "is_public": true
+      },
+      "hash": "de1d9447998276a8",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/traht.py",
+      "first_seen": "2026-06-16T15:39:13.878331",
+      "last_updated": "2026-06-16T15:41:33.034233",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_uindex": {
+      "metadata": {
+        "engine_name": "UIndex",
+        "engine_site": "https://uindex.org/",
+        "author": "tolotp",
+        "author_repo": "https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda",
+        "version": "1.0",
+        "last_update": "05/Mar/2026",
+        "comments": "✔ qbt 4.5.x+ / Python 3.9.x+",
+        "filename": "uindex.py",
+        "is_public": true
+      },
+      "hash": "dc2dcd18dc243ee8",
+      "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/uindex.py",
+      "first_seen": "2026-06-16T15:39:14.522464",
+      "last_updated": "2026-06-16T15:41:33.266836",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_uniondht": {
+      "metadata": {
+        "engine_name": "UnionDHT",
+        "engine_site": "http://uniondht.org/",
+        "author": "msagca",
+        "author_repo": "https://github.com/msagca/qbittorrent-plugins/",
+        "version": "1.2",
+        "last_update": "09/Oct2024",
+        "comments": "✔ qbt 5.0 / Python 3.12",
+        "filename": "uniondht.py",
+        "is_public": true
+      },
+      "hash": "4b298abdd30844dd",
+      "source_url": "https://raw.githubusercontent.com/msagca/qbittorrent-plugins/main/uniondht.py",
+      "first_seen": "2026-06-16T15:39:15.379368",
+      "last_updated": "2026-06-16T15:41:33.496755",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_xxxclubto": {
+      "metadata": {
+        "engine_name": "XXXClub",
+        "engine_site": "https://xxxclub.to/",
+        "author": "BurningMop",
+        "author_repo": "https://github.com/BurningMop/qBittorrent-Search-Plugins",
+        "version": "1.3",
+        "last_update": "29/Oct/2024",
+        "comments": "✔ qbt 5.0.x / Python 3.9.x",
+        "filename": "xxxclubto.py",
+        "is_public": true
+      },
+      "hash": "212470cca92675c7",
+      "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/xxxclubto.py",
+      "first_seen": "2026-06-16T15:39:16.023703",
+      "last_updated": "2026-06-16T15:41:33.727673",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_yourbittorrent": {
+      "metadata": {
+        "engine_name": "YourBittorrent",
+        "engine_site": "https://yourbittorrent.com/",
+        "author": "LightDestory",
+        "author_repo": "https://github.com/LightDestory/qBittorrent-Search-Plugins",
+        "version": "1.0",
+        "last_update": "17/Jun2021",
+        "comments": "✔ qbt 4.3.x / Python 3.8.5",
+        "filename": "yourbittorrent.py",
+        "is_public": true
+      },
+      "hash": "5aeccc1e6addce6e",
+      "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/yourbittorrent.py",
+      "first_seen": "2026-06-16T15:39:16.639844",
+      "last_updated": "2026-06-16T15:41:33.940759",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_yts": {
+      "metadata": {
+        "engine_name": "YTS",
+        "engine_site": "http://yts.lt/",
+        "author": "lazulyra",
+        "author_repo": "https://codeberg.org/lazulyra/qbit-plugins",
+        "version": "1.6",
+        "last_update": "25/Nov2025",
+        "comments": "✔ qbt 4.6.2 / Python 3.12.0",
+        "filename": "yts.py",
+        "is_public": true
+      },
+      "hash": "cb066319b5f60926",
+      "source_url": "https://codeberg.org/lazulyra/qbit-plugins/raw/branch/main/yts/yts.py",
+      "first_seen": "2026-06-16T15:39:17.574354",
+      "last_updated": "2026-06-16T15:41:34.965440",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_yggtracker": {
+      "metadata": {
+        "engine_name": "🔍YGGtracker",
+        "engine_site": "https://github.com/YGGverse/YGGtracker",
+        "author": "YGGverse",
+        "author_repo": "https://github.com/YGGverse/qbittorrent-yggtracker-search-plugin",
+        "version": "1.1.0",
+        "last_update": "19/Oct2023",
+        "comments": "✔ qbt 4.5.1 / v5.0.0alpha1 / Python 3.11.4 Requires Yggdrasil connection",
+        "filename": "yggtracker.py",
+        "is_public": true
+      },
+      "hash": "e5fdede3e0f2f721",
+      "source_url": "https://raw.githubusercontent.com/YGGverse/qbittorrent-yggtracker-search-plugin/main/yggtracker.py",
+      "first_seen": "2026-06-16T15:39:18.136461",
+      "last_updated": "2026-06-16T15:41:35.203069",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "pub_zooqle": {
+      "metadata": {
+        "engine_name": "Zooqle",
+        "engine_site": "https://zooqle.skin/",
+        "author": "444995",
+        "author_repo": "https://github.com/444995/qbit-search-plugins",
+        "version": "1.10",
+        "last_update": "07/Aug2024",
+        "comments": "✔ qbt v4.6.5 / Python 3.11.1",
+        "filename": "zooqle.py",
+        "is_public": true
+      },
+      "hash": "beb30e1de0577b07",
+      "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/zooqle.py",
+      "first_seen": "2026-06-16T15:39:18.645779",
+      "last_updated": "2026-06-16T15:41:35.438749",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_bakabt": {
+      "metadata": {
+        "engine_name": "BakaBT",
+        "engine_site": "https://bakabt.me",
+        "author": "Made Of MagicAnd Wires",
+        "author_repo": "https://github.com/MadeOfMagicAndWires/qBit-plugins",
+        "version": "1.30",
+        "last_update": "13/Apr2017",
+        "comments": "✔ qbt 4.3.x / Python 3.9.x",
+        "filename": "bakabt.py",
+        "is_public": false
+      },
+      "hash": "628c516fbb9cfa78",
+      "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/master/engines/bakabt.py",
+      "first_seen": "2026-06-16T15:39:19.290243",
+      "last_updated": "2026-06-16T15:41:35.681796",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_c411": {
+      "metadata": {
+        "engine_name": "C411",
+        "engine_site": "https://c411.org/",
+        "author": "OptimusKoala",
+        "author_repo": "https://github.com/OptimusKoala/qbittorrent-c411-plugin",
+        "version": "1.00",
+        "last_update": "21/Mar2026",
+        "comments": "✔ qbt 5.0.x / Python 3.9+Private tracker, requires API key",
+        "filename": "c411.py",
+        "is_public": false
+      },
+      "hash": "b535c042ad912453",
+      "source_url": "https://raw.githubusercontent.com/OptimusKoala/qbittorrent-c411-plugin/refs/heads/main/c411.py",
+      "first_seen": "2026-06-16T15:39:19.908762",
+      "last_updated": "2026-06-16T15:41:35.915004",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_danishbytes": {
+      "metadata": {
+        "engine_name": "DanishBytes",
+        "engine_site": "https://danishbytes.club",
+        "author": "444995",
+        "author_repo": "https://github.com/444995/qbit-search-plugins",
+        "version": "1.50",
+        "last_update": "22/Jul2024",
+        "comments": "✔ qbt v4.6.5 / Python 3.11.1",
+        "filename": "danishbytes.py",
+        "is_public": false
+      },
+      "hash": "8091bf0ac73c3cde",
+      "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/danishbytes.py",
+      "first_seen": "2026-06-16T15:39:20.483304",
+      "last_updated": "2026-06-16T15:41:36.146218",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_filelist": {
+      "metadata": {
+        "engine_name": "FileList",
+        "engine_site": "https://filelist.io",
+        "author": "RaresPNet",
+        "author_repo": "https://github.com/RaresPNet/filelist_search_plugin",
+        "version": "1.2",
+        "last_update": "25/Mar2026",
+        "comments": "✔ qbt 5.1.x / Python 3.x",
+        "filename": "filelist.py",
+        "is_public": false
+      },
+      "hash": "93b889155dcc03c8",
+      "source_url": "https://raw.githubusercontent.com/RaresPNet/filelist_search_plugin/main/filelist.py",
+      "first_seen": "2026-06-16T15:39:21.098009",
+      "last_updated": "2026-06-16T15:41:36.381364",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_gazellegames": {
+      "metadata": {
+        "engine_name": "GazelleGames",
+        "engine_site": "https://gazellegames.net",
+        "author": "Ooggle",
+        "author_repo": "https://github.com/Ooggle/qbittorrent-search-plugins",
+        "version": "1.30",
+        "last_update": "07/Oct2022",
+        "comments": "✔ qbt 4.4.x / Python 3.9+",
+        "filename": "gazellegames.py",
+        "is_public": false
+      },
+      "hash": "d95e07f55a33107f",
+      "source_url": "https://raw.githubusercontent.com/Ooggle/qbittorrent-search-plugins/master/engines/gazellegames.py",
+      "first_seen": "2026-06-16T15:39:21.599791",
+      "last_updated": "2026-06-16T15:41:36.615719",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_iptorrents": {
+      "metadata": {
+        "engine_name": "IPTorrents",
+        "engine_site": "https://iptorrents.com",
+        "author": "txtsd (qB-IPT)",
+        "author_repo": "https://github.com/txtsd/qB-IPT",
+        "version": "1.01",
+        "last_update": "22/Oct2019",
+        "comments": "✔ qbt 4.1.x / Python 3.5.0",
+        "filename": "iptorrents.py",
+        "is_public": false
+      },
+      "hash": "c96f3d6a8788ebeb",
+      "source_url": "https://raw.githubusercontent.com/txtsd/qB-IPT/master/iptorrents.py",
+      "first_seen": "2026-06-16T15:39:22.134673",
+      "last_updated": "2026-06-16T15:41:36.854515",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_kinozal": {
+      "metadata": {
+        "engine_name": "Kinozal",
+        "engine_site": "http://kinozal.tv/",
+        "author": "imDMG",
+        "author_repo": "https://github.com/imDMG/qBt_SE",
+        "version": "2.20",
+        "last_update": "20/Nov2025",
+        "comments": "✔ qbt 4.2.x / Python 3.7+",
+        "filename": "kinozal.py",
+        "is_public": false
+      },
+      "hash": "621699502cc40daf",
+      "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/kinozal.py",
+      "first_seen": "2026-06-16T15:39:22.634658",
+      "last_updated": "2026-06-16T15:41:37.099410",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_latteam": {
+      "metadata": {
+        "engine_name": "Lat-Team",
+        "engine_site": "https://lat-team.com",
+        "author": "tolotp",
+        "author_repo": "https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda",
+        "version": "1.0",
+        "last_update": "06/Mar/2026",
+        "comments": "✔ qbt 4.5.x+ / Python 3.9.x+❗ Pls read the guide",
+        "filename": "latteam.py",
+        "is_public": false
+      },
+      "hash": "83ecf058611c2fdb",
+      "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/latteam.py",
+      "first_seen": "2026-06-16T15:39:23.155774",
+      "last_updated": "2026-06-16T15:41:37.333812",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_lostfilm": {
+      "metadata": {
+        "engine_name": "LostFilm.TV",
+        "engine_site": "https://www.lostfilm.tv/",
+        "author": "Bugsbringer",
+        "author_repo": "https://github.com/bugsbringer/qbit-plugins",
+        "version": "0.14",
+        "last_update": "13/Jun2020",
+        "comments": "✔ qbt 4.2.x / Python 3.5.0",
+        "filename": "lostfilm.py",
+        "is_public": false
+      },
+      "hash": "bce29accd37ce556",
+      "source_url": "https://raw.githubusercontent.com/bugsbringer/qbit-plugins/master/lostfilm.py",
+      "first_seen": "2026-06-16T15:39:23.853916",
+      "last_updated": "2026-06-16T15:41:37.584250",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_milkie": {
+      "metadata": {
+        "engine_name": "Milkie",
+        "engine_site": "https://milkie.cc",
+        "author": "tolotp",
+        "author_repo": "https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda",
+        "version": "1.0",
+        "last_update": "10/Mar/2026",
+        "comments": "✔ qbt 4.5.x+ / Python 3.9.x+❗ Pls read the guide",
+        "filename": "milkie.py",
+        "is_public": false
+      },
+      "hash": "418f8d5d9bb8ead7",
+      "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/milkie.py",
+      "first_seen": "2026-06-16T15:39:24.472839",
+      "last_updated": "2026-06-16T15:41:37.824990",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_ncore": {
+      "metadata": {
+        "engine_name": "nCore",
+        "engine_site": "https://ncore.pro/",
+        "author": "darktohka",
+        "author_repo": "https://github.com/darktohka/qbittorrent-plugins",
+        "version": "1.3",
+        "last_update": "16/Feb2021",
+        "comments": "✔ qbt 4.1.x / Python 3.6+",
+        "filename": "ncore.py",
+        "is_public": false
+      },
+      "hash": "b0f875f12c72d35c",
+      "source_url": "https://raw.githubusercontent.com/darktohka/qbittorrent-plugins/master/ncore.py",
+      "first_seen": "2026-06-16T15:39:25.008621",
+      "last_updated": "2026-06-16T15:41:38.051236",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_nnmclub": {
+      "metadata": {
+        "engine_name": "NoNaMe-Club",
+        "engine_site": "https://nnm-club.me/",
+        "author": "imDMG",
+        "author_repo": "https://github.com/imDMG/qBt_SE",
+        "version": "2.22",
+        "last_update": "20/Nov2025",
+        "comments": "✔ qbt 4.2.x / Python 3.7+",
+        "filename": "nnmclub.py",
+        "is_public": false
+      },
+      "hash": "57bd4227d702d502",
+      "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/nnmclub.py",
+      "first_seen": "2026-06-16T15:39:25.545490",
+      "last_updated": "2026-06-16T15:41:38.294816",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_prowlarr": {
+      "metadata": {
+        "engine_name": "Prowlarr",
+        "engine_site": "https://github.com/Prowlarr/Prowlarr",
+        "author": "swannie-eire",
+        "author_repo": "https://github.com/swannie-eire/prowlarr-qbittorrent-plugins",
+        "version": "1.0",
+        "last_update": "17/Dec2021",
+        "comments": "✔ qbt 4.3.x / Python 3.+",
+        "filename": "prowlarr.py",
+        "is_public": false
+      },
+      "hash": "6fd63129ad11f4d7",
+      "source_url": "https://raw.githubusercontent.com/swannie-eire/prowlarr-qbittorrent-plugins/main/prowlarr.py",
+      "first_seen": "2026-06-16T15:39:28.385923",
+      "last_updated": "2026-06-16T15:41:41.001946",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_redacted_ch": {
+      "metadata": {
+        "engine_name": "Redacted",
+        "engine_site": "https://redacted.ch",
+        "author": "Evyd13",
+        "author_repo": "https://github.com/evyd13/search-plugins",
+        "version": "1.00",
+        "last_update": "10/Oct2021",
+        "comments": "✔ qbt 4.3.x / Python 3.10.x",
+        "filename": "redacted_ch.py",
+        "is_public": false
+      },
+      "hash": "9a98885c978959af",
+      "source_url": "https://raw.githubusercontent.com/evyd13/search-plugins/master/nova3/engines/redacted_ch.py",
+      "first_seen": "2026-06-16T15:39:28.891267",
+      "last_updated": "2026-06-16T15:41:41.234167",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_rutracker": {
+      "metadata": {
+        "engine_name": "RuTracker",
+        "engine_site": "https://rutracker.org/",
+        "author": "nbusseneau",
+        "author_repo": "https://github.com/nbusseneau/qBittorrent-rutracker-plugin",
+        "version": "2.2.0",
+        "last_update": "01/May2025",
+        "comments": "✔ qbt 5.1.x / Python 3.10.x",
+        "filename": "rutracker.py",
+        "is_public": false
+      },
+      "hash": "0664fce1b6d48fc1",
+      "source_url": "https://raw.githubusercontent.com/nbusseneau/qBittorrent-rutracker-plugin/master/rutracker.py",
+      "first_seen": "2026-06-16T15:39:29.532246",
+      "last_updated": "2026-06-16T15:41:41.697626",
+      "update_count": 3,
+      "action": "updated"
+    },
+    "priv_sharewood": {
+      "metadata": {
+        "engine_name": "Sharewood",
+        "engine_site": "https://sharewood.tv",
+        "author": "etn",
+        "author_repo": "https://gist.github.com/etn406/2300dd7e8d97ea39442fcdf44c244fe2",
+        "version": "1.1",
+        "last_update": "24/Apr2025",
+        "comments": "✔ qbt 5.0.3 / Python 3.+",
+        "filename": "sharewood.py",
+        "is_public": false
+      },
+      "hash": "c9011f2b02c56227",
+      "source_url": "https://gist.githubusercontent.com/etn406/2300dd7e8d97ea39442fcdf44c244fe2/raw/48eba68c0e32f9321ef2e47f4f8ecb437b093a61/sharewood.py",
+      "first_seen": "2026-06-16T15:39:30.639312",
+      "last_updated": "2026-06-16T15:41:41.948726",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_speedapp": {
+      "metadata": {
+        "engine_name": "SpeedApp.IO",
+        "engine_site": "https://speedapp.io",
+        "author": "miIiano",
+        "author_repo": "https://github.com/miIiano/SpeedApp.io-qBittorent-search-plugin",
+        "version": "1.1",
+        "last_update": "11/Aug2023",
+        "comments": "✔ qbt 4.5.x / Python 3.+",
+        "filename": "speedapp.py",
+        "is_public": false
+      },
+      "hash": "67dd25182039eccd",
+      "source_url": "https://raw.githubusercontent.com/miIiano/SpeedApp.io-qBittorent-search-plugin/main/speedapp.py",
+      "first_seen": "2026-06-16T15:39:32.120371",
+      "last_updated": "2026-06-16T15:41:42.179873",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_tapochek": {
+      "metadata": {
+        "engine_name": "Tapochek",
+        "engine_site": "https://tapochek.net/",
+        "author": "MjKey",
+        "author_repo": "https://github.com/MjKey/qBT-SE",
+        "version": "1.1",
+        "last_update": "13/Aug2025",
+        "comments": "✔ qbt 4.2.x / Python 3.7+",
+        "filename": "tapochek.py",
+        "is_public": false
+      },
+      "hash": "c213ffa435fcdd86",
+      "source_url": "https://raw.githubusercontent.com/MjKey/qBT-SE/refs/heads/master/enigines/tapochek.py",
+      "first_seen": "2026-06-16T15:39:33.003442",
+      "last_updated": "2026-06-16T15:41:42.414361",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_torrentleech": {
+      "metadata": {
+        "engine_name": "TorrentLeech",
+        "engine_site": "https://www.torrentleech.org/",
+        "author": "444995",
+        "author_repo": "https://github.com/444995/qbit-search-plugins",
+        "version": "1.00",
+        "last_update": "06/Aug2024",
+        "comments": "✔ qbt v4.6.5 / Python 3.11.1",
+        "filename": "torrentleech.py",
+        "is_public": false
+      },
+      "hash": "bc0a73346616024d",
+      "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/torrentleech.py",
+      "first_seen": "2026-06-16T15:39:33.602120",
+      "last_updated": "2026-06-16T15:41:42.661897",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_toloka_to": {
+      "metadata": {
+        "engine_name": "Гуртом — торрент-толока",
+        "engine_site": "https://toloka.to/",
+        "author": "PlayDay",
+        "author_repo": "https://github.com/playday3008",
+        "version": "1.01",
+        "last_update": "19/Dec2025",
+        "comments": "✔ qbt 5.1.x / Python 3.11+",
+        "filename": "toloka_to.py",
+        "is_public": false
+      },
+      "hash": "f35cacefb92ea173",
+      "source_url": "https://raw.githubusercontent.com/playday3008/qBittorrent-plugins/refs/heads/main/plugins/search/toloka_to.py",
+      "first_seen": "2026-06-16T15:39:34.855817",
+      "last_updated": "2026-06-16T15:41:42.894332",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_unionfansub": {
+      "metadata": {
+        "engine_name": "UnionFansub",
+        "engine_site": "https://torrent.unionfansub.com/",
+        "author": "CrimsonKoba",
+        "author_repo": "https://gitlab.com/CrimsonKoba/qb-search-plugin",
+        "version": "1.2",
+        "last_update": "05/Jan2024",
+        "comments": "✔ qbt 4.5.x / Python 3.+",
+        "filename": "unionfansub.py",
+        "is_public": false
+      },
+      "hash": "74399f914ab46f45",
+      "source_url": "https://gitlab.com/CrimsonKoba/qb-search-plugin/-/raw/master/unionfansub.py",
+      "first_seen": "2026-06-16T15:39:35.433706",
+      "last_updated": "2026-06-16T15:41:44.244640",
+      "update_count": 3,
+      "action": "updated"
+    },
+    "priv_yggapi": {
+      "metadata": {
+        "engine_name": "YggAPI",
+        "engine_site": "https://yggapi.eu",
+        "author": "Laiteux",
+        "author_repo": "https://github.com/Laiteux/YggAPI-qBittorrent-Search-Plugin",
+        "version": "1.1",
+        "last_update": "31/Jan2025",
+        "comments": "✔ qbt 4.1.0+ / Python 3.6+",
+        "filename": "yggapi.py",
+        "is_public": false
+      },
+      "hash": "081dd01c9c54836c",
+      "source_url": "https://raw.githubusercontent.com/Laiteux/YggAPI-qBittorrent-Search-Plugin/main/yggapi.py",
+      "first_seen": "2026-06-16T15:39:37.282277",
+      "last_updated": "2026-06-16T15:41:44.481490",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_yggtorrent": {
+      "metadata": {
+        "engine_name": "YggTorrent",
+        "engine_site": "https://www.ygg.re/",
+        "author": "CravateRouge",
+        "author_repo": "https://github.com/CravateRouge/qBittorrentSearchPlugins",
+        "version": "1.0",
+        "last_update": "25/Nov2019",
+        "comments": "❗ Working when DDOS cloudfareprotection is disabled",
+        "filename": "yggtorrent.py",
+        "is_public": false
+      },
+      "hash": "3bab7078e4d59c86",
+      "source_url": "https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py",
+      "first_seen": "2026-06-16T15:39:37.863793",
+      "last_updated": "2026-06-16T15:41:44.714849",
+      "update_count": 0,
+      "action": "unchanged"
+    },
+    "priv_zamundarip": {
+      "metadata": {
+        "engine_name": "Zamunda.RIP",
+        "engine_site": "https://zamunda.rip/",
+        "author": "Necrosis",
+        "author_repo": "https://github.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin",
+        "version": "1.0",
+        "last_update": "22/May2026",
+        "comments": "✔ qbt 5.1.x / Python 3.9+",
+        "filename": "zamundarip.py",
+        "is_public": false
+      },
+      "hash": "cab764ca80b0d617",
+      "source_url": "https://raw.githubusercontent.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin/main/zamundarip.py",
+      "first_seen": "2026-06-16T15:39:38.417975",
+      "last_updated": "2026-06-16T15:41:44.951962",
+      "update_count": 0,
+      "action": "unchanged"
+    }
+  },
+  "sources": {},
+  "failed": [
+    {
+      "timestamp": "2026-06-16T15:38:38.672906",
+      "plugin": "MagnetDL with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/magnetdl.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:38:44.639867",
+      "plugin": "Nyaa.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/pantsu.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:38:55.995825",
+      "plugin": "Sukebei.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/sukebei.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:39:02.291258",
+      "plugin": "ThePirateBay with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/thepiratebay.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:39:09.861391",
+      "plugin": "TorrentDownload with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/torrentdownload.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:39:12.745110",
+      "plugin": "Torrenflix",
+      "url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrenflix.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:39:28.068145",
+      "plugin": "Pornolab",
+      "url": "https://raw.githubusercontent.com/TainakaDrums/qbPornolab/master/pornolab.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:08.131672",
+      "plugin": "MagnetDL with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/magnetdl.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:13.172650",
+      "plugin": "Nyaa.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/pantsu.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:19.544446",
+      "plugin": "Sukebei.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/sukebei.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:24.394963",
+      "plugin": "ThePirateBay with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/thepiratebay.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:30.089654",
+      "plugin": "TorrentDownload with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/torrentdownload.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:32.767331",
+      "plugin": "Torrenflix",
+      "url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrenflix.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:41:40.974483",
+      "plugin": "Pornolab",
+      "url": "https://raw.githubusercontent.com/TainakaDrums/qbPornolab/master/pornolab.py",
+      "reason": "HTTP 404"
+    }
+  ]
+}
