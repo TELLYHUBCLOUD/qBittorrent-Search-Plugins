@@ -1,41 +1,26 @@
 name: Auto-Update Plugins
-
 on:
   schedule:
-    - cron: '0 0 * * *'  # Daily at midnight UTC
-  workflow_dispatch:      # Manual trigger
-
-permissions:
-  contents: write
+    - cron: '0 0 * * *'  # Daily midnight
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4
-
-      - name: Run updater
-        run: python update.py
-
-      - name: Commit and push changes
+          python-version: '3.12'
+      - name: Run Collector
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python qbittorrent_plugin_master.py
+      - name: Commit changes
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
           git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "auto-update: refresh plugins $(date -u +%Y-%m-%d)"
-            git push
-          fi
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: $(date +%Y-%m-%d)"
+          git push
