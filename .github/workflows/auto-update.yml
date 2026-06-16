@@ -1,0 +1,44 @@
+name: Auto-Update Plugins
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:      # Allows manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Run update script
+        run: python update_plugins.py
+      
+      - name: Verify Python script syntax
+        run: |
+          python -m py_compile public_sites/*.py || true
+          python -m py_compile private_sites/*.py || true
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          # Only commit if there are actual changes in plugins, README, or zip
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update plugins: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push origin main
+          else
+            echo "No changes detected. Skipping commit."
+          fi
