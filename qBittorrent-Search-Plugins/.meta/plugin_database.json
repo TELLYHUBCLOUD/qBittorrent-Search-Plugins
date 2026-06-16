@@ -17,7 +17,7 @@
       "hash": "5a4e025814e1fc8a",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/academictorrents.py",
       "first_seen": "2026-06-16T15:38:16.810883",
-      "last_updated": "2026-06-16T15:40:56.816875",
+      "last_updated": "2026-06-16T15:54:40.938150",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -36,7 +36,7 @@
       "hash": "f7df6d770895c73c",
       "source_url": "https://raw.githubusercontent.com/Cc050511/qBit-search-plugins/main/acgrip.py",
       "first_seen": "2026-06-16T15:38:17.385063",
-      "last_updated": "2026-06-16T15:40:57.045990",
+      "last_updated": "2026-06-16T15:54:41.445009",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -55,7 +55,7 @@
       "hash": "ca6167e6717896f4",
       "source_url": "https://raw.githubusercontent.com/hannsen/qbittorrent_search_plugins/master/ali213.py",
       "first_seen": "2026-06-16T15:38:17.936140",
-      "last_updated": "2026-06-16T15:40:57.282479",
+      "last_updated": "2026-06-16T15:54:41.922243",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -74,7 +74,7 @@
       "hash": "79a66e01e573e2df",
       "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/anidex.py",
       "first_seen": "2026-06-16T15:38:18.466511",
-      "last_updated": "2026-06-16T15:40:57.518848",
+      "last_updated": "2026-06-16T15:54:42.424684",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -93,7 +93,7 @@
       "hash": "00f041833a06de3f",
       "source_url": "https://raw.githubusercontent.com/AlaaBrahim/qBitTorrent-animetosho-search-plugin/main/animetosho.py",
       "first_seen": "2026-06-16T15:38:19.055815",
-      "last_updated": "2026-06-16T15:40:57.744917",
+      "last_updated": "2026-06-16T15:54:42.906436",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -112,7 +112,7 @@
       "hash": "528566aa9144ccfe",
       "source_url": "https://gist.githubusercontent.com/bebetoh/3bb49cdf2b3718937b5446db1e4a4915/raw/1819e3ed75faa0da1571173a677081dc107054aa/apachetorrent.py",
       "first_seen": "2026-06-16T15:38:19.642907",
-      "last_updated": "2026-06-16T15:40:57.993800",
+      "last_updated": "2026-06-16T15:54:43.503005",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -131,7 +131,7 @@
       "hash": "a815c16da570e58b",
       "source_url": "https://raw.githubusercontent.com/nklido/qBittorrent_search_engines/master/engines/audiobookbay.py",
       "first_seen": "2026-06-16T15:38:20.220731",
-      "last_updated": "2026-06-16T15:40:58.230165",
+      "last_updated": "2026-06-16T15:54:44.000516",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -150,7 +150,7 @@
       "hash": "21b856f02ebcc284",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/bitsearch.py",
       "first_seen": "2026-06-16T15:38:20.829148",
-      "last_updated": "2026-06-16T15:40:58.461105",
+      "last_updated": "2026-06-16T15:54:44.504729",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -169,7 +169,7 @@
       "hash": "9c6cc2672592239c",
       "source_url": "https://raw.githubusercontent.com/TuckerWarlock/qbittorrent-search-plugins/main/bt4gprx.com/bt4gprx.py",
       "first_seen": "2026-06-16T15:38:21.511849",
-      "last_updated": "2026-06-16T15:40:58.688462",
+      "last_updated": "2026-06-16T15:54:45.017001",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -188,7 +188,7 @@
       "hash": "32ea79f5686fff4e",
       "source_url": "https://raw.githubusercontent.com/galaris/BTDigg-qBittorrent-plugin/main/btdig.py",
       "first_seen": "2026-06-16T15:38:22.085294",
-      "last_updated": "2026-06-16T15:40:58.961415",
+      "last_updated": "2026-06-16T15:54:45.531771",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -207,7 +207,7 @@
       "hash": "6cf8c997c762c807",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/calidadtorrent.py",
       "first_seen": "2026-06-16T15:38:22.936292",
-      "last_updated": "2026-06-16T15:40:59.179474",
+      "last_updated": "2026-06-16T15:54:46.039821",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -226,7 +226,7 @@
       "hash": "861485972efd8f44",
       "source_url": "https://raw.githubusercontent.com/elazar/qbittorrent-search-plugins/refs/heads/add-cloudtorrents-plugin/nova3/engines/cloudtorrents.py",
       "first_seen": "2026-06-16T15:38:23.515241",
-      "last_updated": "2026-06-16T15:40:59.431438",
+      "last_updated": "2026-06-16T15:54:46.546447",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -245,7 +245,7 @@
       "hash": "69884cfd0e78708f",
       "source_url": "https://raw.githubusercontent.com/MarcBresson/cpasbien/master/src/cpasbien.py",
       "first_seen": "2026-06-16T15:38:24.082565",
-      "last_updated": "2026-06-16T15:40:59.664635",
+      "last_updated": "2026-06-16T15:54:47.027463",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -264,7 +264,7 @@
       "hash": "c2e2cd728b69e3a1",
       "source_url": "https://raw.githubusercontent.com/bugsbringer/qbit-plugins/master/darklibria.py",
       "first_seen": "2026-06-16T15:38:24.752055",
-      "last_updated": "2026-06-16T15:40:59.897525",
+      "last_updated": "2026-06-16T15:54:47.521063",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -283,7 +283,7 @@
       "hash": "cec809857e1087a1",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/divxtotal.py",
       "first_seen": "2026-06-16T15:38:25.339042",
-      "last_updated": "2026-06-16T15:41:00.133899",
+      "last_updated": "2026-06-16T15:54:48.019030",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -302,8 +302,8 @@
       "hash": "f946209618a8cbe8",
       "source_url": "https://raw.githubusercontent.com/diazchika/dmhy/main/dmhy.py",
       "first_seen": "2026-06-16T15:38:25.932959",
-      "last_updated": "2026-06-16T15:41:00.578392",
-      "update_count": 3,
+      "last_updated": "2026-06-16T15:54:49.053285",
+      "update_count": 5,
       "action": "updated"
     },
     "pub_dodi_repacks": {
@@ -321,7 +321,7 @@
       "hash": "51b49a2c181088da",
       "source_url": "https://raw.githubusercontent.com/Bioux1/qbtSearchPlugins/main/dodi_repacks.py",
       "first_seen": "2026-06-16T15:38:27.153195",
-      "last_updated": "2026-06-16T15:41:00.812869",
+      "last_updated": "2026-06-16T15:54:49.551514",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -340,8 +340,8 @@
       "hash": "f9a0ada328c01598",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/dontorrent.py",
       "first_seen": "2026-06-16T15:38:27.730080",
-      "last_updated": "2026-06-16T15:41:01.277408",
-      "update_count": 3,
+      "last_updated": "2026-06-16T15:54:50.553114",
+      "update_count": 5,
       "action": "updated"
     },
     "pub_elitetorrent": {
@@ -359,7 +359,7 @@
       "hash": "181186dbb86f5b3b",
       "source_url": "https://raw.githubusercontent.com/iordic/qbittorrent-search-plugins/master/engines/elitetorrent.py",
       "first_seen": "2026-06-16T15:38:28.949231",
-      "last_updated": "2026-06-16T15:41:01.510449",
+      "last_updated": "2026-06-16T15:54:51.064338",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -378,7 +378,7 @@
       "hash": "1004b06f4bac2af3",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/esmeraldatorrent.py",
       "first_seen": "2026-06-16T15:38:29.556932",
-      "last_updated": "2026-06-16T15:41:01.739636",
+      "last_updated": "2026-06-16T15:54:51.569600",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -397,7 +397,7 @@
       "hash": "07383109341fd035",
       "source_url": "https://raw.githubusercontent.com/DrPurp/eztvx-qbittorrent-plugin/main/eztvx.py",
       "first_seen": "2026-06-16T15:38:30.132664",
-      "last_updated": "2026-06-16T15:41:01.970645",
+      "last_updated": "2026-06-16T15:54:52.075931",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -416,7 +416,7 @@
       "hash": "3285f800eac78beb",
       "source_url": "https://raw.githubusercontent.com/Bioux1/qbtSearchPlugins/main/fitgirl_repacks.py",
       "first_seen": "2026-06-16T15:38:30.760214",
-      "last_updated": "2026-06-16T15:41:02.202863",
+      "last_updated": "2026-06-16T15:54:52.562118",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -435,7 +435,7 @@
       "hash": "66f7ac3ec14f7739",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/glotorrents.py",
       "first_seen": "2026-06-16T15:38:31.289171",
-      "last_updated": "2026-06-16T15:41:02.435659",
+      "last_updated": "2026-06-16T15:54:53.074793",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -454,7 +454,7 @@
       "hash": "756bf172b89051f1",
       "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/goggames.py",
       "first_seen": "2026-06-16T15:38:31.873542",
-      "last_updated": "2026-06-16T15:41:02.650076",
+      "last_updated": "2026-06-16T15:54:53.567107",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -473,7 +473,7 @@
       "hash": "b3e9f714f06936a9",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/kickasstorrents.py",
       "first_seen": "2026-06-16T15:38:32.503401",
-      "last_updated": "2026-06-16T15:41:02.890900",
+      "last_updated": "2026-06-16T15:54:54.072944",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -492,7 +492,7 @@
       "hash": "1e0bd56b2146f8b1",
       "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/6074a7cccb90dfd5c81b7eaddd3138adec7f3377/engines/linuxtracker.py",
       "first_seen": "2026-06-16T15:38:32.982849",
-      "last_updated": "2026-06-16T15:41:03.143592",
+      "last_updated": "2026-06-16T15:54:54.575215",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -511,7 +511,7 @@
       "hash": "e87857e3c48a9bc7",
       "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/magnetdl.py",
       "first_seen": "2026-06-16T15:38:33.486220",
-      "last_updated": "2026-06-16T15:41:03.377989",
+      "last_updated": "2026-06-16T15:54:55.060164",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -530,7 +530,7 @@
       "hash": "7dfd624b206f74a4",
       "source_url": "https://raw.githubusercontent.com/joseeloren/search-plugins/master/nova3/engines/maxitorrent.py",
       "first_seen": "2026-06-16T15:38:38.991500",
-      "last_updated": "2026-06-16T15:41:08.161591",
+      "last_updated": "2026-06-16T15:55:00.349600",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -549,7 +549,7 @@
       "hash": "3ba2a8d31316970a",
       "source_url": "https://raw.githubusercontent.com/iordic/qbittorrent-search-plugins/master/engines/mejortorrent.py",
       "first_seen": "2026-06-16T15:38:39.526391",
-      "last_updated": "2026-06-16T15:41:08.393446",
+      "last_updated": "2026-06-16T15:55:00.872516",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -568,7 +568,7 @@
       "hash": "91d6a0a308443fbb",
       "source_url": "https://raw.githubusercontent.com/Cycloctane/qBittorrent-plugins/master/engines/mikan.py",
       "first_seen": "2026-06-16T15:38:40.060612",
-      "last_updated": "2026-06-16T15:41:08.626435",
+      "last_updated": "2026-06-16T15:55:01.395088",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -587,7 +587,7 @@
       "hash": "6718aa913e7f244b",
       "source_url": "https://raw.githubusercontent.com/Cc050511/qBit-search-plugins/main/mikanani.py",
       "first_seen": "2026-06-16T15:38:40.552615",
-      "last_updated": "2026-06-16T15:41:08.861048",
+      "last_updated": "2026-06-16T15:55:01.908638",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -606,7 +606,7 @@
       "hash": "11aa1fdbe2e9ffa4",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/mypornclub.py",
       "first_seen": "2026-06-16T15:38:41.033896",
-      "last_updated": "2026-06-16T15:41:09.094179",
+      "last_updated": "2026-06-16T15:55:03.438825",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -625,7 +625,7 @@
       "hash": "b0aee03a25844b2a",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/naranjatorrent.py",
       "first_seen": "2026-06-16T15:38:41.545607",
-      "last_updated": "2026-06-16T15:41:09.327421",
+      "last_updated": "2026-06-16T15:55:04.906878",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -644,7 +644,7 @@
       "hash": "29aba65332f19823",
       "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/nekobt.py",
       "first_seen": "2026-06-16T15:38:42.075860",
-      "last_updated": "2026-06-16T15:41:09.562683",
+      "last_updated": "2026-06-16T15:55:05.477410",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -663,7 +663,7 @@
       "hash": "32d4b6488d72d6a4",
       "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/refs/heads/main/engines/nyaapantsu.py",
       "first_seen": "2026-06-16T15:38:44.949543",
-      "last_updated": "2026-06-16T15:41:13.204473",
+      "last_updated": "2026-06-16T15:55:08.415024",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -682,7 +682,7 @@
       "hash": "8b38deb7d22d86c3",
       "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/master/engines/nyaasi.py",
       "first_seen": "2026-06-16T15:38:45.454431",
-      "last_updated": "2026-06-16T15:41:13.436738",
+      "last_updated": "2026-06-16T15:55:09.002392",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -701,7 +701,7 @@
       "hash": "614fbe675d23bc60",
       "source_url": "https://raw.githubusercontent.com/caiocinel/onlinefix-qbittorrent-plugin/main/onlinefix.py",
       "first_seen": "2026-06-16T15:38:45.952333",
-      "last_updated": "2026-06-16T15:41:13.673914",
+      "last_updated": "2026-06-16T15:55:09.575715",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -720,8 +720,8 @@
       "hash": "33539ee6edd1733d",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/pediatorrent.py",
       "first_seen": "2026-06-16T15:38:46.482655",
-      "last_updated": "2026-06-16T15:41:14.152132",
-      "update_count": 3,
+      "last_updated": "2026-06-16T15:55:10.690914",
+      "update_count": 5,
       "action": "updated"
     },
     "pub_pirateiro": {
@@ -739,7 +739,7 @@
       "hash": "3618b5279966057e",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/pirateiro.py",
       "first_seen": "2026-06-16T15:38:47.554813",
-      "last_updated": "2026-06-16T15:41:14.384239",
+      "last_updated": "2026-06-16T15:55:11.253752",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -758,7 +758,7 @@
       "hash": "ce2016fc6bd2c6a0",
       "source_url": "https://gist.githubusercontent.com/bebetoh/b5e1f4731462de9b837f5026617b1d4a/raw/e71d0020078d56d3f7e9a903ca7b4d44774e10f7/redetorrent.py",
       "first_seen": "2026-06-16T15:38:48.147409",
-      "last_updated": "2026-06-16T15:41:14.637483",
+      "last_updated": "2026-06-16T15:55:11.775302",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -777,7 +777,7 @@
       "hash": "fe17c0a0a51029ab",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/rockbox.py",
       "first_seen": "2026-06-16T15:38:48.664630",
-      "last_updated": "2026-06-16T15:41:14.867441",
+      "last_updated": "2026-06-16T15:55:12.340410",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -796,7 +796,7 @@
       "hash": "6007fa2a3063fe02",
       "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/rutor.py",
       "first_seen": "2026-06-16T15:38:49.154453",
-      "last_updated": "2026-06-16T15:41:15.097881",
+      "last_updated": "2026-06-16T15:55:12.913164",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -815,7 +815,7 @@
       "hash": "a917b482741a0b30",
       "source_url": "https://raw.githubusercontent.com/Ashalda/sktorrent-qbt/refs/heads/main/sktorrent.py",
       "first_seen": "2026-06-16T15:38:49.653970",
-      "last_updated": "2026-06-16T15:41:15.318311",
+      "last_updated": "2026-06-16T15:55:13.499277",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -834,7 +834,7 @@
       "hash": "7d1086be858e8b4f",
       "source_url": "https://raw.githubusercontent.com/hannsen/qbittorrent_search_plugins/master/smallgames.py",
       "first_seen": "2026-06-16T15:38:50.161372",
-      "last_updated": "2026-06-16T15:41:15.531188",
+      "last_updated": "2026-06-16T15:55:14.068297",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -853,7 +853,7 @@
       "hash": "04a1f767f03c1813",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/snowfl.py",
       "first_seen": "2026-06-16T15:38:50.753687",
-      "last_updated": "2026-06-16T15:41:15.756454",
+      "last_updated": "2026-06-16T15:55:14.646547",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -872,7 +872,7 @@
       "hash": "b71443fdb67f3714",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/solidtorrents.py",
       "first_seen": "2026-06-16T15:38:51.268353",
-      "last_updated": "2026-06-16T15:41:15.988920",
+      "last_updated": "2026-06-16T15:55:15.228039",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -891,7 +891,7 @@
       "hash": "3348ff9076b03c34",
       "source_url": "https://raw.githubusercontent.com/kli885/qBittorent-SubsPlease-Search-Plugin/main/subsplease.py",
       "first_seen": "2026-06-16T15:38:51.786106",
-      "last_updated": "2026-06-16T15:41:16.226326",
+      "last_updated": "2026-06-16T15:55:15.800609",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -910,7 +910,7 @@
       "hash": "353cb88a05a37f6c",
       "source_url": "https://github.com/vt-idiot/qBit-SukebeiNyaa-plugin/raw/master/engines/sukebeisi.py",
       "first_seen": "2026-06-16T15:38:52.981599",
-      "last_updated": "2026-06-16T15:41:16.650104",
+      "last_updated": "2026-06-16T15:55:16.973150",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -929,7 +929,7 @@
       "hash": "416a318040aa6359",
       "source_url": "https://raw.githubusercontent.com/phuongtailtranminh/qBittorrent-Nyaa-Search-Plugin/master/nyaa.py",
       "first_seen": "2026-06-16T15:38:53.499889",
-      "last_updated": "2026-06-16T15:41:16.891809",
+      "last_updated": "2026-06-16T15:55:17.537098",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -948,7 +948,7 @@
       "hash": "0a8e83eeaf15aa65",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/thepiratebay.py",
       "first_seen": "2026-06-16T15:38:56.309651",
-      "last_updated": "2026-06-16T15:41:19.569736",
+      "last_updated": "2026-06-16T15:55:20.580564",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -967,7 +967,7 @@
       "hash": "4e748cbe68989c3d",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/therarbg.py",
       "first_seen": "2026-06-16T15:39:02.618810",
-      "last_updated": "2026-06-16T15:41:24.428316",
+      "last_updated": "2026-06-16T15:55:25.953278",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -986,7 +986,7 @@
       "hash": "fed83e5beacad5c3",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/tomadivx.py",
       "first_seen": "2026-06-16T15:39:03.145892",
-      "last_updated": "2026-06-16T15:41:24.660362",
+      "last_updated": "2026-06-16T15:55:26.506979",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1005,7 +1005,7 @@
       "hash": "e0cac329d5787d9a",
       "source_url": "https://raw.githubusercontent.com/BrunoReX/qBittorrent-Search-Plugin-TokyoToshokan/master/tokyotoshokan.py",
       "first_seen": "2026-06-16T15:39:03.745081",
-      "last_updated": "2026-06-16T15:41:24.891596",
+      "last_updated": "2026-06-16T15:55:27.103287",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1024,7 +1024,7 @@
       "hash": "e178e65032c2dd6e",
       "source_url": "https://raw.githubusercontent.com/menegop/qbfrench/master/torrent9.py",
       "first_seen": "2026-06-16T15:39:04.364322",
-      "last_updated": "2026-06-16T15:41:25.130004",
+      "last_updated": "2026-06-16T15:55:27.665286",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1043,7 +1043,7 @@
       "hash": "33a6a92307e3020e",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/torrentdownload.py",
       "first_seen": "2026-06-16T15:39:04.861030",
-      "last_updated": "2026-06-16T15:41:25.359553",
+      "last_updated": "2026-06-16T15:55:28.249606",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1062,7 +1062,7 @@
       "hash": "c97e0405d5b9cd4d",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrentdownloads.py",
       "first_seen": "2026-06-16T15:39:10.176561",
-      "last_updated": "2026-06-16T15:41:30.134285",
+      "last_updated": "2026-06-16T15:55:33.585801",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1081,7 +1081,7 @@
       "hash": "9448cbebc24ebf2d",
       "source_url": "https://raw.githubusercontent.com/nindogo/qbtSearchScripts/master/torrentgalaxy.py",
       "first_seen": "2026-06-16T15:39:13.196488",
-      "last_updated": "2026-06-16T15:41:32.795973",
+      "last_updated": "2026-06-16T15:55:36.621660",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1100,7 +1100,7 @@
       "hash": "de1d9447998276a8",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/traht.py",
       "first_seen": "2026-06-16T15:39:13.878331",
-      "last_updated": "2026-06-16T15:41:33.034233",
+      "last_updated": "2026-06-16T15:55:37.205797",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1119,7 +1119,7 @@
       "hash": "dc2dcd18dc243ee8",
       "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/uindex.py",
       "first_seen": "2026-06-16T15:39:14.522464",
-      "last_updated": "2026-06-16T15:41:33.266836",
+      "last_updated": "2026-06-16T15:55:37.780674",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1138,7 +1138,7 @@
       "hash": "4b298abdd30844dd",
       "source_url": "https://raw.githubusercontent.com/msagca/qbittorrent-plugins/main/uniondht.py",
       "first_seen": "2026-06-16T15:39:15.379368",
-      "last_updated": "2026-06-16T15:41:33.496755",
+      "last_updated": "2026-06-16T15:55:38.363764",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1157,7 +1157,7 @@
       "hash": "212470cca92675c7",
       "source_url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/xxxclubto.py",
       "first_seen": "2026-06-16T15:39:16.023703",
-      "last_updated": "2026-06-16T15:41:33.727673",
+      "last_updated": "2026-06-16T15:55:38.934010",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1176,7 +1176,7 @@
       "hash": "5aeccc1e6addce6e",
       "source_url": "https://raw.githubusercontent.com/LightDestory/qBittorrent-Search-Plugins/master/src/engines/yourbittorrent.py",
       "first_seen": "2026-06-16T15:39:16.639844",
-      "last_updated": "2026-06-16T15:41:33.940759",
+      "last_updated": "2026-06-16T15:55:39.477673",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1195,7 +1195,7 @@
       "hash": "cb066319b5f60926",
       "source_url": "https://codeberg.org/lazulyra/qbit-plugins/raw/branch/main/yts/yts.py",
       "first_seen": "2026-06-16T15:39:17.574354",
-      "last_updated": "2026-06-16T15:41:34.965440",
+      "last_updated": "2026-06-16T15:55:40.466788",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1214,7 +1214,7 @@
       "hash": "e5fdede3e0f2f721",
       "source_url": "https://raw.githubusercontent.com/YGGverse/qbittorrent-yggtracker-search-plugin/main/yggtracker.py",
       "first_seen": "2026-06-16T15:39:18.136461",
-      "last_updated": "2026-06-16T15:41:35.203069",
+      "last_updated": "2026-06-16T15:55:41.037630",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1233,7 +1233,7 @@
       "hash": "beb30e1de0577b07",
       "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/zooqle.py",
       "first_seen": "2026-06-16T15:39:18.645779",
-      "last_updated": "2026-06-16T15:41:35.438749",
+      "last_updated": "2026-06-16T15:55:41.609077",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1252,7 +1252,7 @@
       "hash": "628c516fbb9cfa78",
       "source_url": "https://raw.githubusercontent.com/MadeOfMagicAndWires/qBit-plugins/master/engines/bakabt.py",
       "first_seen": "2026-06-16T15:39:19.290243",
-      "last_updated": "2026-06-16T15:41:35.681796",
+      "last_updated": "2026-06-16T15:55:42.189894",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1271,7 +1271,7 @@
       "hash": "b535c042ad912453",
       "source_url": "https://raw.githubusercontent.com/OptimusKoala/qbittorrent-c411-plugin/refs/heads/main/c411.py",
       "first_seen": "2026-06-16T15:39:19.908762",
-      "last_updated": "2026-06-16T15:41:35.915004",
+      "last_updated": "2026-06-16T15:55:42.752562",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1290,7 +1290,7 @@
       "hash": "8091bf0ac73c3cde",
       "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/danishbytes.py",
       "first_seen": "2026-06-16T15:39:20.483304",
-      "last_updated": "2026-06-16T15:41:36.146218",
+      "last_updated": "2026-06-16T15:55:43.326771",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1309,7 +1309,7 @@
       "hash": "93b889155dcc03c8",
       "source_url": "https://raw.githubusercontent.com/RaresPNet/filelist_search_plugin/main/filelist.py",
       "first_seen": "2026-06-16T15:39:21.098009",
-      "last_updated": "2026-06-16T15:41:36.381364",
+      "last_updated": "2026-06-16T15:55:43.922962",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1328,7 +1328,7 @@
       "hash": "d95e07f55a33107f",
       "source_url": "https://raw.githubusercontent.com/Ooggle/qbittorrent-search-plugins/master/engines/gazellegames.py",
       "first_seen": "2026-06-16T15:39:21.599791",
-      "last_updated": "2026-06-16T15:41:36.615719",
+      "last_updated": "2026-06-16T15:55:44.505223",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1347,7 +1347,7 @@
       "hash": "c96f3d6a8788ebeb",
       "source_url": "https://raw.githubusercontent.com/txtsd/qB-IPT/master/iptorrents.py",
       "first_seen": "2026-06-16T15:39:22.134673",
-      "last_updated": "2026-06-16T15:41:36.854515",
+      "last_updated": "2026-06-16T15:55:45.083805",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1366,7 +1366,7 @@
       "hash": "621699502cc40daf",
       "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/kinozal.py",
       "first_seen": "2026-06-16T15:39:22.634658",
-      "last_updated": "2026-06-16T15:41:37.099410",
+      "last_updated": "2026-06-16T15:55:45.603261",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1385,7 +1385,7 @@
       "hash": "83ecf058611c2fdb",
       "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/latteam.py",
       "first_seen": "2026-06-16T15:39:23.155774",
-      "last_updated": "2026-06-16T15:41:37.333812",
+      "last_updated": "2026-06-16T15:55:46.175635",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1404,7 +1404,7 @@
       "hash": "bce29accd37ce556",
       "source_url": "https://raw.githubusercontent.com/bugsbringer/qbit-plugins/master/lostfilm.py",
       "first_seen": "2026-06-16T15:39:23.853916",
-      "last_updated": "2026-06-16T15:41:37.584250",
+      "last_updated": "2026-06-16T15:55:46.763758",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1423,7 +1423,7 @@
       "hash": "418f8d5d9bb8ead7",
       "source_url": "https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/milkie.py",
       "first_seen": "2026-06-16T15:39:24.472839",
-      "last_updated": "2026-06-16T15:41:37.824990",
+      "last_updated": "2026-06-16T15:55:47.366778",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1442,7 +1442,7 @@
       "hash": "b0f875f12c72d35c",
       "source_url": "https://raw.githubusercontent.com/darktohka/qbittorrent-plugins/master/ncore.py",
       "first_seen": "2026-06-16T15:39:25.008621",
-      "last_updated": "2026-06-16T15:41:38.051236",
+      "last_updated": "2026-06-16T15:55:47.947958",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1461,7 +1461,7 @@
       "hash": "57bd4227d702d502",
       "source_url": "https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/nnmclub.py",
       "first_seen": "2026-06-16T15:39:25.545490",
-      "last_updated": "2026-06-16T15:41:38.294816",
+      "last_updated": "2026-06-16T15:55:48.521307",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1480,7 +1480,7 @@
       "hash": "6fd63129ad11f4d7",
       "source_url": "https://raw.githubusercontent.com/swannie-eire/prowlarr-qbittorrent-plugins/main/prowlarr.py",
       "first_seen": "2026-06-16T15:39:28.385923",
-      "last_updated": "2026-06-16T15:41:41.001946",
+      "last_updated": "2026-06-16T15:55:51.532479",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1499,7 +1499,7 @@
       "hash": "9a98885c978959af",
       "source_url": "https://raw.githubusercontent.com/evyd13/search-plugins/master/nova3/engines/redacted_ch.py",
       "first_seen": "2026-06-16T15:39:28.891267",
-      "last_updated": "2026-06-16T15:41:41.234167",
+      "last_updated": "2026-06-16T15:55:52.100329",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1518,8 +1518,8 @@
       "hash": "0664fce1b6d48fc1",
       "source_url": "https://raw.githubusercontent.com/nbusseneau/qBittorrent-rutracker-plugin/master/rutracker.py",
       "first_seen": "2026-06-16T15:39:29.532246",
-      "last_updated": "2026-06-16T15:41:41.697626",
-      "update_count": 3,
+      "last_updated": "2026-06-16T15:55:53.224565",
+      "update_count": 5,
       "action": "updated"
     },
     "priv_sharewood": {
@@ -1537,7 +1537,7 @@
       "hash": "c9011f2b02c56227",
       "source_url": "https://gist.githubusercontent.com/etn406/2300dd7e8d97ea39442fcdf44c244fe2/raw/48eba68c0e32f9321ef2e47f4f8ecb437b093a61/sharewood.py",
       "first_seen": "2026-06-16T15:39:30.639312",
-      "last_updated": "2026-06-16T15:41:41.948726",
+      "last_updated": "2026-06-16T15:55:53.727653",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1556,7 +1556,7 @@
       "hash": "67dd25182039eccd",
       "source_url": "https://raw.githubusercontent.com/miIiano/SpeedApp.io-qBittorent-search-plugin/main/speedapp.py",
       "first_seen": "2026-06-16T15:39:32.120371",
-      "last_updated": "2026-06-16T15:41:42.179873",
+      "last_updated": "2026-06-16T15:55:54.295168",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1575,7 +1575,7 @@
       "hash": "c213ffa435fcdd86",
       "source_url": "https://raw.githubusercontent.com/MjKey/qBT-SE/refs/heads/master/enigines/tapochek.py",
       "first_seen": "2026-06-16T15:39:33.003442",
-      "last_updated": "2026-06-16T15:41:42.414361",
+      "last_updated": "2026-06-16T15:55:54.856030",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1594,7 +1594,7 @@
       "hash": "bc0a73346616024d",
       "source_url": "https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/torrentleech.py",
       "first_seen": "2026-06-16T15:39:33.602120",
-      "last_updated": "2026-06-16T15:41:42.661897",
+      "last_updated": "2026-06-16T15:55:55.414238",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1613,7 +1613,7 @@
       "hash": "f35cacefb92ea173",
       "source_url": "https://raw.githubusercontent.com/playday3008/qBittorrent-plugins/refs/heads/main/plugins/search/toloka_to.py",
       "first_seen": "2026-06-16T15:39:34.855817",
-      "last_updated": "2026-06-16T15:41:42.894332",
+      "last_updated": "2026-06-16T15:55:55.983875",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1632,8 +1632,8 @@
       "hash": "74399f914ab46f45",
       "source_url": "https://gitlab.com/CrimsonKoba/qb-search-plugin/-/raw/master/unionfansub.py",
       "first_seen": "2026-06-16T15:39:35.433706",
-      "last_updated": "2026-06-16T15:41:44.244640",
-      "update_count": 3,
+      "last_updated": "2026-06-16T15:55:57.725920",
+      "update_count": 5,
       "action": "updated"
     },
     "priv_yggapi": {
@@ -1651,7 +1651,7 @@
       "hash": "081dd01c9c54836c",
       "source_url": "https://raw.githubusercontent.com/Laiteux/YggAPI-qBittorrent-Search-Plugin/main/yggapi.py",
       "first_seen": "2026-06-16T15:39:37.282277",
-      "last_updated": "2026-06-16T15:41:44.481490",
+      "last_updated": "2026-06-16T15:55:58.296718",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1670,7 +1670,7 @@
       "hash": "3bab7078e4d59c86",
       "source_url": "https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py",
       "first_seen": "2026-06-16T15:39:37.863793",
-      "last_updated": "2026-06-16T15:41:44.714849",
+      "last_updated": "2026-06-16T15:55:58.860245",
       "update_count": 0,
       "action": "unchanged"
     },
@@ -1689,7 +1689,7 @@
       "hash": "cab764ca80b0d617",
       "source_url": "https://raw.githubusercontent.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin/main/zamundarip.py",
       "first_seen": "2026-06-16T15:39:38.417975",
-      "last_updated": "2026-06-16T15:41:44.951962",
+      "last_updated": "2026-06-16T15:55:59.414653",
       "update_count": 0,
       "action": "unchanged"
     }
@@ -1776,6 +1776,48 @@
     },
     {
       "timestamp": "2026-06-16T15:41:40.974483",
+      "plugin": "Pornolab",
+      "url": "https://raw.githubusercontent.com/TainakaDrums/qbPornolab/master/pornolab.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:00.076924",
+      "plugin": "MagnetDL with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/magnetdl.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:08.073867",
+      "plugin": "Nyaa.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/pantsu.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:20.203677",
+      "plugin": "Sukebei.Pantsu",
+      "url": "https://raw.githubusercontent.com/libellula/qbt-plugins/main/sukebei.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:25.563979",
+      "plugin": "ThePirateBay with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/thepiratebay.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:33.212646",
+      "plugin": "TorrentDownload with categories",
+      "url": "https://Scare.ca/dl/qBittorrent/torrentdownload.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:36.226366",
+      "plugin": "Torrenflix",
+      "url": "https://raw.githubusercontent.com/BurningMop/qBittorrent-Search-Plugins/refs/heads/main/torrenflix.py",
+      "reason": "HTTP 404"
+    },
+    {
+      "timestamp": "2026-06-16T15:55:51.147507",
       "plugin": "Pornolab",
       "url": "https://raw.githubusercontent.com/TainakaDrums/qbPornolab/master/pornolab.py",
       "reason": "HTTP 404"

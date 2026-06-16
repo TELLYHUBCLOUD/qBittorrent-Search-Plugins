@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-16T15:41:45.154967",
+  "timestamp": "2026-06-16T15:55:59.617234",
   "stats": {
     "total": 89,
     "new": 0,
@@ -97,5 +97,5 @@
     "priv_yggtorrent",
     "priv_zamundarip"
   ],
-  "failed_count": 14
+  "failed_count": 21
 }
