@@ -3,7 +3,7 @@
     {
       "engine": "MagnetDL with categories",
       "url": "https://Scare.ca/dl/qBittorrent/magnetdl.py",
-      "reason": "HTTP Error 404: Not Found"
+      "reason": "URL Error: timed out"
     },
     {
       "engine": "Nyaa.Pantsu",
@@ -18,12 +18,12 @@
     {
       "engine": "ThePirateBay with categories",
       "url": "https://Scare.ca/dl/qBittorrent/thepiratebay.py",
-      "reason": "HTTP Error 404: Not Found"
+      "reason": "URL Error: timed out"
     },
     {
       "engine": "TorrentDownload with categories",
       "url": "https://Scare.ca/dl/qBittorrent/torrentdownload.py",
-      "reason": "HTTP Error 404: Not Found"
+      "reason": "URL Error: timed out"
     },
     {
       "engine": "Torrenflix",

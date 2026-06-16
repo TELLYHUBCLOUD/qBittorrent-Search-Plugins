@@ -1,6 +1,6 @@
 # qBittorrent Search Plugins - Complete Collection
 
-[![Auto-Update Plugins](https://github.com/username/qBittorrent-Search-Plugins/actions/workflows/auto-update.yml/badge.svg)](https://github.com/username/qBittorrent-Search-Plugins/actions/workflows/auto-update.yml)
+[![Auto-Update Plugins](https://github.com/TELLYHUBCLOUD/qBittorrent-Search-Plugins/actions/workflows/auto-update.yml/badge.svg)](https://github.com/TELLYHUBCLOUD/qBittorrent-Search-Plugins/actions/workflows/auto-update.yml)
 
 This repository automatically aggregates, checks, and packages unofficial qBittorrent search engine plugins from the [qBittorrent Unofficial Search Plugins Wiki](https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins).
 
@@ -10,7 +10,7 @@ This repository automatically aggregates, checks, and packages unofficial qBitto
 
 ## 📦 Contents & Download
 
-*   **[qBittorrent-Search-Plugins-Complete.zip](https://raw.githubusercontent.com/username/qBittorrent-Search-Plugins/main/qBittorrent-Search-Plugins-Complete.zip)** — Contains the entire bundle (both public and private site plugins).
+*   **[qBittorrent-Search-Plugins-Complete.zip](https://raw.githubusercontent.com/TELLYHUBCLOUD/qBittorrent-Search-Plugins/main/qBittorrent-Search-Plugins-Complete.zip)** — Contains the entire bundle (both public and private site plugins).
 *   **[public_sites/](file:///public_sites/)** — Folder with all public site search plugins (~68 plugins).
 *   **[private_sites/](file:///private_sites/)** — Folder with all private tracker search plugins (~26 plugins).
 
