@@ -15,7 +15,7 @@ jobs:
           python-version: '3.12'
       - name: Run Collector
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: python qbittorrent_plugin_master.py
       - name: Commit changes
         run: |
