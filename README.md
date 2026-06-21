@@ -12,7 +12,7 @@ This repository automatically aggregates, checks, and packages unofficial qBitto
 
 *   **[qBittorrent-Search-Plugins-Complete.zip](https://raw.githubusercontent.com/TELLYHUBCLOUD/qBittorrent-Search-Plugins/main/qBittorrent-Search-Plugins-Complete.zip)** — Contains the entire bundle (both public and private site plugins).
 *   **[public_sites/](file:///public_sites/)** — Folder with all public site search plugins (~68 plugins).
-*   **[private_sites/](file:///private_sites/)** — Folder with all private tracker search plugins (~26 plugins).
+*   **[private_sites/](file:///private_sites/)** — Folder with all private tracker search plugins (~25 plugins).
 
 ## 🔧 Installation Instructions
 
@@ -100,7 +100,7 @@ This repository automatically aggregates, checks, and packages unofficial qBitto
 | 67 | **[🔍YGGtracker](https://github.com/YGGverse/YGGtracker)** | [YGGverse](https://github.com/YGGverse/qbittorrent-yggtracker-search-plugin) | 1.1.0 | 19/Oct2023 | [`yggtracker.py`](https://raw.githubusercontent.com/YGGverse/qbittorrent-yggtracker-search-plugin/main/yggtracker.py) | ✔ qbt 4.5.1 / v5.0.0alpha1 / Python 3.11.4 Requires Yggdrasil connection |
 | 68 | **[Zooqle](https://zooqle.skin/)** | [444995](https://github.com/444995/qbit-search-plugins) | 1.10 | 07/Aug2024 | [`zooqle.py`](https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/zooqle.py) | ✔ qbt v4.6.5 / Python 3.11.1 |
 
-### 🔒 Private Sites (26 Plugins)
+### 🔒 Private Sites (25 Plugins)
 
 *Note: These plugins are for private trackers and generally require you to edit the `.py` file to insert your credentials or API keys.*
 
@@ -122,16 +122,15 @@ This repository automatically aggregates, checks, and packages unofficial qBitto
 | 14 | **[Redacted](https://redacted.ch)** | [Evyd13](https://github.com/evyd13/search-plugins) | 1.00 | 10/Oct2021 | [`redacted_ch.py`](https://raw.githubusercontent.com/evyd13/search-plugins/master/nova3/engines/redacted_ch.py) | ✔ qbt 4.3.x / Python 3.10.x |
 | 15 | **[RuTracker](https://rutracker.org/)** | [imDMG](https://github.com/imDMG/qBt_SE) | 1.17 | 20/Nov2025 | [`rutracker.py`](https://raw.githubusercontent.com/imDMG/qBt_SE/master/engines/rutracker.py) | ✔ qbt 4.2.x / Python 3.7+ |
 | 16 | **[RuTracker](https://rutracker.org/)** | [nbusseneau](https://github.com/nbusseneau/qBittorrent-rutracker-plugin) | 2.2.0 | 01/May2025 | [`rutracker.py`](https://raw.githubusercontent.com/nbusseneau/qBittorrent-rutracker-plugin/master/rutracker.py) | ✔ qbt 5.1.x / Python 3.10.x |
-| 17 | **[Sharewood](https://sharewood.tv)** | [etn](https://gist.github.com/etn406/2300dd7e8d97ea39442fcdf44c244fe2) | 1.1 | 24/Apr2025 | [`sharewood.py`](https://gist.githubusercontent.com/etn406/2300dd7e8d97ea39442fcdf44c244fe2/raw/48eba68c0e32f9321ef2e47f4f8ecb437b093a61/sharewood.py) | ✔ qbt 5.0.3 / Python 3.+ |
-| 18 | **[SpeedApp.IO](https://speedapp.io)** | [miIiano](https://github.com/miIiano/SpeedApp.io-qBittorent-search-plugin) | 1.1 | 11/Aug2023 | [`speedapp.py`](https://raw.githubusercontent.com/miIiano/SpeedApp.io-qBittorent-search-plugin/main/speedapp.py) | ✔ qbt 4.5.x / Python 3.+ |
-| 19 | **[Tapochek](https://tapochek.net/)** | [MjKey](https://github.com/MjKey/qBT-SE) | 1.1 | 13/Aug2025 | [`tapochek.py`](https://raw.githubusercontent.com/MjKey/qBT-SE/refs/heads/master/enigines/tapochek.py) | ✔ qbt 4.2.x / Python 3.7+ |
-| 20 | **[TorrentLeech](https://www.torrentleech.org/)** | [444995](https://github.com/444995/qbit-search-plugins) | 1.00 | 06/Aug2024 | [`torrentleech.py`](https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/torrentleech.py) | ✔ qbt v4.6.5 / Python 3.11.1 |
-| 21 | **[Гуртом — торрент-толока](https://toloka.to/)** | [PlayDay](https://github.com/playday3008) | 1.01 | 19/Dec2025 | [`toloka_to.py`](https://raw.githubusercontent.com/playday3008/qBittorrent-plugins/refs/heads/main/plugins/search/toloka_to.py) | ✔ qbt 5.1.x / Python 3.11+ |
-| 22 | **[UnionFansub](https://torrent.unionfansub.com/)** | [tolotp](https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda) | 2.0 | 05/Mar/2026 | [`unionfansub.py`](https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/unionfansub.py) | ✔ qbt 4.5.x+ / Python 3.9.x+❗ Pls read the guide |
-| 23 | **[UnionFansub](https://torrent.unionfansub.com/)** | [CrimsonKoba](https://gitlab.com/CrimsonKoba/qb-search-plugin) | 1.2 | 05/Jan2024 | [`unionfansub.py`](https://gitlab.com/CrimsonKoba/qb-search-plugin/-/raw/master/unionfansub.py) | ✔ qbt 4.5.x / Python 3.+ |
-| 24 | **[YggAPI](https://yggapi.eu)** | [Laiteux](https://github.com/Laiteux/YggAPI-qBittorrent-Search-Plugin) | 1.1 | 31/Jan2025 | [`yggapi.py`](https://raw.githubusercontent.com/Laiteux/YggAPI-qBittorrent-Search-Plugin/main/yggapi.py) | ✔ qbt 4.1.0+ / Python 3.6+ |
-| 25 | **[YggTorrent](https://www.ygg.re/)** | [CravateRouge](https://github.com/CravateRouge/qBittorrentSearchPlugins) | 1.0 | 25/Nov2019 | [`yggtorrent.py`](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py) | ❗ Working when DDOS cloudfareprotection is disabled |
-| 26 | **[Zamunda.RIP](https://zamunda.rip/)** | [Necrosis](https://github.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin) | 1.0 | 22/May2026 | [`zamundarip.py`](https://raw.githubusercontent.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin/main/zamundarip.py) | ✔ qbt 5.1.x / Python 3.9+ |
+| 17 | **[SpeedApp.IO](https://speedapp.io)** | [miIiano](https://github.com/miIiano/SpeedApp.io-qBittorent-search-plugin) | 1.1 | 11/Aug2023 | [`speedapp.py`](https://raw.githubusercontent.com/miIiano/SpeedApp.io-qBittorent-search-plugin/main/speedapp.py) | ✔ qbt 4.5.x / Python 3.+ |
+| 18 | **[Tapochek](https://tapochek.net/)** | [MjKey](https://github.com/MjKey/qBT-SE) | 1.1 | 13/Aug2025 | [`tapochek.py`](https://raw.githubusercontent.com/MjKey/qBT-SE/refs/heads/master/enigines/tapochek.py) | ✔ qbt 4.2.x / Python 3.7+ |
+| 19 | **[TorrentLeech](https://www.torrentleech.org/)** | [444995](https://github.com/444995/qbit-search-plugins) | 1.00 | 06/Aug2024 | [`torrentleech.py`](https://raw.githubusercontent.com/444995/qbit-search-plugins/main/engines/torrentleech.py) | ✔ qbt v4.6.5 / Python 3.11.1 |
+| 20 | **[Гуртом — торрент-толока](https://toloka.to/)** | [PlayDay](https://github.com/playday3008) | 1.01 | 19/Dec2025 | [`toloka_to.py`](https://raw.githubusercontent.com/playday3008/qBittorrent-plugins/refs/heads/main/plugins/search/toloka_to.py) | ✔ qbt 5.1.x / Python 3.11+ |
+| 21 | **[UnionFansub](https://torrent.unionfansub.com/)** | [tolotp](https://github.com/tolotp/qbittorrent-search-plugins-de-busqueda) | 2.0 | 05/Mar/2026 | [`unionfansub.py`](https://raw.githubusercontent.com/tolotp/qbittorrent-search-plugins-de-busqueda/refs/heads/main/Plugins/unionfansub.py) | ✔ qbt 4.5.x+ / Python 3.9.x+❗ Pls read the guide |
+| 22 | **[UnionFansub](https://torrent.unionfansub.com/)** | [CrimsonKoba](https://gitlab.com/CrimsonKoba/qb-search-plugin) | 1.2 | 05/Jan2024 | [`unionfansub.py`](https://gitlab.com/CrimsonKoba/qb-search-plugin/-/raw/master/unionfansub.py) | ✔ qbt 4.5.x / Python 3.+ |
+| 23 | **[YggAPI](https://yggapi.eu)** | [Laiteux](https://github.com/Laiteux/YggAPI-qBittorrent-Search-Plugin) | 1.1 | 31/Jan2025 | [`yggapi.py`](https://raw.githubusercontent.com/Laiteux/YggAPI-qBittorrent-Search-Plugin/main/yggapi.py) | ✔ qbt 4.1.0+ / Python 3.6+ |
+| 24 | **[YggTorrent](https://www.ygg.re/)** | [CravateRouge](https://github.com/CravateRouge/qBittorrentSearchPlugins) | 1.0 | 25/Nov2019 | [`yggtorrent.py`](https://raw.githubusercontent.com/CravateRouge/qBittorrentSearchPlugins/master/yggtorrent.py) | ❗ Working when DDOS cloudfareprotection is disabled |
+| 25 | **[Zamunda.RIP](https://zamunda.rip/)** | [Necrosis](https://github.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin) | 1.0 | 22/May2026 | [`zamundarip.py`](https://raw.githubusercontent.com/codeobfuscation/qBittorrent-ZamundaRIP-plugin/main/zamundarip.py) | ✔ qbt 5.1.x / Python 3.9+ |
 
 ## ⚡ Auto-Update Pipeline
 
