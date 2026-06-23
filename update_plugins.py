@@ -2,12 +2,6 @@
 """
 qBittorrent Search Plugins Auto-Updater
 Designed for GitHub Actions workflow — zero config, just run.
-
-Usage:
-    python update_plugins.py
-
-Environment:
-    GITHUB_TOKEN  — auto-provided by GitHub Actions (higher rate limits)
 """
 
 import os
@@ -17,7 +11,6 @@ import time
 import hashlib
 import shutil
 import zipfile
-import sqlite3
 import threading
 import urllib.request
 import urllib.error
@@ -28,20 +21,19 @@ from html.parser import HTMLParser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CONFIG — matches workflow expectations exactly
+# CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
 PUBLIC_DIR  = Path("public_sites")
 PRIVATE_DIR = Path("private_sites")
 ENGINES_DIR = Path("engines")
 ZIP_NAME    = Path("qBittorrent-Search-Plugins-Complete.zip")
-DB_PATH     = "/tmp/qbt_plugins.db"          # /tmp — never committed
 
 GITHUB_API   = "https://api.github.com"
 GITLAB_API   = "https://gitlab.com/api/v4"
 CODEBERG_API = "https://codeberg.org/api/v1"
 WIKI_URL     = "https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins"
 
-THREADS = 8
+THREADS      = 8
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITLAB_TOKEN = os.environ.get("GITLAB_TOKEN", "")
 
@@ -60,7 +52,6 @@ SKIP_FILES = frozenset({
     "telegram_torrent_bot.py", "update_plugins.py",
 })
 
-# ── Known plugin repos (unique) ───────────────────────────────────────────────
 KNOWN_REPOS = [
     "LightDestory/qBittorrent-Search-Plugins",
     "BurningMop/qBittorrent-Search-Plugins",
@@ -133,7 +124,7 @@ COLLECTION_REPOS = [
     "https://github.com/darktohka/qbittorrent-plugins",
     "https://github.com/LightDestory/qBittorrent-Search-Plugins",
     "https://github.com/BurningMop/qBittorrent-Search-Plugins",
-    "https://github.com/hdvvine/qBittorrent-Search-Plugins",
+    "https://github.com/hdvinne/qBittorrent-Search-Plugins",
     "https://github.com/freecoder76/qBittorrent-search-plugins",
 ]
 
@@ -166,8 +157,8 @@ PLUGIN_SIGS = [
 ]
 BAD_SIGS = [b"<!DOCTYPE", b"<html", b"404: Not Found", b"Not Found"]
 
-def is_valid_plugin(content: bytes) -> bool:
-    if not (400 <= len(content) <= 512_000):
+def is_valid_plugin(content):
+    if not (400 <= len(content) <= 512000):
         return False
     for bad in BAD_SIGS:
         if bad in content[:300]:
@@ -177,7 +168,7 @@ def is_valid_plugin(content: bytes) -> bool:
             return True
     return b"def search(" in content and b"class " in content
 
-def is_private_plugin(content: bytes) -> bool:
+def is_private_plugin(content):
     low = content.lower()
     signals = [b"passkey", b"api_key", b"apikey", b"auth_token",
                b"bearer", b"username", b"password", b"private",
@@ -196,7 +187,7 @@ def http_get(url, timeout=20, retries=4, accept_html=False):
                 rst = resp.headers.get("X-RateLimit-Reset")
                 if rem == "0" and rst:
                     w = max(0, int(rst) - int(time.time())) + 5
-                    print(f"        Rate-limited — sleeping {w}s")
+                    print("        Rate-limited - sleeping %ds" % w)
                     time.sleep(w)
                 data = resp.read()
                 if not accept_html and (
@@ -227,10 +218,10 @@ def fetch_text(url, timeout=15):
 def api_get(url, token=None, timeout=20):
     h = {"Accept": "application/json"}
     if token and "github" in url:
-        h["Authorization"] = f"token {token}"
+        h["Authorization"] = "token " + token
         h["Accept"] = "application/vnd.github+json"
     elif token and ("gitlab" in url or "codeberg" in url):
-        h["Authorization"] = f"Bearer {token}"
+        h["Authorization"] = "Bearer " + token
     d = http_get(url, headers=h, timeout=timeout)
     if d is None:
         return None
@@ -262,7 +253,7 @@ def safe_name(name, url):
     if uf.endswith(".py") and len(uf) > 3 and uf not in SKIP_FILES:
         return uf
     clean = re.sub(r"[^a-zA-Z0-9_\-]", "", name.replace(" ", "_")).lower()
-    return f"{clean}.py" if clean else "unknown.py"
+    return (clean + ".py") if clean else "unknown.py"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # WIKI PARSER
@@ -282,33 +273,40 @@ class WikiParser(HTMLParser):
         d = dict(attrs)
         if tag == "a" and "name" in d:
             n = d["name"].lower()
-            if "public" in n: self.section = "public"
-            elif "private" in n: self.section = "private"
-        if tag in ("h1","h2","h3","h4") and "id" in d:
+            if "public" in n:
+                self.section = "public"
+            elif "private" in n:
+                self.section = "private"
+        if tag in ("h1", "h2", "h3", "h4") and "id" in d:
             i = d["id"].lower()
-            if "public" in i: self.section = "public"
-            elif "private" in i: self.section = "private"
+            if "public" in i:
+                self.section = "public"
+            elif "private" in i:
+                self.section = "private"
         if tag == "table" and self.section:
             self.in_table = True
         if self.in_table:
             if tag == "tr":
                 self.row = []
-            elif tag in ("td","th"):
+            elif tag in ("td", "th"):
                 self.in_cell = True
-                self.cell = {"text":"","links":[]}
+                self.cell = {"text": "", "links": []}
             elif tag == "a" and self.in_cell and "href" in d:
                 self.cell["links"].append(d["href"])
 
     def handle_endtag(self, tag):
-        if not self.in_table: return
+        if not self.in_table:
+            return
         if tag == "table":
             self.in_table = False
         elif tag == "tr":
             if self.row and len(self.row) >= 5:
                 if "search engine" not in self.row[0]["text"].lower():
-                    if self.section == "public": self.public.append(self.row)
-                    elif self.section == "private": self.private.append(self.row)
-        elif tag in ("td","th"):
+                    if self.section == "public":
+                        self.public.append(self.row)
+                    elif self.section == "private":
+                        self.private.append(self.row)
+        elif tag in ("td", "th"):
             self.in_cell = False
             self.cell["text"] = self.cell["text"].strip()
             self.row.append(self.cell)
@@ -318,7 +316,7 @@ class WikiParser(HTMLParser):
             self.cell["text"] += data
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# STORE — thread-safe, dedup, tracks metadata
+# STORE
 # ═══════════════════════════════════════════════════════════════════════════════
 class Store:
     def __init__(self):
@@ -351,30 +349,34 @@ class Store:
         target = PRIVATE_DIR if priv else PUBLIC_DIR
         fp = target / filename
 
-        # collision
         if fp.exists():
             stem = fp.stem
             c = 1
             while fp.exists():
-                fp = target / f"{stem}_{c}.py"
+                fp = target / (stem + "_" + str(c) + ".py")
                 c += 1
             filename = fp.name
 
         fp.write_bytes(content)
         self.counts["new"] += 1
 
-        # also in engines/
         ep = ENGINES_DIR / filename
         if not ep.exists():
             ep.write_bytes(content)
 
         self.results.append({
-            "engine_name": engine_name, "engine_site": engine_site,
-            "author_name": author, "repo_link": repo,
-            "version": version, "last_update": " ".join(last_update.split()),
-            "filename": filename, "download_url": url,
-            "comments": " ".join(comments.split()), "file_size": len(content),
-            "is_private": priv, "forge": forge,
+            "engine_name": engine_name,
+            "engine_site": engine_site,
+            "author_name": author,
+            "repo_link": repo,
+            "version": version,
+            "last_update": " ".join(last_update.split()),
+            "filename": filename,
+            "download_url": url,
+            "comments": " ".join(comments.split()),
+            "file_size": len(content),
+            "is_private": priv,
+            "forge": forge,
         })
         return "new"
 
@@ -406,7 +408,7 @@ def dl(url, store, filename="", engine_name="", engine_site="",
 # GITHUB
 # ═══════════════════════════════════════════════════════════════════════════════
 def gh_api(path, params=None):
-    url = f"{GITHUB_API}{path}"
+    url = GITHUB_API + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
     return api_get(url, GITHUB_TOKEN)
@@ -417,21 +419,24 @@ def gh_search_repos(query, max_pages=2):
         data = gh_api("/search/repositories", {
             "q": query, "sort": "updated", "per_page": 100, "page": page
         })
-        if not data or not data.get("items"): break
+        if not data or not data.get("items"):
+            break
         for item in data["items"]:
             fn = item["full_name"]
             if fn not in KNOWN_REPOS:
                 KNOWN_REPOS.append(fn)
                 found.append(fn)
-        if len(data["items"]) < 100: break
+        if len(data["items"]) < 100:
+            break
         time.sleep(2)
     return found
 
 def gh_search_topics(topic):
     data = gh_api("/search/repositories", {
-        "q": f"topic:{topic}", "sort": "updated", "per_page": 100
+        "q": "topic:" + topic, "sort": "updated", "per_page": 100
     })
-    if not data: return []
+    if not data:
+        return []
     found = []
     for item in data.get("items", []):
         fn = item["full_name"]
@@ -446,14 +451,16 @@ def gh_search_code(query, max_pages=1):
         data = gh_api("/search/code", {
             "q": query + " extension:py", "per_page": 100, "page": page
         })
-        if not data or not data.get("items"): break
+        if not data or not data.get("items"):
+            break
         for item in data["items"]:
             repo = item.get("repository", {}).get("full_name", "")
             path = item.get("path", "")
             html_url = item.get("html_url", "")
             if html_url and path.endswith(".py") and path not in SKIP_FILES:
                 items.append({"repo": repo, "path": path, "url": html_url})
-        if len(data["items"]) < 100: break
+        if len(data["items"]) < 100:
+            break
         time.sleep(3)
     return items
 
@@ -461,8 +468,9 @@ def gh_list_files(full_name):
     files = []
     owner, repo = full_name.split("/", 1)
     for sub in ["", "engines", "plugins", "search_engines", "src"]:
-        data = gh_api(f"/repos/{owner}/{repo}/contents/{sub}")
-        if not data or not isinstance(data, list): continue
+        data = gh_api("/repos/" + owner + "/" + repo + "/contents/" + sub)
+        if not data or not isinstance(data, list):
+            continue
         for item in data:
             if (item.get("type") == "file"
                     and item["name"].endswith(".py")
@@ -482,17 +490,21 @@ def gh_list_files(full_name):
 def gl_list_files(pid):
     files = []
     for sub in ["", "engines", "plugins"]:
-        url = (f"{GITLAB_API}/projects/{urllib.parse.quote(pid, safe='')}"
-               f"/repository/tree?path={sub}&per_page=100")
+        url = (GITLAB_API + "/projects/"
+               + urllib.parse.quote(pid, safe="")
+               + "/repository/tree?path=" + sub + "&per_page=100")
         data = api_get(url, GITLAB_TOKEN)
-        if not data or not isinstance(data, list): continue
+        if not data or not isinstance(data, list):
+            continue
         for item in data:
             if (item.get("type") == "blob"
                     and item["name"].endswith(".py")
                     and item["name"] not in SKIP_FILES):
-                raw = (f"{GITLAB_API}/projects/{urllib.parse.quote(pid, safe='')}"
-                       f"/repository/files/{urllib.parse.quote(item['path'], safe='')}"
-                       f"/raw?ref=main")
+                raw = (GITLAB_API + "/projects/"
+                       + urllib.parse.quote(pid, safe="")
+                       + "/repository/files/"
+                       + urllib.parse.quote(item["path"], safe="")
+                       + "/raw?ref=main")
                 files.append({"repo": pid, "path": item["path"],
                               "url": raw, "name": item["name"]})
         time.sleep(0.5)
@@ -505,9 +517,10 @@ def cb_list_files(full_name):
     files = []
     owner, repo = full_name.split("/", 1)
     for sub in ["", "engines", "plugins"]:
-        url = f"{CODEBERG_API}/repos/{owner}/{repo}/contents/{sub}"
+        url = CODEBERG_API + "/repos/" + owner + "/" + repo + "/contents/" + sub
         data = api_get(url)
-        if not data or not isinstance(data, list): continue
+        if not data or not isinstance(data, list):
+            continue
         for item in data:
             if (item.get("type") == "file"
                     and item["name"].endswith(".py")
@@ -520,15 +533,17 @@ def cb_list_files(full_name):
     return files
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# BULK DOWNLOAD HELPER
+# BULK DOWNLOAD
 # ═══════════════════════════════════════════════════════════════════════════════
 def bulk_download(files, store, forge="github"):
-    if not files: return 0
+    if not files:
+        return 0
     new = 0
     with ThreadPoolExecutor(max_workers=THREADS) as pool:
         futs = {}
         for fi in files:
-            f = pool.submit(dl, fi["url"], store, filename=fi.get("name", ""),
+            f = pool.submit(dl, fi["url"], store,
+                            filename=fi.get("name", ""),
                             repo=fi.get("repo", ""), forge=forge)
             futs[f] = fi["url"]
         for f in as_completed(futs):
@@ -540,7 +555,7 @@ def bulk_download(files, store, forge="github"):
     return new
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 1 — WIKI
+# PHASE 1 - WIKI
 # ═══════════════════════════════════════════════════════════════════════════════
 def phase_wiki(store):
     print("[1/4] Wiki...")
@@ -548,12 +563,10 @@ def phase_wiki(store):
     if not html:
         print("      Wiki fetch FAILED")
         return
-
     wp = WikiParser()
     wp.feed(html)
-    print(f"      Rows: {len(wp.public)} public, {len(wp.private)} private")
+    print("      Rows: %d public, %d private" % (len(wp.public), len(wp.private)))
 
-    # Build tasks
     tasks = []
     for rows, priv in [(wp.public, False), (wp.private, True)]:
         for row in rows:
@@ -567,7 +580,7 @@ def phase_wiki(store):
             comm = row[5]["text"] if len(row) > 5 else ""
             raw = to_raw(dlc["links"][0] if dlc and dlc["links"] else "")
             if not raw:
-                store.log_fail("", f"Wiki: {ename} — no URL")
+                store.log_fail("", "Wiki: %s - no URL" % ename)
                 continue
             fname = safe_name(ename, raw)
             tasks.append((raw, fname, ename, esite, aname, rlink,
@@ -588,58 +601,51 @@ def phase_wiki(store):
                     ok += 1
             except Exception:
                 pass
-    print(f"      Downloaded: {ok}")
+    print("      Downloaded: %d" % ok)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 2 — GITHUB
+# PHASE 2 - GITHUB
 # ═══════════════════════════════════════════════════════════════════════════════
 def phase_github(store):
     print("[2/4] GitHub API...")
-
-    # Repo search
     for q in GITHUB_REPO_QUERIES:
         found = gh_search_repos(q, max_pages=2)
         if found:
-            print(f"      Repo '{q[:35]}...' → +{len(found)}")
-
-    # Topic search
+            print("      Repo '%s...' -> +%d" % (q[:35], len(found)))
     for topic in GITHUB_TOPIC_QUERIES:
         found = gh_search_topics(topic)
         if found:
-            print(f"      Topic '{topic}' → +{len(found)}")
+            print("      Topic '%s' -> +%d" % (topic, len(found)))
 
-    # Code search (only with token)
     code_files = []
     if GITHUB_TOKEN:
         for q in GITHUB_CODE_QUERIES:
             code_files.extend(gh_search_code(q, max_pages=1))
 
-    # Scan all repos
     all_files = []
     total_repos = len(KNOWN_REPOS)
-    print(f"      Scanning {total_repos} repos...")
+    print("      Scanning %d repos..." % total_repos)
     for i, repo in enumerate(KNOWN_REPOS):
         all_files.extend(gh_list_files(repo))
         if (i + 1) % 25 == 0 or (i + 1) == total_repos:
-            print(f"        {i+1}/{total_repos} — {len(all_files)} files found")
+            print("        %d/%d - %d files found" % (i + 1, total_repos, len(all_files)))
         time.sleep(0.25)
 
     new1 = bulk_download(all_files, store, "github")
-    print(f"      GitHub repos: {new1} new")
+    print("      GitHub repos: %d new" % new1)
 
     if code_files:
         new2 = bulk_download(code_files, store, "github-code")
-        print(f"      GitHub code: {new2} new")
+        print("      GitHub code: %d new" % new2)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 3 — GITLAB + CODEBERG + COLLECTIONS
+# PHASE 3 - OTHER SOURCES
 # ═══════════════════════════════════════════════════════════════════════════════
 def phase_other(store):
     print("[3/4] GitLab / Codeberg / Collections...")
 
-    # GitLab
     for q in ["qbittorrent search plugin", "qbittorrent plugin"]:
-        url = f"{GITLAB_API}/projects?search={urllib.parse.quote(q)}&per_page=50"
+        url = GITLAB_API + "/projects?search=" + urllib.parse.quote(q) + "&per_page=50"
         data = api_get(url, GITLAB_TOKEN)
         if data and isinstance(data, list):
             for proj in data:
@@ -650,13 +656,12 @@ def phase_other(store):
                     if files:
                         n = bulk_download(files, store, "gitlab")
                         if n:
-                            print(f"      GitLab {pid}: +{n}")
+                            print("      GitLab %s: +%d" % (pid, n))
         time.sleep(1)
 
-    # Codeberg
     for q in ["qbittorrent search plugin", "qbt plugin"]:
         data = api_get(
-            f"{CODEBERG_API}/repos/search?q={urllib.parse.quote(q)}&limit=50"
+            CODEBERG_API + "/repos/search?q=" + urllib.parse.quote(q) + "&limit=50"
         )
         if data and isinstance(data, dict):
             for r in data.get("data", []):
@@ -666,14 +671,14 @@ def phase_other(store):
                     if files:
                         n = bulk_download(files, store, "codeberg")
                         if n:
-                            print(f"      Codeberg {fn}: +{n}")
+                            print("      Codeberg %s: +%d" % (fn, n))
         time.sleep(1)
 
-    # Collection repos (HTML scrape)
     tasks = []
     for repo_url in COLLECTION_REPOS:
         html = fetch_text(repo_url, timeout=10)
-        if not html: continue
+        if not html:
+            continue
         for match in re.findall(r'href="([^"]+\.py)"', html):
             full = urllib.parse.urljoin(repo_url, match)
             full = to_raw(full)
@@ -682,86 +687,171 @@ def phase_other(store):
                 tasks.append((full, name, repo_url))
 
     if tasks:
-        print(f"      Collection links: {len(tasks)}")
+        print("      Collection links: %d" % len(tasks))
+        new = 0
         with ThreadPoolExecutor(max_workers=THREADS) as pool:
-            futs = {pool.submit(dl, u, store, filename=n, repo=r, forge="collection"): u
-                    for u, n, r in tasks}
-            new = sum(1 for f in as_completed(futs)
-                      if f.result() == "new")
-        print(f"      Collections: +{new}")
+            futs = {}
+            for u, n, r in tasks:
+                f = pool.submit(dl, u, store, filename=n, repo=r, forge="collection")
+                futs[f] = u
+            for f in as_completed(futs):
+                try:
+                    if f.result() == "new":
+                        new += 1
+                except Exception:
+                    pass
+        print("      Collections: +%d" % new)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE 4 — OUTPUT
+# PHASE 4 - OUTPUT (NO f-string, pure .format() and concatenation)
 # ═══════════════════════════════════════════════════════════════════════════════
+def build_table_rows(items, start=1):
+    lines = []
+    for i, it in enumerate(items, start):
+        en = it["engine_name"]
+        es = it["engine_site"]
+        an = it["author_name"]
+        rl = it["repo_link"]
+        if es:
+            en = "[" + en + "](" + es + ")"
+        if rl:
+            an = "[" + an + "](" + rl + ")"
+        dl = "[`" + it["filename"] + "`](" + it["download_url"] + ")"
+        forge = "`" + str(it.get("forge", "wiki")) + "`"
+        comm = it["comments"]
+        line = "| %d | %s | %s | %s | %s | %s | %s | %s |" % (
+            i, en, an, it["version"], it["last_update"], dl, forge, comm
+        )
+        lines.append(line)
+    return "\n".join(lines)
+
 def phase_output(store):
     print("[4/4] Generating outputs...")
     c = store.counts
-    print(f"      {c['new']} new | {c['dup']} dup | "
-          f"{c['invalid']} invalid | {c['skip']} skip | {c['fail']} fail")
+    print("      %d new | %d dup | %d invalid | %d skip | %d fail" % (
+        c["new"], c["dup"], c["invalid"], c["skip"], c["fail"]))
 
-    pub_count  = len(list(PUBLIC_DIR.glob("*.py")))
+    pub_count = len(list(PUBLIC_DIR.glob("*.py")))
     priv_count = len(list(PRIVATE_DIR.glob("*.py")))
-    eng_count  = len(list(ENGINES_DIR.glob("*.py")))
+    eng_count = len(list(ENGINES_DIR.glob("*.py")))
 
-    pub_r  = [r for r in store.results if not r["is_private"]]
+    pub_r = [r for r in store.results if not r["is_private"]]
     priv_r = [r for r in store.results if r["is_private"]]
 
-    # ── README.md ─────────────────────────────────────────────────────────────
-    def rows(items, start=1):
-        lines = []
-        for i, it in enumerate(items, start):
-            en = f"[{it['engine_name']}]({it['engine_site']})" if it['engine_site'] else it['engine_name']
-            au = f"[{it['author_name']}]({it['repo_link']})" if it['repo_link'] else it['author_name']
-            dl = f"[`{it['filename']}`]({it['download_url']})"
-            lines.append(f"| {i} | {en} | {au} | {it['version']} | {it['last_update']} | {dl} | `{it.get('forge','wiki')}` | {it['comments']} |")
-        return "\n".join(lines)
-
     repo_env = os.environ.get("GITHUB_REPOSITORY", "user/qBittorrent-Search-Plugins")
+    now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    readme = f"""# qBittorrent Search Plugins — Complete Collection
+    pub_table = build_table_rows(pub_r, 1)
+    priv_table = build_table_rows(priv_r, len(pub_r) + 1)
 
-[![Auto-Update](https://github.com/{repo_env}/actions/workflows/auto-update.yml/badge.svg)](https://github.com/{repo_env}/actions/workflows/auto-update.yml)
+    # Build README with .format() - NO f-string
+    readme_template = (
+        "# qBittorrent Search Plugins - Complete Collection\n\n"
+        "[![Auto-Update](https://github.com/{repo}/actions/workflows/auto-update.yml/badge.svg)]"
+        "(https://github.com/{repo}/actions/workflows/auto-update.yml)\n\n"
+        "Aggregates **all** unofficial qBittorrent search engine plugins from the\n"
+        "[Official Wiki](https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins),\n"
+        "GitHub, GitLab, Codeberg, and community collections.\n\n"
+        "> **DISCLAIMER**: Unofficial plugins. All credits to original authors. Use at your own risk.\n\n"
+        "## Stats\n\n"
+        "| Metric | Count |\n"
+        "|--------|-------|\n"
+        "| **Total plugins** | {total} |\n"
+        "| Public sites | {pub} |\n"
+        "| Private sites | {priv} |\n\n"
+        "## Download\n\n"
+        "- **[qBittorrent-Search-Plugins-Complete.zip]"
+        "(https://raw.githubusercontent.com/{repo}/main/qBittorrent-Search-Plugins-Complete.zip)**\n"
+        "- `public_sites/` - Public torrent site plugins\n"
+        "- `private_sites/` - Private tracker plugins (may need credentials)\n"
+        "- `engines/` - All plugins combined\n\n"
+        "## Install\n\n"
+        "1. Open **qBittorrent** -> **Search** tab\n"
+        "2. Click **Search plugins...** -> **Install a new one**\n"
+        "3. Select **Local file** and pick `.py` files\n\n"
+        "## Public Sites ({pub})\n\n"
+        "| # | Search Engine | Author | Version | Updated | Download | Source | Comments |\n"
+        "|---|---------------|--------|---------|---------|----------|--------|----------|\n"
+        "{pub_table}\n\n"
+        "## Private Sites ({priv})\n\n"
+        "| # | Search Engine | Author | Version | Updated | Download | Source | Comments |\n"
+        "|---|---------------|--------|---------|---------|----------|--------|----------|\n"
+        "{priv_table}\n\n"
+        "## Testing\n\n"
+        "```\n"
+        "python3 nova2.py <plugin_name> all \"ubuntu\"\n"
+        "```\n\n"
+        "## License\n\n"
+        "All plugins are property of their respective authors. This aggregator is provided as-is.\n\n"
+        "---\n"
+        "*Last updated: {now}*\n"
+    )
 
-Aggregates **all** unofficial qBittorrent search engine plugins from the
-[Official Wiki](https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins),
-GitHub, GitLab, Codeberg, and community collections.
+    readme = readme_template.format(
+        repo=repo_env,
+        total=eng_count,
+        pub=pub_count,
+        priv=priv_count,
+        pub_table=pub_table,
+        priv_table=priv_table,
+        now=now_str,
+    )
 
-> **DISCLAIMER**: Unofficial plugins. All credits to original authors. Use at your own risk.
+    Path("README.md").write_text(readme, encoding="utf-8")
 
-## Stats
+    # plugins.json
+    meta = {
+        "generated": datetime.now(timezone.utc).isoformat(),
+        "stats": {"total": eng_count, "public": pub_count, "private": priv_count},
+        "plugins": store.results,
+        "failures": store.failures,
+    }
+    Path("plugins.json").write_text(
+        json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
-| Metric | Count |
-|--------|-------|
-| **Total plugins** | {eng_count} |
-| Public sites | {pub_count} |
-| Private sites | {priv_count} |
+    # ZIP
+    if ZIP_NAME.exists():
+        ZIP_NAME.unlink()
+    with zipfile.ZipFile(str(ZIP_NAME), "w", zipfile.ZIP_DEFLATED) as zf:
+        for d in [PUBLIC_DIR, PRIVATE_DIR, ENGINES_DIR]:
+            for f in sorted(d.glob("*.py")):
+                zf.write(str(f), str(f.relative_to(Path("."))))
+    zs = ZIP_NAME.stat().st_size
+    print("      ZIP: %.1f KB" % (zs / 1024))
 
-## Download
+    return eng_count, pub_count, priv_count, zs
 
-- **[qBittorrent-Search-Plugins-Complete.zip](https://raw.githubusercontent.com/{repo_env}/main/qBittorrent-Search-Plugins-Complete.zip)**
-- `public_sites/` — Public torrent site plugins
-- `private_sites/` — Private tracker plugins (may need credentials)
-- `engines/` — All plugins combined
+# ═══════════════════════════════════════════════════════════════════════════════
+# MAIN
+# ═══════════════════════════════════════════════════════════════════════════════
+def main():
+    t0 = time.time()
 
-## Install
+    for d in [PUBLIC_DIR, PRIVATE_DIR, ENGINES_DIR]:
+        if d.exists():
+            shutil.rmtree(d)
+        d.mkdir(parents=True, exist_ok=True)
 
-1. Open **qBittorrent** → **Search** tab
-2. Click **Search plugins...** → **Install a new one**
-3. Select **Local file** and pick `.py` files
+    store = Store()
 
-## Public Sites ({pub_count})
+    print("=" * 60)
+    print("  qBittorrent Plugin Auto-Updater")
+    print("  Token: %s" % ("YES" if GITHUB_TOKEN else "NO"))
+    print("  Threads: %d" % THREADS)
+    print("=" * 60)
 
-| # | Search Engine | Author | Version | Updated | Download | Source | Comments |
-|---|---------------|--------|---------|---------|----------|--------|----------|
-{rows(pub_r)}
+    phase_wiki(store)
+    phase_github(store)
+    phase_other(store)
+    total, pub, priv, zs = phase_output(store)
 
-## Private Sites ({priv_count})
+    elapsed = time.time() - t0
+    print("\n" + "=" * 60)
+    print("  DONE in %ds" % int(elapsed))
+    print("  %d plugins | %d public | %d private" % (total, pub, priv))
+    print("  ZIP: %.1f KB" % (zs / 1024))
+    print("=" * 60)
 
-| # | Search Engine | Author | Version | Updated | Download | Source | Comments |
-|---|---------------|--------|---------|---------|----------|--------|----------|
-{rows(priv_r, len(pub_r) + 1)}
-
-## Testing
-
-```bash
-python3 nova2.py <plugin_name> all "ubuntu"
+if __name__ == "__main__":
+    main()
