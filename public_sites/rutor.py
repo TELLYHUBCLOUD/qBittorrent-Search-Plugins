@@ -1,366 +1,107 @@
-# VERSION: 1.21
-# AUTHORS: imDMG [imdmgg@gmail.com]
+# VERSION: 1.00
+# AUTHORS: LightDestory (https://github.com/LightDestory)
 
-# Rutor.org search engine plugin for qBittorrent
 
-import base64
-import json
-import logging
 import re
-import socket
-import sys
-import time
-from collections.abc import Callable
-from concurrent.futures.thread import ThreadPoolExecutor
-from dataclasses import dataclass, field
-from html import unescape
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-from typing import Any
-from urllib.error import HTTPError, URLError
-from urllib.parse import quote, unquote, urlparse
-from urllib.request import ProxyHandler, build_opener
+from helpers import download_file, retrieve_url
+from novaprinter import prettyPrinter
+from time import sleep
+from datetime import datetime
 
 
-try:
-    import socks
-    from novaprinter import prettyPrinter
-except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.absolute()))
-    import socks
-    from novaprinter import prettyPrinter
-
-FILE = Path(__file__)
-BASEDIR = FILE.parent.absolute()
-
-FILENAME = FILE.stem
-FILE_J, FILE_C, FILE_L = [
-    BASEDIR / (FILENAME + fl) for fl in (".json", ".cookie", ".log")
-]
-
-RE_TORRENTS = re.compile(
-    r'(?:gai|tum)"><td>(?P<pub_date>.+?)</td.+?href="(?P<mag_link>magnet:'
-    r'.+?)".+?href="/(?P<desc_link>torrent/(?P<tor_id>\d+).+?)">(?P<name>.+?)'
-    r'</a.+?right">(?P<size>[.\d]+?&nbsp;\w+?)</td.+?<span.+?(?P<seeds>\d+?)'
-    r"</span>.+?<span.+?(?P<leech>\d+?)</span>",
-    re.S,
-)
-RE_RESULTS = re.compile(r"</b>\sРезультатов\sпоиска\s(\d{1,4})\s", re.S)
-PATTERNS = ("%ssearch/%i/%i/000/0/%s",)
-
-PAGES = 100
-
-# base64 encoded image
-ICON = (
-    "AAABAAEAEBAAAAEAGABoAwAAFgAAACgAAAAQAAAAIAAAAAEAGAAAAAAAAAAAAAAAAAAAAAAAA"
-    "AAAAAAAAAAAAc4AAMwHNdcQ4vsN3fYS2fUY3fUe3fMj4fkk4fco4PYo5fgk7f5gp8ZuZZtsa5"
-    "9FIXZEGm4kh74PyeoLGp8NHK4PHrwQHr8VIb8XJL4bJrUcKJ8optEdtPMBGcQAIcXeZAPVYwd"
-    "A3MQFf8EDAJoFAMEEAM0AANIAAM4AAM0EAL8CAI8bXaEV1/cBHMsGDNTVWAOodTIU5/ELuOAJ"
-    "M6sEALsIAMoEALkCBbgFALUGAKshgMcvpNUTzOoFQNIFANqxQgBpkmgKue8IT8UUy+8HO7MHP"
-    "b8Gt+IG3vQHm9YKi84X4foKI7kRl+AWiMwSDYyxjXZAy84HdNYEALcPguYM+vsL6PgGl/wBWN"
-    "4K1/EF//8LbdQEALgEVc41zMp0YC+t0N0XxPcCIbwGAMkGGOUGUvQKPPUEANsIU9ENvvAJw/U"
-    "LnekGAr8FJcIUzfRycEZwzuMFnuYEArQCAdYDANYHAMQFAMwGPcwM2vsHU/QKPegLwvYEEckF"
-    "BrsOt/Y+kYky5/YGgNAGAKkHAc4JMssSoN0GTb0L2/gHYPkCAPkFKOMP0fIHGc0EAKwLgNAq3"
-    "OMd/P0Al9ACBqQCAMALbOMG+/8E8v0KjugBAO4CAPAGQ9MNyPYEB8QBAKQCe8cW9//T+/09+/"
-    "8Aqd8GIbIFAMAKbuUG6f8Ht/IFFeEAAMYPqeYMhOEGB6oCgtUY5fuG0tv//vzs+PlQ9fwAw+4"
-    "CLLoIALgJR+EFU+wEFcweZNAkquMFMrkArOor4fSrxsvWx8n5/fv5+fn3+/iC8fsLzPIAUscE"
-    "ALMDAL8QPtAsetUFWsUHue1r7/vc6evOzMfFx8n5/fvy+fj89vb/9/e+9/o44/oNi9kBD54CF"
-    "KQJg9Qu4vu09vr/+ff89fTIz8rFx8n5/fvy+fj59vb49vf/+fbh+vtk6vw1rN03suFn6vnl/f"
-    "3/+fn49vj18/TIz8rFx8n5/fvy+fj59vb39vf39/f//P3w+fme6/ak8Prv+fj//f369/r39vj"
-    "18/TIz8rFx8ngBwAA4AMAAMADAADAAwAAwAMAAMABAACAAQAAgAEAAAAAAAAAAAAAgAEAAMAD"
-    "AADgBwAA+B8AAPw/AAD+fwAA"
-)
-
-# setup logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-_fh = logging.FileHandler(FILE_L, mode="w")
-_fh.setFormatter(logging.Formatter(
-    fmt="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-    datefmt="%m-%d %H:%M",
-))
-logger.addHandler(_fh)
-logger.propagate = False
+RU_MONTHS = {
+    "янв": 1,
+    "фев": 2,
+    "мар": 3,
+    "апр": 4,
+    "май": 5,
+    "июн": 6,
+    "июл": 7,
+    "авг": 8,
+    "сен": 9,
+    "окт": 10,
+    "ноя": 11,
+    "дек": 12,
+}
 
 
-def rng(t: int) -> range:
-    return range(1, -(-t // PAGES))
-
-
-def date_normalize(date_str: str) -> int:
-    # replace names month
-    months = (
-        "Янв",
-        "Фев",
-        "Мар",
-        "Апр",
-        "Май",
-        "Июн",
-        "Июл",
-        "Авг",
-        "Сен",
-        "Окт",
-        "Ноя",
-        "Дек",
-    )
-    date_str = [
-        date_str.replace(m, f"{i:02d}")
-        for i, m in enumerate(months, 1)
-        if m in date_str
-    ][0]
-    return int(time.mktime(time.strptime(date_str, "%d %m %y")))
-
-
-class EngineError(Exception): ...
-
-
-@dataclass
-class Config:
-    # username: str = "USERNAME"
-    # password: str = "PASSWORD"
-    magnet: bool = False
-    proxy: bool = False
-    # dynamic_proxy: bool = True
-    proxies: dict[str, str] = field(
-        default_factory=lambda: {"http": "", "https": ""}
-    )
-    ua: str = (
-        "Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0 "
-    )
-
-    def __post_init__(self) -> None:
-        try:
-            if not self._validate_json(json.loads(FILE_J.read_text())):
-                raise ValueError("Incorrect json scheme.")
-        except Exception as e:
-            logger.error(e)
-            FILE_J.write_text(self.to_str())
-            (BASEDIR / f"{FILENAME}.ico").write_bytes(base64.b64decode(ICON))
-
-    def to_str(self) -> str:
-        return json.dumps(self.to_dict(), indent=4, sort_keys=False)
-
-    def to_dict(self) -> dict[str, Any]:
-        return {self._to_camel(k): v for k, v in self.__dict__.items()}
-
-    def _validate_json(
-        self, obj: dict[str, str | bool | dict[str, str]]
-    ) -> bool:
-        is_valid = True
-        for k, v in self.__dict__.items():
-            _val = obj.get(self._to_camel(k))
-            if _val is None or not isinstance(_val, type(v)):
-                is_valid = False
-                continue
-            if isinstance(_val, dict):
-                for dk, dv in v.items():
-                    if not isinstance(_val.get(dk), type(dv)):
-                        _val[dk] = dv
-                        is_valid = False
-            setattr(self, k, _val)
-        return is_valid
-
-    @staticmethod
-    def _to_camel(s: str) -> str:
-        return "".join(
-            x.title() if i else x for i, x in enumerate(s.split("_"))
-        )
-
-
-config = Config()
-
-
-class Rutor:
+class rutor(object):
+    url = "https://rutor.is/"
     name = "Rutor"
-    url = "https://rutor.info/"
-    url_dl = url.replace("//", "//d.") + "download/"
     supported_categories = {
-        "all": 0,
-        "movies": 1,
-        "tv": 6,
-        "music": 2,
-        "games": 8,
-        "anime": 10,
-        "software": 9,
-        "pictures": 3,
-        "books": 11,
+        "all": "0",
+        "music": "2",
+        "games": "8",
+        "anime": "10",
+        "software": "9",
+        "books": "11",
     }
 
-    # establish connection
-    session = build_opener()
+    class HTMLParser:
+        def __init__(self, url):
+            self.url = url
+            self.noTorrents = False
 
-    def search(self, what: str, cat: str = "all") -> None:
-        self._catch_errors(self._search, what, cat)
-
-    def download_torrent(self, url: str) -> None:
-        self._catch_errors(self._download_torrent, url)
-
-    def searching(self, query: str, first: bool = False) -> int:
-        page, torrents_found = self._request(query).decode(), -1
-        if first:
-            # firstly, we check if there is a result
-            match = RE_RESULTS.search(page)
-            if match is None:
-                logger.debug(f"Unexpected page content:\n {page}")
-                raise EngineError("Unexpected page content")
-            torrents_found = int(match[1])
-            if torrents_found <= 0:
-                return 0
-        self.draw(page)
-
-        return torrents_found
-
-    def draw(self, html: str) -> None:
-        for tor in RE_TORRENTS.finditer(html):
-            prettyPrinter(
-                {
-                    "link": (
-                        tor.group("mag_link")
-                        if config.magnet
-                        else self.url_dl + tor.group("tor_id")
-                    ),
-                    "name": unescape(tor.group("name")),
-                    "size": tor.group("size").replace("&nbsp;", " "),
-                    "seeds": int(tor.group("seeds")),
-                    "leech": int(tor.group("leech")),
+        def feed(self, html):
+            self.noTorrents = False
+            torrents = self.__findTorrents(html)
+            if len(torrents) == 0:
+                self.noTorrents = True
+                return
+            for torrent in range(len(torrents)):
+                data = {
+                    "link": torrents[torrent][0],
+                    "name": torrents[torrent][1],
+                    "size": torrents[torrent][2],
+                    "seeds": torrents[torrent][3],
+                    "leech": torrents[torrent][4],
                     "engine_url": self.url,
-                    "desc_link": self.url + tor.group("desc_link"),
-                    "pub_date": date_normalize(
-                        unescape(tor.group("pub_date"))
-                    ),
+                    "desc_link": torrents[torrent][5],
+                    "pub_date": torrents[torrent][6],
                 }
-            )
+                prettyPrinter(data)
 
-    def _catch_errors(self, handler: Callable[..., None], *args: str) -> None:
-        try:
-            self._init()
-            handler(*args)
-        except EngineError as ex:
-            logger.exception(ex)
-            self.pretty_error(args[0], str(ex))
-        except Exception as ex:
-            self.pretty_error(args[0], "Unexpected error, please check logs")
-            logger.exception(ex)
-
-    def _init(self) -> None:
-        # add proxy handler if needed
-        if config.proxy:
-            if not any(config.proxies.values()):
-                raise EngineError("Proxy enabled, but not set!")
-            # socks5 support
-            for proxy_str in config.proxies.values():
-                if not proxy_str.lower().startswith("socks"):
-                    continue
-                url = urlparse(proxy_str)
-                socks.set_default_proxy(  # type: ignore[attr-defined]
-                    socks.PROXY_TYPE_SOCKS5,
-                    url.hostname,
-                    url.port,
-                    True,
-                    url.username,
-                    url.password,
+        def __findTorrents(self, html):
+            torrents = []
+            trs = re.findall(r"<tr class=\"(?:gai|tum)\">.+?</tr>", html)
+            for tr in trs:
+                url_titles = re.search(
+                    r"<td>(.+?)</td>.+?(magnet.+?)\">.+?(/torrent.+?)\">\s*(.+?)\s?</a>.+?([0-9\,\.]+ (?:TB|GB|MB|KB)).+?([0-9,.]+)</span>.+?([0-9\,\.])</span>",
+                    tr,
                 )
-                socket.socket = socks.socksocket
+                if url_titles:
+                    # Get Unix timestamp if possible using datetime.timestamp() function, otherwise set it to -1
+                    day, mon, year = url_titles.group(1).strip().split()
+                    mon = RU_MONTHS.get(mon.lower(), 0)
+                    timestamp = int(
+                        datetime.strptime(f"{day}/{mon}/{year}", "%d/%m/%y").timestamp()
+                    )
+                    torrent_data = [
+                        url_titles.group(2),
+                        url_titles.group(4),
+                        url_titles.group(5),
+                        url_titles.group(6),
+                        url_titles.group(7),
+                        "{0}{1}".format(self.url[:-1], url_titles.group(3)),
+                        timestamp,
+                    ]
+                    torrents.append(torrent_data)
+            return torrents
+
+    def download_torrent(self, info):
+        print(info + " " + info)
+
+    def search(self, what, cat="all"):
+        parser = self.HTMLParser(self.url)
+        current_page = 0
+        while True:
+            url = "{0}search/{1}/{2}/000/0/{3}".format(
+                self.url, current_page, self.supported_categories[cat], what
+            )
+            html = re.sub(r"\s+", " ", retrieve_url(url)).strip()
+            parser.feed(html)
+            if parser.noTorrents:
                 break
-            else:
-                self.session.add_handler(ProxyHandler(config.proxies))
-            logger.debug("Proxy is set!")
-
-        # change user-agent
-        self.session.addheaders = [("User-Agent", config.ua)]
-
-    def _search(self, what: str, cat: str = "all") -> None:
-        query = PATTERNS[0] % (
-            self.url,
-            0,
-            self.supported_categories[cat],
-            quote(unquote(what)),
-        )
-
-        # make first request (maybe it enough)
-        t0, total = time.time(), self.searching(query, True)
-        # do async requests
-        if total > PAGES:
-            query = query.replace("h/0", "h/{}")
-            qrs = [query.format(x) for x in rng(total)]
-            with ThreadPoolExecutor(len(qrs)) as executor:
-                executor.map(self.searching, qrs, timeout=30)
-
-        logger.debug(f"--- {time.time() - t0} seconds ---")
-        logger.info(f"Found torrents: {total}")
-
-    def _download_torrent(self, url: str) -> None:
-        # Download url
-        response = self._request(url)
-
-        # Create a torrent file
-        with NamedTemporaryFile(suffix=".torrent", delete=False) as fd:
-            fd.write(response)
-
-            # return file path
-            logger.debug(fd.name + " " + url)
-            print(fd.name + " " + url)
-
-    def _request(
-        self,
-        url: str,
-        data: bytes | None = None,
-        repeated: bool = False,
-    ) -> bytes:
-        try:
-            with self.session.open(url, data, 15) as r:
-                # check if the response is from the correct domain
-                if r.geturl().startswith((self.url, self.url_dl)):
-                    return r.read()
-                raise EngineError(f"{url} is blocked. Try another proxy.")
-
-        except (URLError, HTTPError, TimeoutError) as err:
-            reason = getattr(err, "reason", None)
-            if isinstance(err, HTTPError):
-                raise EngineError(
-                    f"Request to {url} failed with status: {err.code}"
-                ) from err
-
-            if isinstance(err, TimeoutError) or isinstance(
-                reason, TimeoutError
-            ):
-                if not repeated:
-                    logger.debug("Request timed out. Repeating...")
-                    return self._request(url, data, True)
-
-                raise EngineError(
-                    f"{url} is not responding (timed out)."
-                ) from err
-
-            if isinstance(reason, str) and reason == "no host given":
-                raise EngineError("Proxy is bad, try another!") from err
-
-            raise EngineError(
-                f"{url} is not response! Maybe it is blocked."
-            ) from err
-
-    def pretty_error(self, what: str, error: str) -> None:
-        prettyPrinter(
-            {
-                "engine_url": self.url,
-                "desc_link": f"file://{FILE_L}",
-                "name": f"[{unquote(what)}][Error]: {error}",
-                "link": self.url + "error",
-                "size": "1 TB",  # lol
-                "seeds": 100,
-                "leech": 100,
-                "pub_date": int(time.time()),
-            }
-        )
-
-
-# pep8
-rutor = Rutor
-
-if __name__ == "__main__":
-    if BASEDIR.parent.joinpath("settings_gui.py").exists():
-        from settings_gui import EngineSettingsGUI
-
-        EngineSettingsGUI(str(BASEDIR / FILENAME))
-    engine = rutor()
-    engine.search("doctor")
+            current_page += 1
+            # Always set a sleep(3) after each request to the search engine website, otherwise you might get banned by the search engine.
+            sleep(3)
