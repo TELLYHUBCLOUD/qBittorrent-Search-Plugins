@@ -24,8 +24,30 @@ SKIP_FILES = {
 }
 
 # Clean slate
-if OUTPUT_DIR.exists():
-    shutil.rmtree(OUTPUT_DIR)
+def safe_rmtree(path):
+    import stat
+    path = Path(path)
+    if not path.exists():
+        return
+    def remove_readonly(func, p, excinfo):
+        try:
+            os.chmod(p, stat.S_IWRITE)
+            func(p)
+        except Exception:
+            pass
+    for i in range(5):
+        try:
+            shutil.rmtree(path, onerror=remove_readonly)
+            if not path.exists():
+                return
+        except Exception:
+            time.sleep(0.1)
+    try:
+        shutil.rmtree(path, onerror=remove_readonly)
+    except Exception as e:
+        print(f"Warning: Could not remove directory {path}: {e}")
+
+safe_rmtree(OUTPUT_DIR)
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 for d in [PUBLIC_DIR, PRIVATE_DIR, ENGINES_DIR]:
     d.mkdir(exist_ok=True)

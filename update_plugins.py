@@ -29,6 +29,7 @@ ENGINES_DIR = Path("engines")
 ZIP_NAME    = Path("qBittorrent-Search-Plugins-Complete.zip")
 
 GITHUB_API   = "https://api.github.com"
+GITHUB_API_DISABLED = False
 GITLAB_API   = "https://gitlab.com/api/v4"
 CODEBERG_API = "https://codeberg.org/api/v1"
 WIKI_URL     = "https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins"
@@ -178,12 +179,23 @@ def is_private_plugin(content):
 # ═══════════════════════════════════════════════════════════════════════════════
 # HTTP
 # ═══════════════════════════════════════════════════════════════════════════════
-def http_get(url, timeout=20, retries=4, accept_html=False):
+def http_get(url, headers=None, timeout=20, retries=4, accept_html=False):
+    global GITHUB_API_DISABLED
+    if "api.github.com" in url and GITHUB_API_DISABLED:
+        return None
+
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers=HEADERS)
+            req_headers = dict(HEADERS)
+            if headers:
+                req_headers.update(headers)
+            req = urllib.request.Request(url, headers=req_headers)
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 rem = resp.headers.get("X-RateLimit-Remaining", "999")
+                if "api.github.com" in url and rem == "0":
+                    print("        GitHub rate limit reached (X-RateLimit-Remaining: 0). Disabling further GitHub API calls.")
+                    GITHUB_API_DISABLED = True
+                    return None
                 rst = resp.headers.get("X-RateLimit-Reset")
                 if rem == "0" and rst:
                     w = max(0, int(rst) - int(time.time())) + 5
@@ -197,6 +209,10 @@ def http_get(url, timeout=20, retries=4, accept_html=False):
                     return None
                 return data
         except urllib.error.HTTPError as e:
+            if "api.github.com" in url and (e.code == 403 or e.code == 429):
+                print("        GitHub rate limit hit (HTTP %d). Disabling further GitHub API calls." % e.code)
+                GITHUB_API_DISABLED = True
+                return None
             if e.code == 429:
                 time.sleep(2 ** (attempt + 3))
             elif e.code in (404, 451):
@@ -233,6 +249,29 @@ def api_get(url, token=None, timeout=20):
 # ═══════════════════════════════════════════════════════════════════════════════
 # HELPERS
 # ═══════════════════════════════════════════════════════════════════════════════
+def safe_rmtree(path):
+    import stat
+    path = Path(path)
+    if not path.exists():
+        return
+    def remove_readonly(func, p, excinfo):
+        try:
+            os.chmod(p, stat.S_IWRITE)
+            func(p)
+        except Exception:
+            pass
+    for i in range(5):
+        try:
+            shutil.rmtree(path, onerror=remove_readonly)
+            if not path.exists():
+                return
+        except Exception:
+            time.sleep(0.1)
+    try:
+        shutil.rmtree(path, onerror=remove_readonly)
+    except Exception as e:
+        print("Warning: Could not remove directory %s: %s" % (path, e))
+
 def chash(data):
     return hashlib.sha256(data).hexdigest()[:20]
 
@@ -408,6 +447,9 @@ def dl(url, store, filename="", engine_name="", engine_site="",
 # GITHUB
 # ═══════════════════════════════════════════════════════════════════════════════
 def gh_api(path, params=None):
+    global GITHUB_API_DISABLED
+    if GITHUB_API_DISABLED:
+        return None
     url = GITHUB_API + path
     if params:
         url += "?" + urllib.parse.urlencode(params)
@@ -829,8 +871,7 @@ def main():
     t0 = time.time()
 
     for d in [PUBLIC_DIR, PRIVATE_DIR, ENGINES_DIR]:
-        if d.exists():
-            shutil.rmtree(d)
+        safe_rmtree(d)
         d.mkdir(parents=True, exist_ok=True)
 
     store = Store()
