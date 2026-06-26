@@ -1,121 +1,111 @@
-# VERSION: 1.2
-# AUTHORS: tolotp
+#VERSION: 0.1
+# AUTHORS: nindogo
+# LICENSING INFORMATION
 
-import urllib.parse
+import re
+from datetime import timedelta, datetime
 from html.parser import HTMLParser
-from helpers import retrieve_url
+from helpers import download_file, retrieve_url
 from novaprinter import prettyPrinter
+# some other imports if necessary
 
-class UindexParser(HTMLParser):
-    def __init__(self, url):
-        super().__init__()
-        self.url = url
-        self.current_res = {}
-        self.current_item = None
-        self.in_row = False
-        self.td_counter = -1
-
-    def handle_starttag(self, tag, attrs):
-        attr = dict(attrs)
-
-        if tag == "tr":
-            self.in_row = True
-            self.td_counter = -1
-            self.current_res = {
-                "engine_url": self.url,
-                "seeds": "-1", 
-                "leech": "-1",
-                "size": "0 MB"
-            }
-
-        if not self.in_row:
-            return
-
-        if tag == "td":
-            self.td_counter += 1
-
-        # Columna 1: Enlace Magnet y Nombre
-        if self.td_counter == 1:
-            if tag == "a" and "href" in attr:
-                link = attr["href"]
-                if link.startswith("magnet:"):
-                    self.current_res["link"] = link
-                    self.current_item = "name"
-                elif "/details.php" in link or "/torrent/" in link:
-                    self.current_res["desc_link"] = self.url + link if link.startswith("/") else link
-                    self.current_item = "name"
-
-        # Columna 2: Tamaño
-        elif self.td_counter == 2:
-            if tag == "td":
-                self.current_item = "size"
-
-        # Columna 4: Seeds
-        elif self.td_counter == 4:
-            if tag == "span" and attr.get("class") == "sr-seed":
-                self.current_item = "seeds"
-            elif tag == "td":  
-                self.current_item = "seeds"
-
-        # Columna 5: Leechers
-        elif self.td_counter == 5:
-            if tag == "span" and attr.get("class") == "sr-leech":
-                self.current_item = "leech"
-            elif tag == "td":  
-                self.current_item = "leech"
-
-    def handle_data(self, data):
-        if self.in_row and self.current_item:
-            data = data.strip()
-            if not data:
-                return
-
-            if self.current_item == "name":
-                self.current_res["name"] = self.current_res.get("name", "") + data
-            elif self.current_item == "size":
-                self.current_res["size"] = data
-                self.current_item = None
-            elif self.current_item == "seeds":
-                self.current_res["seeds"] = data.replace(",", "").replace(".", "")
-                self.current_item = None
-            elif self.current_item == "leech":
-                self.current_res["leech"] = data.replace(",", "").replace(".", "")
-                self.current_item = None
-
-    def handle_endtag(self, tag):
-        if tag == "tr" and self.in_row:
-            self.in_row = False
-            if "link" in self.current_res and "name" in self.current_res:
-                prettyPrinter(self.current_res)
-            self.current_res = {}
-        elif tag == "a" and self.current_item == "name":
-            self.current_item = None
-
+def de_pub_date(date_string):
+	this_date = date_string.split()
+	if len(this_date) == 3:
+		t1 = timedelta()
+		if this_date[1] == "minutes":
+			t1 = timedelta(minutes=float(this_date[0]))
+		if this_date[1] == "hours":
+			t1 = timedelta(hours=float(this_date[0]))
+		if this_date[1] == "days":
+			t1 = timedelta(days=float(this_date[0]))
+		if this_date[1] == "weeks":
+			t1 = timedelta(weeks=float(this_date[0]))
+		if this_date[1] == "months":
+			this_date[1] = "weeks"
+			this_date[0] = str(30 * float(this_date[0]))
+			return de_pub_date(' '.join(this_date))
+		if this_date[1] == "years":
+			this_date[1] = "days"
+			this_date[0] = str(365 * float(this_date[0]))
+			return de_pub_date(' '.join(this_date))
+		
+		return int((datetime.now() - t1).timestamp())
 
 class uindex(object):
-    url = "https://uindex.org"
-    name = "Uindex"
-    
+    """
+    `url`, `name`, `supported_categories` should be static variables of the engine_name class,
+     otherwise qbt won't install the plugin.
+
+    `url`: The URL of the search engine.
+    `name`: The name of the search engine, spaces and special characters are allowed here.
+    `supported_categories`: What categories are supported by the search engine and their corresponding id,
+    possible categories are ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv').
+    """
+
+    url = 'https://uindex.org'
+    name = 'UIndex'
     supported_categories = {
-        "all": "0",
-        "movies": "1",
-        "tv": "2",
-        "games": "3",
-        "music": "4",
-        "software": "5",
-        "anime": "7"
+        'all': '',
+        'anime': '&c=7',
+        'games': '&c=3',
+        'movies': '&c=1',
+        'music': '&c=4',
+        'software': '&c=5',
+        'tv': '&c=2'
     }
 
-    def search(self, what: str, cat="all"):
-        what = urllib.parse.unquote(what)
-        query = what.replace(" ", "+")
-        categ = self.supported_categories.get(cat, "0")
-        search_url = f"{self.url}/search.php?search={query}&c={categ}"
+    def __init__(self):
+        """
+        Some initialization
+        """
 
-        try:
-            html = retrieve_url(search_url)
-            parser = UindexParser(self.url)
-            parser.feed(html)
-            parser.close()
-        except Exception:
-            pass
+    def download_torrent(self, info):
+        """
+        Providing this function is optional.
+        It can however be interesting to provide your own torrent download
+        implementation in case the search engine in question does not allow
+        traditional downloads (for example, cookie-based download).
+        """
+        print(download_file(info))
+
+    # DO NOT CHANGE the name and parameters of this function
+    # This function will be the one called by nova2.py
+    def search(self, what, cat='all'):
+        """
+        Here you can do what you want to get the result from the search engine website.
+        Everytime you parse a result line, store it in a dictionary
+        and call the prettyPrint(your_dict) function.
+
+        `what` is a string with the search tokens, already escaped (e.g. "Ubuntu+Linux")
+        `cat` is the name of a search category in ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv')
+        """
+        
+        find_string = r"""<tr>.*?<a href=["'](?P<link>magnet.*?)["'].*?""" \
+                    + r"""<a href=["'](?P<desc_link>[^"']*?)["']""" \
+                    + r""">(?P<name>[^<]*?)<.*?""" \
+                    + r"""class=["']sub["'][^>]*>(?P<pub_date>[^<]*)<.*?""" \
+                    + r"""style=['"]white-space:nowrap[^>]*?>(?P<size>[^<]*?)<.*?""" \
+                    + r"""class="g".*?>(?P<seeds>[^<]*?)<.*?""" \
+                    + r"""class="b"*?>(?P<leech>[^<]*?)<.*?"""
+        
+        find_torrent = re.compile(find_string, flags=(re.M|re.S))
+        
+        query = self.url + "/search.php?search=" + what.replace("%20", "+") + \
+				self.supported_categories[cat] + '&sort=seeders&order=DESC'
+        page = retrieve_url(query)
+        matches = re.finditer(find_torrent, page)
+        for match in matches:
+            result_dict = {}
+            result_dict = match.groupdict()
+            result_dict["desc_link"] = self.url + result_dict["desc_link"] 
+            result_dict["size"] = result_dict["size"].rstrip()
+            result_dict["pub_date"] = result_dict["pub_date"].rstrip()
+            result_dict["pub_date"] = de_pub_date(result_dict['pub_date'])
+            result_dict["engine_url"] = self.url
+            prettyPrinter(result_dict)
+
+
+if __name__ == "__main__":
+    engine = uindex()
+    engine.search('Law')
