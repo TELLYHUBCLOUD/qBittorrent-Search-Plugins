@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """RuTracker search engine plugin for qBittorrent."""
-# VERSION: 2.20
+# VERSION: 2.21
 # AUTHORS: nbusseneau (https://github.com/nbusseneau/qBittorrent-RuTracker-plugin)
 
 
@@ -14,7 +14,6 @@ class Config(object):
     mirrors = [
         "https://rutracker.org",
         "https://rutracker.net",
-        "https://rutracker.nl",
     ]
 
 
