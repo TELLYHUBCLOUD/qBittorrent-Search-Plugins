@@ -2,7 +2,6 @@
 """
 qBittorrent Search Plugins Auto-Updater
 Designed for GitHub Actions workflow — zero config, just run.
-Enhanced edition: expanded repo list, broader discovery queries.
 """
 
 import os
@@ -35,7 +34,7 @@ GITLAB_API   = "https://gitlab.com/api/v4"
 CODEBERG_API = "https://codeberg.org/api/v1"
 WIKI_URL     = "https://github.com/qbittorrent/search-plugins/wiki/Unofficial-search-plugins"
 
-THREADS      = 10
+THREADS      = 8
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITLAB_TOKEN = os.environ.get("GITLAB_TOKEN", "")
 
@@ -118,8 +117,6 @@ KNOWN_REPOS = [
     "HiItsD/jackett-search-plugin",
     "noxs1de/prowlarr-qbittorrent-plugin",
     "alessandro-ooo/one-click-qbittorrent-searchplugins",
-    # === NEW REPOS (expanded discovery pass) ===
-    # Note: dead/missing repos are skipped automatically (API 404 -> no files).
     "DiegoRBaquero/qBittorrent-Search-Plugins",
     "mandulaj/PirateBay-qBittorrent-plugin",
     "pikdum/qbittorrent-search-plugins",
@@ -138,7 +135,7 @@ KNOWN_REPOS = [
     "freefq/qbittorrent-search-plugins",
     "TheGoblinKing/qBittorrent-Search-Plugins",
     "tengu-go/qbittorrent-search-plugins",
-]
+ ]
 
 COLLECTION_REPOS = [
     "https://github.com/alessandro-ooo/one-click-qbittorrent-searchplugins",
@@ -146,9 +143,8 @@ COLLECTION_REPOS = [
     "https://github.com/darktohka/qbittorrent-plugins",
     "https://github.com/LightDestory/qBittorrent-Search-Plugins",
     "https://github.com/BurningMop/qBittorrent-Search-Plugins",
-    "https://github.com/hdvinnie/qBittorrent-Search-Plugins",
+    "https://github.com/hdvinne/qBittorrent-Search-Plugins",
     "https://github.com/freecoder76/qBittorrent-search-plugins",
-    "https://github.com/scadams/qbittorrent-search-plugins",
 ]
 
 GITHUB_REPO_QUERIES = [
@@ -157,25 +153,17 @@ GITHUB_REPO_QUERIES = [
     "qbittorrent search plugin torrent",
     "qbittorrent-plugin python torrent",
     "qbt search plugin python",
-    "qbittorrent searchplugin python",
-    "qbittorrent-search-plugin python",
-    "qbt search engine python",
-    "qbittorrent searchengine python",
 ]
 
 GITHUB_TOPIC_QUERIES = [
     "qbittorrent-search-plugin", "qbittorrent-plugin",
     "qbittorrent-search", "qbittorrent",
-    "search-plugin", "torrent-search",
 ]
 
 GITHUB_CODE_QUERIES = [
     "class SearchEngine filename:.py qbittorrent",
     "noSearchResult qbittorrent filename:.py",
     "supported_categories qbittorrent filename:.py",
-    "def search(self, what, cat='all') qbittorrent",
-    "download_torrent qbittorrent filename:.py",
-    "prettyUrl qbittorrent filename:.py",
 ]
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -184,7 +172,7 @@ GITHUB_CODE_QUERIES = [
 PLUGIN_SIGS = [
     b"noSearchResult", b"class SearchEngine", b"prettyPrinting",
     b"supported_categories", b"url_dl", b"CORE_SITE",
-    b"magnetdl", b"qbittorrentapi", b"def search(self, what,",
+    b"magnetdl", b"qbittorrentapi",
 ]
 BAD_SIGS = [b"<!DOCTYPE", b"<html", b"404: Not Found", b"Not Found"]
 
@@ -538,10 +526,7 @@ def gh_search_code(query, max_pages=1):
 
 def gh_list_files(full_name):
     files = []
-    try:
-        owner, repo = full_name.split("/", 1)
-    except ValueError:
-        return files
+    owner, repo = full_name.split("/", 1)
     for sub in ["", "engines", "plugins", "search_engines", "src"]:
         data = gh_api("/repos/" + owner + "/" + repo + "/contents/" + sub)
         if not data or not isinstance(data, list):
@@ -590,10 +575,7 @@ def gl_list_files(pid):
 # ═══════════════════════════════════════════════════════════════════════════════
 def cb_list_files(full_name):
     files = []
-    try:
-        owner, repo = full_name.split("/", 1)
-    except ValueError:
-        return files
+    owner, repo = full_name.split("/", 1)
     for sub in ["", "engines", "plugins"]:
         url = CODEBERG_API + "/repos/" + owner + "/" + repo + "/contents/" + sub
         data = api_get(url)
@@ -913,10 +895,9 @@ def main():
     store = Store()
 
     print("=" * 60)
-    print("  qBittorrent Plugin Auto-Updater (Enhanced)")
+    print("  qBittorrent Plugin Auto-Updater")
     print("  Token: %s" % ("YES" if GITHUB_TOKEN else "NO"))
     print("  Threads: %d" % THREADS)
-    print("  Known repos: %d" % len(KNOWN_REPOS))
     print("=" * 60)
 
     phase_wiki(store)
