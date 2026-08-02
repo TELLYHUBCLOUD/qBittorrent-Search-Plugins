@@ -1,4 +1,4 @@
-# VERSION: 2.26
+# VERSION: 2.27
 # AUTHORS: imDMG [imdmgg@gmail.com]
 
 # NoNaMe-Club search engine plugin for qBittorrent
@@ -52,7 +52,7 @@ RE_RESULTS = re.compile(
 # RE_CODE = re.compile(r'name="code"\svalue="(.+?)"', re.S)
 PATTERNS = ("%stracker.php?nm=%s&%s", "%s&start=%s")
 
-PAGES = 50
+ITEMS_PER_PAGE = 50
 
 # base64 encoded image
 ICON = (
@@ -84,16 +84,22 @@ ICON = (
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 _fh = logging.FileHandler(FILE_L, mode="w")
-_fh.setFormatter(logging.Formatter(
-    fmt="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-    datefmt="%m-%d %H:%M",
-))
+_fh.setFormatter(
+    logging.Formatter(
+        fmt="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+        datefmt="%m-%d %H:%M",
+    )
+)
 logger.addHandler(_fh)
 logger.propagate = False
 
 
 def rng(t: int) -> range:
-    return range(PAGES, -(-t // PAGES) * PAGES, PAGES)
+    return range(
+        ITEMS_PER_PAGE,
+        -(-t // ITEMS_PER_PAGE) * ITEMS_PER_PAGE,
+        ITEMS_PER_PAGE,
+    )
 
 
 class EngineError(Exception): ...
@@ -245,8 +251,8 @@ class NNMClub:
                     "link": self.url + tor.group("link"),
                     "name": unescape(tor.group("name")),
                     "size": tor.group("size"),
-                    "seeds": int(tor.group("seeds")),
-                    "leech": int(tor.group("leech")),
+                    "seeds": max(0, int(tor.group("seeds"))),
+                    "leech": max(0, int(tor.group("leech"))),
                     "engine_url": self.url,
                     "desc_link": self.url + tor.group("desc_link"),
                     "pub_date": int(tor.group("pub_date")),
@@ -315,10 +321,11 @@ class NNMClub:
         t0, total = time.time(), self.searching(query, True)
 
         # do async requests
-        if total > PAGES:
+        if total > ITEMS_PER_PAGE:
             qrs = [PATTERNS[1] % (query, x) for x in rng(total)]
             with ThreadPoolExecutor(len(qrs)) as executor:
-                executor.map(self.searching, qrs, timeout=30)
+                for q in qrs:
+                    executor.submit(self.searching, q)
 
         logger.debug(f"--- {time.time() - t0} seconds ---")
         logger.info(f"Found torrents: {total}")

@@ -1,4 +1,4 @@
-# VERSION: 1.21
+# VERSION: 1.22
 # AUTHORS: imDMG [imdmgg@gmail.com]
 
 # Rutor.org search engine plugin for qBittorrent
@@ -48,7 +48,7 @@ RE_TORRENTS = re.compile(
 RE_RESULTS = re.compile(r"</b>\sРезультатов\sпоиска\s(\d{1,4})\s", re.S)
 PATTERNS = ("%ssearch/%i/%i/000/0/%s",)
 
-PAGES = 100
+ITEMS_PER_PAGE = 100
 
 # base64 encoded image
 ICON = (
@@ -75,16 +75,18 @@ ICON = (
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 _fh = logging.FileHandler(FILE_L, mode="w")
-_fh.setFormatter(logging.Formatter(
-    fmt="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-    datefmt="%m-%d %H:%M",
-))
+_fh.setFormatter(
+    logging.Formatter(
+        fmt="%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+        datefmt="%m-%d %H:%M",
+    )
+)
 logger.addHandler(_fh)
 logger.propagate = False
 
 
 def rng(t: int) -> range:
-    return range(1, -(-t // PAGES))
+    return range(1, -(-t // ITEMS_PER_PAGE))
 
 
 def date_normalize(date_str: str) -> int:
@@ -221,8 +223,8 @@ class Rutor:
                     ),
                     "name": unescape(tor.group("name")),
                     "size": tor.group("size").replace("&nbsp;", " "),
-                    "seeds": int(tor.group("seeds")),
-                    "leech": int(tor.group("leech")),
+                    "seeds": max(0, int(tor.group("seeds"))),
+                    "leech": max(0, int(tor.group("leech"))),
                     "engine_url": self.url,
                     "desc_link": self.url + tor.group("desc_link"),
                     "pub_date": date_normalize(
@@ -280,11 +282,12 @@ class Rutor:
         # make first request (maybe it enough)
         t0, total = time.time(), self.searching(query, True)
         # do async requests
-        if total > PAGES:
+        if total > ITEMS_PER_PAGE:
             query = query.replace("h/0", "h/{}")
             qrs = [query.format(x) for x in rng(total)]
             with ThreadPoolExecutor(len(qrs)) as executor:
-                executor.map(self.searching, qrs, timeout=30)
+                for q in qrs:
+                    executor.submit(self.searching, q)
 
         logger.debug(f"--- {time.time() - t0} seconds ---")
         logger.info(f"Found torrents: {total}")
