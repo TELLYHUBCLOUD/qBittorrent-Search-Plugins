@@ -1,124 +1,141 @@
-# VERSION: 2.2
-# AUTHORS: Scare! (https://Scare.ca/dl/qBittorrent/)
-
-# modified from v1.0 by LightDestory (https://github.com/LightDestory)
+# VERSION: 1.2
+# AUTHORS: LightDestory (https://github.com/LightDestory)
+# CONTRIBUTORS: YoWhatupGee (https://github.com/YoWhatupGee)
 
 import re
-import urllib.parse
+from html import unescape
+from time import sleep
+
 from helpers import retrieve_url
 from novaprinter import prettyPrinter
 
+
 class torrentdownload(object):
-	url='https://www.torrentdownload.info'
-	name='TorrentDownload w. categories'
-	query='{self.url}/search?q={what}&p={page}'
-	pages=10											# engine max: 20 pages
+    url = "https://www.torrentdownload.info"
+    name = "TorrentDownload"
+    supported_categories = {
+        "all": "",
+        "anime": "anime",
+        "books": "books",
+        "games": "games",
+        "movies": "movies",
+        "music": "music",
+        "software": "applications",
+        "tv": "tv",
+    }
+    max_pages = 10
+    # Delay between page requests, the site throttles aggressive crawling
+    page_delay = 1
 
-# Torrent Download doesn't let you search within categories, but it does append tags to the torrent names, which is what this plugin uses for categories. Here are the ones I've seen:
+    trackers = (
+        "&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce"
+        "&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"
+        "&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce"
+        "&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce"
+        "&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce"
+        "&tr=udp%3A%2F%2Ftracker.birkenwald.de%3A6969%2Fannounce"
+        "&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce"
+    )
 
-# Adult
-# Adult / Porn > Animation/Hentai
-# Adult / Porn > DVD
-# Adult / Porn > Pictures
-# Adult / Porn > Video
-# Anime
-# Anime > Anime - Other
-# Anime > English-translated
-# Applications
-# Applications > Android
-# Audio Books
-# Books > Ebooks
-# Games
-# Misc
-# Movies
-# Movies > Action
-# Music
-# Music > R&B
-# Other
-# Other Pictures
-# Other > Wallpapers
-# Other XXX
-# Software PC
-# Television
-# TV > Other
-# TV > WWE - Wrestling
-# TV shows
-# Video Mobile
-# Windows - Other
-# XXX > Pictures
-# XXX > Video
+    class HTMLParser:
+        # A result row always starts with "<tr><td" (sponsored rows carry a bgcolor attribute)
+        row_re = re.compile(r"<tr><td.+?tt-name.+?</tr>")
+        # Cells are matched individually so that an unexpected value in one of them
+        # cannot silently discard the whole row
+        torrent_re = re.compile(
+            r'href="/(?P<hash>[0-9A-Fa-f]{40})/(?P<slug>[^"]*)">(?P<name>.*?)</a>'
+            r'(?:\s*<span class="smallish">\s*(?:&raquo;|»)\s*(?P<cat>[^<]*)</span>)?'
+            r'.*?<td class="tdnormal">[^<]*</td>'
+            r'\s*<td class="tdnormal">(?P<size>[^<]*)</td>'
+            r'\s*<td class="tdseed">(?P<seeds>[^<]*)</td>'
+            r'\s*<td class="tdleech">(?P<leech>[^<]*)</td>'
+        )
+        tag_re = re.compile(r"<[^>]+>")
+        # "1 - 50 of 1,740 for ..." in the results table header
+        total_re = re.compile(r"<h1>[\d,]+ - [\d,]+ of ([\d,]+) for")
+        # The site labels rows with its own category names
+        category_rules = (
+            ("anime", ("anime",)),
+            ("books", ("book",)),
+            ("movies", ("movie",)),
+            ("tv", ("tv", "television")),
+            ("music", ("music", "audio", "lossless")),
+            ("games", ("game", "xbox", "playstation")),
+            ("software", ("applic", "software")),
+        )
 
-	supported_categories={
-		'all':		'',
-		'anime':	'Anime|Animation|Hentai',
-					# Adult / Porn > Animation/Hentai
-					# Anime
-					# Anime > Anime - Other
-					# Anime > English-translated
-		'books':	'book',
-					# Audio Books
-					# Books > Ebooks
-		'games':	'game',
-					# Games
-		'movies':	'movie',
-					# Movies
-					# Movies > Action
-		'music':	'music',
-					# Music
-					# Music > R&B
-		'pictures':	'Picture|Wallpaper',
-					# Adult / Porn > Pictures
-					# Other Pictures
-					# Other > Wallpapers
-					# XXX > Pictures
-# You can uncomment the next line if you have added 'porn' to the CATEGORIES list in (for Ms-Windows) {user}\AppData\Local\qBittorrent\nova3\nova2.py which is 1 directory up from the "engines" directory where this file will be installed. When searching, select the blank line in the pull-down-list that starts with "All categories". Assuming you want to be able to search within only porn, of course. ;)
-#		'porn':		'Adult|Porn|XXX',
-					# Adult
-					# Adult / Porn > Animation/Hentai
-					# Adult / Porn > DVD
-					# Adult / Porn > Pictures
-					# Adult / Porn > Video
-					# Other XXX
-					# XXX > Pictures
-					# XXX > Video
-		'software':	'Application|Software|Windows|Linux|Android|PC',	# but not Games
-					# Applications
-					# Applications > Android
-					# Software PC
-					# Windows - Other
-		'tv':		'TV|Television'
-					# Television
-					# TV > Other
-					# TV > WWE - Wrestling
-					# TV shows
-	}
+        def __init__(self, engine):
+            self.engine = engine
+            self.seen = set()
+            self.printed = 0
+            self.total = None
+            self.pageResSize = 0
 
-	row=r'<tr(?:\s[^>]*|)>\s*<td(?:\s[^>]*|)\sclass="tdleft"[^>]*>\s*<div(?:\s[^>]*|)\sclass="tt-name"[^>]*>\s*<a(?:\s[^>]*|)\shref="(?P<link>[^"]+)"[^>]*>\s*(?P<name>.+?)\s*</a>\s*<span(?:\s[^>]*|)\sclass="smallish"[^>]*>(?P<tags>[^<>]*(?:{cat})[^<>]*)</span>\s*</div>\s*.*?<td(?:\s[^>]*|)\sclass="tdnormal"[^>]*>\s*(?P<size>[\d,.]+\s*(?:TB|GB|MB|KB))\s*</td>\s*<td(?:\s[^>]*|)\sclass="tdseed"[^>]*>\s*(?P<seeds>[\d,]+)\s*</td>\s*<td(?:\s[^>]*|)\sclass="tdleech"[^>]*>\s*(?P<leech>[\d,]+)\s*</td>\s*</tr>'
+        def feed(self, html, category="all"):
+            self.pageResSize = 0
+            total = self.total_re.search(html)
+            if total:
+                self.total = int(total.group(1).replace(",", ""))
+            for row in self.row_re.findall(html):
+                torrent = self.torrent_re.search(row)
+                if not torrent:
+                    continue
+                self.pageResSize += 1
+                info_hash = torrent.group("hash").lower()
+                # The same torrent can show up on several pages
+                if info_hash in self.seen:
+                    continue
+                self.seen.add(info_hash)
+                if not self.__matches(torrent.group("cat"), category):
+                    continue
+                desc_link = "{0}/{1}/{2}".format(
+                    self.engine.url, torrent.group("hash"), torrent.group("slug")
+                )
+                prettyPrinter({
+                    "link": "magnet:?xt=urn:btih:{0}&dn={1}{2}".format(
+                        info_hash, torrent.group("slug"), self.engine.trackers
+                    ),
+                    "name": self.__clean(torrent.group("name")),
+                    "size": torrent.group("size").replace(",", "").strip(),
+                    "seeds": self.__count(torrent.group("seeds")),
+                    "leech": self.__count(torrent.group("leech")),
+                    "engine_url": self.engine.url,
+                    "desc_link": desc_link,
+                })
+                self.printed += 1
 
-	rowFlags=re.I|re.S
+        def __clean(self, name):
+            return unescape(self.tag_re.sub("", name)).strip()
 
-	def search(self,what,cat='all'):
-		what=what.replace('%20','+')
-		category=self.supported_categories[cat]
-		r=re.compile(self.row.format(cat=category),self.rowFlags)
-		for page in range(1,self.pages):
-			html=retrieve_url(self.query.format(self=self,what=what,page=page))
-			for x in r.finditer(html):
-				linkRaw=self.url+x.group('link')
-				prettyPrinter({
-					'link':			urllib.parse.quote(linkRaw),
-					'name':			re.sub('<[^>]*>','',x.group('name')+x.group('tags')),
-					'size':			x.group('size').replace(',',''),
-					'seeds':		x.group('seeds').replace(',',''),
-					'leech':		x.group('leech').replace(',',''),
-					'engine_url':	self.url,
-					'desc_link':	linkRaw
-				})
+        def __count(self, value):
+            value = value.replace(",", "").strip()
+            return value if value.isdigit() else "-1"
 
-	def download_torrent(self,info):
-		html=retrieve_url(urllib.parse.unquote(info))
-		m=re.search('"(magnet:.*?)"',html,re.I)
-		if m and m.groups():
-			print('{0} {1}'.format(m.groups(1),info))
-		else:
-			raise Exception('Error in download_torrent({info})'.format(info=info))
+        def __matches(self, label, category):
+            if category == "all":
+                return True
+            if not label:
+                return False
+            label = label.lower()
+            for name, needles in self.category_rules:
+                if any(needle in label for needle in needles):
+                    return name == category
+            return False
+
+    def download_torrent(self, download_url):
+        # Results are magnet links, qBittorrent handles them without a temporary file
+        print(download_url + " " + download_url)
+
+    def search(self, what, cat="all"):
+        what = what.replace("%20", "+")
+        parser = self.HTMLParser(self)
+        for currPage in range(1, self.max_pages + 1):
+            url = "{0}/search?q={1}&p={2}".format(self.url, what, currPage)
+            # Collapse the whitespace so that the row patterns can rely on a single layout
+            html = re.sub(r"\s+", " ", retrieve_url(url)).strip()
+            parser.feed(html, cat)
+            if parser.pageResSize <= 0:
+                break
+            if parser.total is not None and len(parser.seen) >= parser.total:
+                break
+            sleep(self.page_delay)

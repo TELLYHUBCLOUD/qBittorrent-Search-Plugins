@@ -1007,7 +1007,7 @@ class toloka_to(Engine):  # noqa: N801
         """Check if current session is authenticated by testing login.php redirect."""
         try:
             response: HTTPResponse = self.opener.open(self.login_url, timeout=10)
-            redirect_path = urlparse(response.geturl()).path
+            redirect_path = urlparse(response.url).path
         except (URLError, HTTPError, TimeoutError, OSError) as e:
             logger.debug("Session validation failed: %s", e)
             return False
@@ -1047,7 +1047,7 @@ class toloka_to(Engine):  # noqa: N801
             logger.debug("Sending login request to %s", toloka_to.login_url)
 
             response: HTTPResponse = self.opener.open(request, timeout=30)
-            redirect_path = urlparse(response.geturl()).path
+            redirect_path = urlparse(response.url).path
             logger.debug("Login response redirected to: %s", redirect_path)
 
             # Check if login was successful by looking for redirect to main page
@@ -1097,8 +1097,9 @@ class toloka_to(Engine):  # noqa: N801
             if result["link"] and not result["link"].startswith("http"):
                 result["link"] = f"{toloka_to.url}{result['link'].lstrip('/')}"
             result["engine_url"] = toloka_to.url
-            if result["desc_link"] and not result["desc_link"].startswith("http"):
-                result["desc_link"] = f"{toloka_to.url}{result['desc_link'].lstrip('/')}"
+            desc_link = result.get("desc_link", "")
+            if desc_link and not desc_link.startswith("http"):
+                result["desc_link"] = f"{toloka_to.url}{desc_link.lstrip('/')}"
             prettyPrinter(result)
 
         return parser
