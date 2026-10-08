@@ -1,106 +1,166 @@
-#VERSION: 1.00
-# AUTHORS: Daniel Naranjo (garcianaranjodaniel@gmail.com)
-# LICENSING INFORMATION
+# VERSION: 1.1
+# AUTHORS: BurningMop (burning.mop@yandex.com)
 
-from helpers import download_file, retrieve_url
-from novaprinter import prettyPrinter
-# some other imports if necessary
+# LICENSING INFORMATION
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import re
 
+from html.parser import HTMLParser
+from helpers import download_file, retrieve_url
+from novaprinter import prettyPrinter, anySizeToBytes
+
+
 class pediatorrent(object):
-    """
-    `url`, `name`, `supported_categories` should be static variables of the engine_name class,
-     otherwise qbt won't install the plugin.
-
-    `url`: The URL of the search engine.
-    `name`: The name of the search engine, spaces and special characters are allowed here.
-    `supported_categories`: What categories are supported by the search engine and their corresponding id,
-    possible categories are ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv').
-    """
-
-    url = 'https://pediatorrent.com/'
+    url = 'https://pediatorrent.com'
+    headers = {
+        'Referer': url
+    }
     name = 'PediaTorrent'
+
+    # Al no existir la categoria de busqueda documentales, la asocié a Libros,
+
     supported_categories = {
-        'all': '',
+        'all': 'peliculas',
+        'movies': 'peliculas',
+        'tv': 'series',
+        'books': 'documentales'
     }
 
-    def __init__(self):
-        """
-        Some initialization
-        """
+    no_results_regex = r'<p.*?>No se ha encontrado ning[uú]n resultado.</p>'
 
-    def download_torrent(self, url):
-        """
-        Providing this function is optional.
-        It can however be interesting to provide your own torrent download
-        implementation in case the search engine in question does not allow
-        traditional downloads (for example, cookie-based download).
-        """
-        print(download_file(url))
+    class SearchResultsParser(HTMLParser):
+        def error(self, message):
+            pass
 
-    # DO NOT CHANGE the name and parameters of this function
-    # This function will be the one called by nova2.py
+        DIV, A = ('div', 'a')
+
+        supported_categories_class = {
+            'all': 'movie-list',
+            'movies': 'movie-list',
+            'tv': 'serie-list',
+            'books': 'doc-list'
+        }
+
+        expected_x_data = "{ showDetail: false }"
+        torrent_link_regex = r'\/torrents\/.+?\.torrent'
+        title_regex = r'<h1.*?>.*?</h1>'
+
+        count = 0
+
+        def __init__(self, url, cat):
+            HTMLParser.__init__(self)
+            self.url = url
+            self.headers = {
+                'Referer': url
+            }
+
+            self.insideResultList = False
+            self.insideResultContainer = False
+            self.insideResult = False
+            self.insideLink = False
+            self.insideYear = False
+            self.list_css_class = self.supported_categories_class[cat]
+
+        def handle_starttag(self, tag, attrs):
+            params = dict(attrs)
+            css_classes = params.get('class', '')
+            x_data = params.get('x-data')
+
+            if tag == self.DIV and self.list_css_class in css_classes:
+                self.insideResultList = True
+                return
+
+            if self.insideResultList and tag == self.DIV and x_data == self.expected_x_data:
+                self.insideResultContainer = True
+                return
+
+            if self.insideResultContainer and tag == self.DIV and 'relative' in css_classes:
+                self.insideResult = True
+                return
+
+            if self.insideResult and tag == self.A:
+                self.count += 1
+                self.insideLink = True
+                href = params.get('href')
+                retrieved_html = retrieve_url(href, self.headers)
+
+                link_matches = re.finditer(self.torrent_link_regex, retrieved_html, re.MULTILINE)
+                title_matches = re.finditer(self.title_regex, retrieved_html, re.MULTILINE)
+
+                torrent_link = [x.group() for x in link_matches]
+                title = [x.group() for x in title_matches]
+
+                row = {
+                    'link': f'{pediatorrent.url}{torrent_link[0]}',
+                    'name': re.sub(r'</h1>', '',re.sub(r'<h1.+?>', '', title[0])),
+                    'size': 0,
+                    'seeds': -1,
+                    'leech': -1,
+                    'engine_url': pediatorrent.url,
+                    'desc_link': href
+                }
+                prettyPrinter(row)
+                return
+
+            if self.insideResult and tag == self.DIV and 'flex' in css_classes and 'gap-x-3' in css_classes:
+                self.insideYear = True
+                return
+
+        def handle_endtag(self, tag):
+            if self.insideLink and tag == self.A:
+                self.insideLink = False
+                return
+
+            if self.insideYear and tag == self.DIV:
+                self.insideYear = False
+                return
+
+            if not self.insideLink and self.insideResult and tag == self.DIV:
+                self.insideResult = False
+                return
+
+            if not self.insideResult and self.insideResultContainer and tag == self.DIV:
+                self.insideResultContainer = False
+                return
+
+            if not self.insideResultContainer and self.insideResultList and tag == self.DIV:
+                self.insideResultList = False
+                return
+
+    def download_torrent(self, info):
+        print(download_file(info))
+
+    def get_search_url(self, what, cat):
+        category = self.supported_categories[cat]
+        return f'{self.url}/{category}?query={what}'
+
+    def has_results(self, html):
+        no_results_matches = re.finditer(self.no_results_regex, html, re.MULTILINE)
+        no_results = [x.group() for x in no_results_matches]
+        return len(no_results) == 0
+
     def search(self, what, cat='all'):
-        """
-        Here you can do what you want to get the result from the search engine website.
-        Everytime you parse a result line, store it in a dictionary
-        and call the prettyPrint(your_dict) function.
+        what = what.replace('%20', '+')
 
-        `what` is a string with the search tokens, already escaped (e.g. "Ubuntu+Linux")
-        `cat` is the name of a search category in ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv')
-        """
+        retrieved_html = retrieve_url(self.get_search_url(what,cat), self.headers)
 
-        search_url = f"{self.url}buscar?q={what.replace('+','%20')}"
-        html = retrieve_url(search_url)
-
-        quantity = re.findall(r'<p.*?class="text-2xl text-lime-500 text-center.*?</p>', html)
-        coincidencias = re.findall(r'\d+', quantity[0])
-        
-        quantity = int(coincidencias[2])
-        pages = quantity // 17 + 1
-        
-        links = []
-
-        for i in range(1, pages + 1):
-            url = f"{self.url}buscar/page/{i}?q={what.replace('+','%20')}"
-            html = retrieve_url(url)
-            a_list = re.findall(r'<a.*?>', html)
-            for a in a_list:
-                url = re.findall(r'href=[\'"]?([^\'" >]+)', a)
-                if len(url) > 0:
-                    links.append(url[0])
-
-        for i in links:
-            if i.split("/")[-1].replace("-", " ") not in ["dmca", "ayuda", "documentales", "peliculas", f"buscar?q={what}", f"1?q={what.replace('+','%20')}"]:
-                try: 
-                    html = retrieve_url(i)
-                    item = {}
-                    item['seeds'] = '-1'
-                    item['leech'] = '-1'
-                    item['engine_url'] = self.url
-                    item['desc_link'] = i
-                    item['name'] = name = " ".join(i.split("/")[-1].split("-")[1:])
-                    tipo = i.split("/")[3]
-                    if tipo != "series":
-                        a = re.findall(r'<a.*?>', html)
-                        a = a[11:12]
-                        url = re.findall(r'href=[\'"]?([^\'" >]+)', a[0])[0]
-                        item['link'] = self.url + url[1:]
-                        item['size'] = -1
-                        prettyPrinter(item)
-                    else:
-                        tds = re.findall(r'<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium ml-auto">(.*?)</td>', html, re.M|re.I|re.S)
-                        for td in tds:
-                            td_link = re.findall(r'href=[\'"]?([^\'" >]+)', td, re.DOTALL)
-                            a = td_link[0]
-
-                            try:
-                                download_link = a
-                                item['link'] = self.url + download_link[1:]
-                                item['size'] = -1
-                                item['name'] = name + td_link[0]
-                                prettyPrinter(item)
-                            except Exception:
-                                continue
-                except Exception:
-                    continue
+        parser = self.SearchResultsParser(self.url, cat)
+        parser.feed(retrieved_html)
+        parser.close()
