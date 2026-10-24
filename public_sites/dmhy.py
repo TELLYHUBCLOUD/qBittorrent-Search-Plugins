@@ -1,26 +1,23 @@
-# VERSION: 1.00
-# AUTHORS: ZH (zh1140074772@gmail.com)
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#VERSION: 1.1
 
+import re
+from enum import Enum
 from html.parser import HTMLParser
-from helpers import download_file, retrieve_url
+from helpers import (
+    # download_file,
+    retrieve_url,
+)
 from novaprinter import prettyPrinter
-from lxml import etree
 
+ENGINE_BASEURL = 'http://dmhy.org'
+MAGNET_PATTERN = r'magnet:\?xt=urn:btih:[a-zA-Z0-9]*'
 
-# some other imports if necessary
+TITLE = 3
+MAGLINK = 4
+SIZE = 5
+SEEDER = 6
+LEECH = 7
+
 
 class dmhy(object):
     """
@@ -29,75 +26,90 @@ class dmhy(object):
 
     `url`: The URL of the search engine.
     `name`: The name of the search engine, spaces and special characters are allowed here.
-    `supported_categories`: What categories are supported by the search engine and their corresponding id,
-    possible categories are ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv').
+    `supported_categories`: What categories are supported by the search engine and their
+    corresponding id, possible categories are ('all', 'anime', 'books', 'games', 'movies',
+    'music', 'pictures', 'software', 'tv').
     """
-
-    url = 'https://share.dmhy.org'
-    name = 'DMHY'
+    url = ENGINE_BASEURL
+    name = 'dmhy'
     supported_categories = {
-        'all': '0'
+        'all': '0',
     }
 
-    @classmethod
-    def analyze_torrent(cls, tr_list: list):
-        res = []
-        for tr in tr_list:
-            tmp = {
-                'date': tr.xpath('./td[1]/text()')[0].strip().split()[0],
-                'name': ''.join(tr.xpath('./td[3]//text()')).replace('\n', '').replace('\t', ''),
-                'desc_link': f"{cls.url}{tr.xpath('./td[3]/a/@href')[0]}",
-                'engine_url': cls.url,
-                'size': tr.xpath('./td[5]/text()')[0]
-            }
-            seeds = tr.xpath('./td[6]//text()')[0]
-            leech = tr.xpath('./td[7]//text()')[0]
-            tmp['seeds'] = int(seeds) if seeds.isalnum() else -1
-            tmp['leech'] = int(leech) if leech.isalnum() else -1
-            tmp[
-                'link'] = f"https://dl.dmhy.org/{tmp['date']}/{tr.xpath('./td[4]/a[2]/@href')[0].split('magnet:?xt=urn:btih:')[1]}.torrent"
-            res.append(tmp)
-            prettyPrinter(tmp)
-        return res
+    class DmhyParser(HTMLParser):
 
-    def download_torrent(self, info):
-        """
-        Providing this function is optional.
-        It can however be interesting to provide your own torrent download
-        implementation in case the search engine in question does not allow
-        traditional downloads (for example, cookie-based download).
-        """
-        print(download_file(info))
+        def __init__(self, outer_class):
+            super().__init__()
+            self.outer_class = outer_class
+            self.in_table = False
+            self.in_tbody = False
+            self.in_row = False
+            self.in_cell_num = 0
+            self.in_cell = False
+            self.result_dict = {}
 
-    # DO NOT CHANGE the name and parameters of this function
-    # This function will be the one called by nova2.py
-    def search(self, what, cat='all'):
-        """
-        Here you can do what you want to get the result from the search engine website.
-        Everytime you parse a result line, store it in a dictionary
-        and call the prettyPrint(your_dict) function.
+        def handle_starttag(self, tag, attrs):
 
-        `what` is a string with the search tokens, already escaped (e.g. "Ubuntu+Linux")
-        `cat` is the name of a search category in ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv')
-        """
-        hits = []
-        url = self.url
-        page = 1
+            # Find the table that contains the search results
+            # The table has an id of "topic_list"
+            if tag == 'table':
+                for attr in attrs:
+                    if attr[0] == 'id' and attr[1] == "topic_list":
+                        self.in_table = True
+                        return
 
-        while True:
-            res = retrieve_url(f"{url}/topics/list/page/{page}?keyword={what.replace(' ', '+')}")
-            tr_list = etree.HTML(res).xpath("//*[@id='topic_list']/tbody/tr")
-            hits.extend(self.analyze_torrent(tr_list))
-            page += 1
-            if len(tr_list) < 80:
-                break
+            if tag == 'tbody' and self.in_table:
+                self.in_tbody = True
+                return
 
+            # Find the rows in the table and initialize the result_dict
+            if tag == 'tr' and self.in_tbody:
+                self.in_row = True
+                self.in_cell_num = 0
+                self.result_dict = {
+                    "link": "-1",
+                    "name": "",
+                    "size": "-1",
+                    "seeds": "-1",
+                    "leech": "-1",
+                    "engine_url": ENGINE_BASEURL,
+                    "desc_link": "-1",
+                }
+                return
 
-if __name__ == '__main__':
-    d = dmhy()
-    d.search('C3魔方少女')
-    print(1)
-lf.result_dict["size"] = data
+            # Find the cells in the row. Keep track of the cell number
+            if tag == 'td' and self.in_row:
+                self.in_cell_num += 1
+                self.in_cell = True
+                return
+
+            # The anchor tag in the third cell contains the page url.
+            # Save page url into the dictionary, and retrieve the page to get the magnet link
+            # Also save the magnet link into the dictionary
+            if tag == 'a' and self.in_cell_num == TITLE:
+                for attr in attrs:
+                    if attr[0] == 'href':
+                        self.result_dict["desc_link"] = ENGINE_BASEURL + attr[1]
+                        return
+
+            # Only the first (of two) anchor tag in the fourth cell contains the magnet link
+            # So a regular expression check is performed to make sure it is a magnet link
+            if tag == 'a' and self.in_cell_num == MAGLINK:
+                for attr in attrs:
+                    if attr[0] == 'href' and re.match(MAGNET_PATTERN, attr[1]):
+                        self.result_dict["link"] = attr[1]
+
+        def handle_data(self, data):
+            # The third cell contains the name of the torrent,
+            # but it may be split into multiple parts. Concatenate them.
+            if self.in_cell and self.in_cell_num == TITLE:
+                self.result_dict["name"] += re.sub(r"[\t\n]", "", data)
+                return
+
+            # The fourth cell contains the size of the torrent
+            # Safe to use as is.
+            if self.in_cell and self.in_cell_num == SIZE:
+                self.result_dict["size"] = data
                 return
 
             # The sixth cell contains the number of seeders
