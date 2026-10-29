@@ -1,5 +1,5 @@
-# VERSION: 1.21
-# AUTHORS: ALAA_BRAHIM, phlexis96
+# VERSION: 1.00
+# AUTHORS: ALAA_BRAHIM
 # LICENSING INFORMATION
 
 #  This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,13 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import json
-import urllib.parse
 from helpers import retrieve_url, download_file
 from novaprinter import prettyPrinter
+import json
 
 
 class animetosho(object):
-    url = "https://animetosho.xyz"
+    url = "https://animetosho.org"
     name = "Anime Tosho"
     supported_categories = {
         "all": "all",
@@ -36,51 +35,21 @@ class animetosho(object):
         print(download_file(info))
 
     def search(self, what, cat='all'):
-        query = urllib.parse.quote_plus(urllib.parse.unquote_plus(what))
-        url = f"https://feed.animetosho.xyz/json?q={query}"
-        response = retrieve_url(url)
-        if not response:
-            return
+        url = f"https://feed.animetosho.org/json?q={what}"
+        link = json.loads(retrieve_url(url))
 
-        try:
-            results = json.loads(response)
-        except Exception:
-            return
-
-        if not isinstance(results, list):
-            return
-
-        for result in results:
-            link = result.get("magnet_uri") or result.get("torrent_url")
-            if not link:
-                continue
-
-            seeds = result.get("seeders")
-            seeds = -1 if seeds is None else seeds
-
-            leech = result.get("leechers")
-            leech = -1 if leech is None else leech
-
-            size = result.get("total_size")
-            size_str = f"{size} B" if size is not None else "-1"
-
-            pub_date = result.get("timestamp")
-            pub_date = int(pub_date) if pub_date is not None else -1
-
-            current_result = {
-                "engine_url": self.url,
-                "link": link,
-                "name": result.get("title") or result.get("torrent_name") or "Unknown",
-                "size": size_str,
-                "seeds": seeds,
-                "leech": leech,
-                "desc_link": result.get("link", ""),
-                "pub_date": pub_date,
-            }
+        for result in link:
+            current_result = {"engine_url": "https://animetosho.org/"}
+            current_result["link"] = result["magnet_uri"]
+            current_result["name"] = result["title"]
+            current_result["size"] = str(result["total_size"]) + " B"
+            current_result["seeds"] = result["seeders"]
+            current_result["leech"] = result["leechers"]
+            current_result["desc_link"] = result["link"]
 
             prettyPrinter(current_result)
 
 
 if __name__ == "__main__":
     a = animetosho()
-    a.search("zom judas")
+    a.search("zom+judas")
