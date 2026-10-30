@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # VERSION: 1.1
 # AUTHORS: OyunErbabi
 
@@ -14,7 +13,7 @@ from novaprinter import prettyPrinter
 class internetarchive(object):
     name = "Internet Archive"
     url = "https://archive.org"
-    # qBittorrent kategorisi -> archive.org mediatype
+    # qBittorrent category -> archive.org mediatype
     supported_categories = {
         'all': None,
         'movies': 'movies',
@@ -39,7 +38,7 @@ class internetarchive(object):
             return response.read().decode('utf-8')
 
     def build_terms(self, what):
-        # Tırnak içindeki ifadeleri koru, diğer kelimelerden Lucene özel karakterlerini temizle
+        # Keep quoted phrases, strip Lucene special characters from other words
         terms = []
         for phrase, word in re.findall(r'"([^"]+)"|(\S+)', what):
             if phrase:
@@ -75,7 +74,7 @@ class internetarchive(object):
             return -1
 
     def search(self, what, cat='all'):
-        # qBittorrent arama metnini URL-encode edilmiş olarak gönderir (%20, %26 ...)
+        # qBittorrent passes the query URL-encoded
         terms = self.build_terms(urllib.parse.unquote(what))
         if not terms:
             return
@@ -85,12 +84,12 @@ class internetarchive(object):
         if mediatype:
             filters += f' AND mediatype:{mediatype}'
 
-        # Önce başlıkta ara (çok daha alakalı sonuçlar), sonuç yoksa tüm metinde ara
+        # Search titles first for relevance, fall back to full text if nothing matches
         for query in (f'title:({terms}){filters}', f'({terms}){filters}'):
             try:
                 result_count = self.search_query(query)
             except Exception as e:
-                # stdout sadece sonuç satırları içindir, hatalar stderr'e
+                # stdout is reserved for result lines
                 print(f"Internet Archive search error: {e}", file=sys.stderr)
                 return
             if result_count:
