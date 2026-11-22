@@ -1,4 +1,4 @@
-# VERSION: 1.01
+# VERSION: 1.10
 # AUTHORS: gusperroni (https://github.com/gusperroni/jackettless)
 
 # LICENSING INFORMATION
@@ -81,28 +81,34 @@ CONFIG_FILE = os.path.join(PLUGIN_DIR, 'jackettless.json')
 DATA_DIR = os.path.join(PLUGIN_DIR, 'jackettless_data')
 
 DEFAULT_CONFIG = {
-    "indexers": {
-        "thepiratebay": {},
-        "therarbg": {},
-        "limetorrents": {},
-        "yts": {},
-        "nyaasi": {},
-        "torrentdownload": {},
-        "torrentproject2": {},
-    },
-    "all_public": False,
-    "thread_count": 10,
-    "timeout": 20,
-    "indexer_timeout": 60,
+    # filled on the first search with every public Jackett indexer: set "enabled": false to skip one
+    "indexers": {},
+    "all_public": True,
+    "thread_count": 20,
+    "timeout": 10,
+    "indexer_timeout": 30,
     "tracker_first": True,
     "definitions_ref": "master",
     "refresh_days": 1,
     "dns_over_https": None,
-    "report_errors": "none",
-    "dedup": "off",
+    "report_errors": "summary",
+    "dedup": "merge",
     "dedup_wait": 8,
+    "backoff": True,
     "verbose": False,
 }
+
+# Default settings written by earlier versions. A jackettless.json that is still exactly one of these
+# was never edited, so it is upgraded to the current defaults.
+_OLD_DEFAULTS = (
+    {  # 1.00 - 1.01
+        "indexers": {"thepiratebay": {}, "therarbg": {}, "limetorrents": {}, "yts": {}, "nyaasi": {},
+                     "torrentdownload": {}, "torrentproject2": {}},
+        "all_public": False, "thread_count": 10, "timeout": 20, "indexer_timeout": 60, "tracker_first": True,
+        "definitions_ref": "master", "refresh_days": 1, "dns_over_https": None, "report_errors": "none",
+        "dedup": "off", "dedup_wait": 8, "verbose": False,
+    },
+)
 
 
 # ---------------------------------------------------------------------------
@@ -2873,6 +2879,9 @@ def _atomic_write(path, data, private=False):
 _RX_INDEXER_ID = re.compile(r'^[A-Za-z0-9][A-Za-z0-9._-]*$')
 
 
+_STATE_LOCK = threading.Lock()  # guards jackettless_data/state.json within this process
+
+
 def check_indexer_id(ident):
     """Indexer ids become file names: refuse anything that could escape the data folder."""
     if not isinstance(ident, str) or not _RX_INDEXER_ID.match(ident) or '..' in ident:
@@ -3129,7 +3138,7 @@ class CardigannIndexer:
     def _state_file(self):
         return os.path.join(self.data_dir, 'state.json')
 
-    _state_lock = threading.Lock()
+    _state_lock = _STATE_LOCK  # shared with the indexer health records (run_search)
 
     def _read_state(self):
         try:
@@ -4062,12 +4071,21 @@ def _num_str(x):
 # configuration + orchestration
 # ---------------------------------------------------------------------------
 
+def _write_config(path, data):
+    # private: the file can hold passwords and cookies, and a rewrite must not loosen its permissions
+    _atomic_write(path, (json.dumps(data, indent=4, ensure_ascii=False) + '\n').encode('utf-8'), private=True)
+
+
 def load_config(path=CONFIG_FILE):
+    """Read jackettless.json (creating or upgrading it when needed) merged over DEFAULT_CONFIG.
+
+    `_path` remembers the file, so the indexer list can be filled in later; `_error` marks an invalid
+    file, which is then never written to."""
     cfg = json.loads(json.dumps(DEFAULT_CONFIG))
+    cfg['_path'] = path
     if not os.path.exists(path):
         try:
-            with open(path, 'w', encoding='utf-8') as f:
-                json.dump(DEFAULT_CONFIG, f, indent=4)
+            _write_config(path, DEFAULT_CONFIG)
             log('created default configuration at %s', path, debug=True)
         except OSError as e:
             log('could not write %s: %s', path, e)
@@ -4081,14 +4099,63 @@ def load_config(path=CONFIG_FILE):
         log('malformed configuration file %s: %s', path, e)
         cfg['_error'] = re.sub(r'\s*\(char \d+\)', '', str(e))
         return cfg
+    if any(user == old for old in _OLD_DEFAULTS):
+        # never edited by the user: move it to the current defaults
+        try:
+            _write_config(path, DEFAULT_CONFIG)
+            log('upgraded untouched configuration at %s to the new defaults', path, debug=True)
+        except OSError as e:
+            log('could not write %s: %s', path, e)
+        return cfg
     cfg.update(user)
     if not isinstance(cfg.get('indexers'), dict):
         cfg['indexers'] = {i: {} for i in as_list(cfg.get('indexers'))}
     return cfg
 
 
+def sync_indexer_entries(cfg, store):
+    """With all_public, give every public indexer its own entry in jackettless.json ({"enabled": true}),
+    so users can see the list and switch indexers off. Existing entries are never touched, and
+    private/semi-private indexers are never added. Returns the ids that were added.
+
+    Note: what is searched is always the list of enabled entries; all_public only keeps adding new public
+    indexers to it. To search fewer sites, set "enabled": false (or delete the entries)."""
+    if not as_bool(cfg.get('all_public')) or cfg.get('_error'):
+        return []
+    public = sorted(i for i in store.available_ids() if store.quick_type(i) == 'public')
+    added = [i for i in public if i not in cfg['indexers']]
+    if not added:
+        return []
+    for ident in added:
+        cfg['indexers'][ident] = {'enabled': True}
+    path = cfg.get('_path')
+    if path:
+        try:
+            with open(path, encoding='utf-8-sig') as f:
+                user = json.load(f)  # rewrite from the file itself: only the indexer list changes
+            if not isinstance(user, dict):
+                raise ValueError('top level must be an object')
+            entries = user.get('indexers')
+            if not isinstance(entries, dict):
+                entries = {i: {} for i in as_list(entries)}
+            for ident in added:
+                entries.setdefault(ident, {'enabled': True})
+            user['indexers'] = entries
+            _write_config(path, user)
+        except (OSError, ValueError) as e:
+            log('could not add the public indexers to %s: %s', path, e)
+    log('added %d public indexer(s) to the configuration', len(added), debug=True)
+    return added
+
+
 def enabled_indexers(cfg, store):
     ids = [i for i, s in cfg['indexers'].items() if not (isinstance(s, dict) and s.get('enabled') is False)]
+    upstream = store.read_index().get('files') or {}
+    if upstream:  # skip sites that Jackett removed (the entry stays, for the user to delete)
+        gone = [i for i in ids if i not in upstream and not os.path.exists(os.path.join(store.custom_dir, i + '.yml'))]
+        for i in gone:
+            log('%s is no longer in Jackett: skipped (you can delete it from jackettless.json)', i, debug=True)
+        ids = [i for i in ids if i not in gone]
     disabled = {i for i, s in cfg['indexers'].items() if isinstance(s, dict) and s.get('enabled') is False}
     if as_bool(cfg.get('all_public')):
         for ident in store.available_ids():
@@ -4338,6 +4405,73 @@ class ResultMerger:
     finish = go_live
 
 
+# ---------------------------------------------------------------------------
+# indexer health: pause indexers that keep failing (like Jackett's error back-off)
+# ---------------------------------------------------------------------------
+
+BACKOFF_STEPS = (3600, 6 * 3600, 24 * 3600)  # pause after the 2nd, 3rd and 4th+ failure in a row
+FAILURE_MEMORY = 48 * 3600  # a failure older than this (no search in between) starts a new count
+
+
+def _state_path(data_dir):
+    return os.path.join(data_dir, 'state.json')
+
+
+def _read_state_file(data_dir):
+    try:
+        with open(_state_path(data_dir), encoding='utf-8') as f:
+            st = json.load(f)
+        return st if isinstance(st, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def paused_indexers(data_dir, ids, now=None):
+    """The ids that are still paused after repeated failures."""
+    now = now or time.time()
+    health = _read_state_file(data_dir).get('health', {})
+    if not isinstance(health, dict):
+        return []
+    out = []
+    for i in ids:
+        try:
+            if isinstance(health.get(i), dict) and float(health[i].get('until', 0)) > now:
+                out.append(i)
+        except (TypeError, ValueError):
+            pass  # a damaged entry is ignored, never fatal
+    return out
+
+
+def record_health(data_dir, outcomes, now=None):
+    """outcomes: {id: None for success, or a short failure reason}. Returns the ids paused now."""
+    now = now or time.time()
+    newly_paused = []
+    with _STATE_LOCK:
+        st = _read_state_file(data_dir)
+        health = st.get('health') if isinstance(st.get('health'), dict) else {}
+        for ident, reason in outcomes.items():
+            if reason is None:
+                health.pop(ident, None)
+                continue
+            previous = health.get(ident) if isinstance(health.get(ident), dict) else {}
+            try:
+                recent = now - float(previous.get('last', 0)) < FAILURE_MEMORY
+                fails = (int(previous.get('fails', 0)) if recent else 0) + 1
+            except (TypeError, ValueError):
+                fails = 1
+            entry = {'fails': fails, 'reason': reason, 'last': int(now)}
+            if fails >= 2:
+                entry['until'] = int(now + BACKOFF_STEPS[min(fails - 2, len(BACKOFF_STEPS) - 1)])
+                newly_paused.append(ident)
+            health[ident] = entry
+        st['health'] = health
+        try:
+            _atomic_write(_state_path(data_dir), json.dumps(st, indent=1).encode('utf-8'))
+        except OSError as e:
+            log('could not save indexer health: %s', e)
+    return newly_paused
+
+
 def run_search(what, cat='all', printer=prettyPrinter, cfg=None, data_dir=DATA_DIR, only=None):
     """Search every enabled indexer in parallel, printing results as they arrive.
 
@@ -4352,9 +4486,15 @@ def run_search(what, cat='all', printer=prettyPrinter, cfg=None, data_dir=DATA_D
     install_dns_fallback(cfg.get('dns_over_https'))
     store = make_store(cfg, data_dir)
     ids = list(only) if only else None
+    paused = []
+    use_backoff = as_bool(cfg.get('backoff'), True)
     if ids is None:
         store.ensure([i for i in cfg['indexers']], everything=as_bool(cfg.get('all_public')))
+        sync_indexer_entries(cfg, store)
         ids = enabled_indexers(cfg, store)
+        if use_backoff:  # explicitly requested indexers (`only`) are always searched
+            paused = paused_indexers(data_dir, ids)
+            ids = [i for i in ids if i not in paused]
     else:
         store.ensure(ids)
     tracker_first = as_bool(cfg.get('tracker_first'), True)
@@ -4394,7 +4534,15 @@ def run_search(what, cat='all', printer=prettyPrinter, cfg=None, data_dir=DATA_D
             return ident, 'error: %s: %s' % (type(e).__name__, e), describe_error(e)
 
     if not ids:
-        log('no indexers enabled, edit %s', CONFIG_FILE)
+        if paused:
+            _report_errors(str(cfg.get('report_errors') or 'none').lower(), {}, 0, printer, what, paused)
+        else:
+            log('no indexers enabled, edit %s', cfg.get('_path') or CONFIG_FILE)
+            try:  # always visible: otherwise the search just looks empty
+                printer(error_result('no indexers enabled: check "indexers" and "all_public" in jackettless.json',
+                                     what))
+            except Exception as e:  # noqa: BLE001
+                log('could not print error row: %s', e)
         return summary
     workers = max(1, min(int(cfg.get('thread_count', 10)), len(ids)))
 
@@ -4425,22 +4573,34 @@ def run_search(what, cat='all', printer=prettyPrinter, cfg=None, data_dir=DATA_D
         merger.finish()
         log('dedup: %d duplicate(s) merged, %d late duplicate(s) dropped', merger.merged, merger.dropped,
             debug=True)
+    if use_backoff:
+        record_health(data_dir, {i: reasons.get(i) for i in summary})
     if reasons:  # one line per search: qBittorrent logs every stderr line as a warning
         log('%d of %d indexers failed: %s', len(reasons), len(ids),
             ', '.join('%s (%s)' % (i, reasons[i]) for i in sorted(reasons)))
-    _report_errors(str(cfg.get('report_errors') or 'none').lower(), reasons, len(ids), printer, what)
+    _report_errors(str(cfg.get('report_errors') or 'none').lower(), reasons, len(ids), printer, what, paused)
     return summary
 
 
-def _report_errors(mode, reasons, total, printer, query=''):
-    """Optionally show indexer failures as result rows in qBittorrent ('none', 'summary' or 'all')."""
-    if mode not in ('summary', 'all') or not reasons:
+def _report_errors(mode, reasons, total, printer, query='', paused=()):
+    """Optionally show indexer failures as result rows in qBittorrent ('none', 'summary' or 'all').
+
+    `paused` are indexers skipped after repeated failures; they are mentioned, not listed one by one."""
+    if mode not in ('summary', 'all') or not (reasons or paused):
         return
+    paused_note = '%d paused after repeated failures' % len(paused) if paused else ''
+    rows = []
     if mode == 'summary':
-        detail = ', '.join('%s (%s)' % (i, reasons[i]) for i in sorted(reasons))
-        rows = [error_result('%d of %d indexers failed: %s' % (len(reasons), total, detail), query)]
+        if reasons:
+            detail = ', '.join('%s (%s)' % (i, reasons[i]) for i in sorted(reasons))
+            text = '%d of %d indexers failed: %s' % (len(reasons), total, detail)
+            rows.append(error_result(text + ('; ' + paused_note if paused else ''), query))
+        else:
+            rows.append(error_result(paused_note, query))
     else:
         rows = [error_result('%s failed: %s' % (i, reasons[i]), query) for i in sorted(reasons)]
+        if paused:
+            rows.append(error_result('%s: %s' % (paused_note, ', '.join(sorted(paused))), query))
     for row in rows:
         try:
             printer(row)
