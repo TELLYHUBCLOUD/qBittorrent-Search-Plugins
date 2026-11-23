@@ -1,4 +1,4 @@
-# VERSION: 2.2
+# VERSION: 2.3
 # AUTHORS: MANCrimSon (https://github.com/MANCrimSon)
 # CONTRIBUTORS:
 #   swannie-eire (original v1.0 plugin)
@@ -7,18 +7,20 @@
 #   Alexander Georgievskiy <galeksandrp@gmail.com>
 
 import datetime
+import gzip
 import json
 import os
 import re
 import socket
 import sys
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from http.cookiejar import CookieJar
 from threading import Lock
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Ensure UTF-8 output streams on Windows to prevent UnicodeEncodeError with non-cp1251 titles
 if sys.platform == 'win32' and hasattr(sys.stdout, 'reconfigure'):
@@ -92,44 +94,69 @@ _CONFIG_DATA: Dict[str, Any] = {
     'filter_usenet': True,           # True: Ignore Usenet releases to avoid broken .nzb downloads
     'tracker_first': False,          # True: '[Tracker] Title', False: 'Title [Tracker]'
     'show_flags': True,              # True: Show '[Freeleech]' and other flags in release name
-    'flags_position': 'end',         # 'end': 'Title [Tracker] [Freeleech]', 'start': '[Freeleech] Title [Tracker]'
+    'flags_position': 'end',         # 'end': 'Title [Freeleech] [Tracker]', 'start': '[Freeleech] Title [Tracker]'
 }
+_DEFAULT_CONFIG_KEYS = tuple(_CONFIG_DATA.keys())
 _PRINTER_THREAD_LOCK = Lock()
+
+
+def _safe_int(value: Any, default: int, min_val: int = 1) -> int:
+    """Safely convert config value to int without crashing at module import time."""
+    if isinstance(value, bool):
+        return default
+    try:
+        parsed = int(value)
+        return max(min_val, parsed)
+    except (ValueError, TypeError):
+        return default
 
 
 def _load_configuration() -> None:
     global _CONFIG_DATA
+    config_needs_save = False
     try:
         with open(_CONFIG_PATH, 'r', encoding='utf-8') as f:
             loaded_data = json.load(f)
             if isinstance(loaded_data, dict):
+                if any(k not in loaded_data for k in _DEFAULT_CONFIG_KEYS):
+                    config_needs_save = True
                 _CONFIG_DATA.update(loaded_data)
+            else:
+                _CONFIG_DATA['malformed'] = True
     except ValueError:
         _CONFIG_DATA['malformed'] = True
     except FileNotFoundError:
-        _save_configuration()
+        config_needs_save = True
     except Exception:
         _CONFIG_DATA['malformed'] = True
 
-    # Validate essential configuration keys
-    if any(item not in _CONFIG_DATA for item in ['api_key', 'url']):
+    # Validate essential configuration keys and types
+    if not isinstance(_CONFIG_DATA.get('url'), str) or not _CONFIG_DATA['url'].strip():
+        _CONFIG_DATA['malformed'] = True
+    if not isinstance(_CONFIG_DATA.get('api_key'), str):
         _CONFIG_DATA['malformed'] = True
 
-    # Ensure optional multi-threading keys exist
-    if 'multithreaded' not in _CONFIG_DATA:
-        _CONFIG_DATA['multithreaded'] = True
-    if 'thread_count' not in _CONFIG_DATA:
-        _CONFIG_DATA['thread_count'] = 10
+    # Validate numeric configuration values
+    for int_key in ('timeout_seconds', 'thread_count'):
+        val = _CONFIG_DATA.get(int_key)
+        if isinstance(val, bool):
+            _CONFIG_DATA['malformed'] = True
+        else:
+            try:
+                int(val)  # type: ignore[arg-type]
+            except (ValueError, TypeError):
+                _CONFIG_DATA['malformed'] = True
 
-    # Ensure all defaults are written to disk
-    if not os.path.exists(_CONFIG_PATH):
+    # Write initial or upgraded config to disk (never overwrite a malformed user config)
+    if config_needs_save and not _CONFIG_DATA.get('malformed'):
         _save_configuration()
 
 
 def _save_configuration() -> None:
     try:
+        to_save = {k: v for k, v in _CONFIG_DATA.items() if k != 'malformed'}
         with open(_CONFIG_PATH, 'w', encoding='utf-8') as f:
-            f.write(json.dumps(_CONFIG_DATA, indent=4))
+            f.write(json.dumps(to_save, indent=4))
     except Exception:
         pass
 
@@ -163,15 +190,17 @@ def _parse_iso_date(date_str: Optional[str]) -> int:
 ###############################################################################
 class prowlarr:
     name = 'Prowlarr'
-    url = _CONFIG_DATA.get('url', 'http://127.0.0.1:9696').rstrip('/')
-    api_key = _CONFIG_DATA.get('api_key', 'YOUR_API_KEY_HERE')
+    _raw_url = _CONFIG_DATA.get('url', 'http://127.0.0.1:9696')
+    url = _raw_url.strip().rstrip('/') if isinstance(_raw_url, str) and _raw_url.strip() else 'http://127.0.0.1:9696'
+    _raw_api_key = _CONFIG_DATA.get('api_key', 'YOUR_API_KEY_HERE')
+    api_key = _raw_api_key if isinstance(_raw_api_key, str) else ''
     tracker_first = bool(_CONFIG_DATA.get('tracker_first', False))
     show_flags = bool(_CONFIG_DATA.get('show_flags', True))
     flags_position = str(_CONFIG_DATA.get('flags_position', 'end')).lower()
     filter_usenet = bool(_CONFIG_DATA.get('filter_usenet', True))
-    timeout = int(_CONFIG_DATA.get('timeout_seconds', 30))
+    timeout = _safe_int(_CONFIG_DATA.get('timeout_seconds', 30), default=30, min_val=1)
     multithreaded = bool(_CONFIG_DATA.get('multithreaded', True))
-    thread_count = max(1, int(_CONFIG_DATA.get('thread_count', 10)))
+    thread_count = _safe_int(_CONFIG_DATA.get('thread_count', 10), default=10, min_val=1)
     last_error: Optional[str] = None
 
     # Torznab / Newznab categories supported by Prowlarr
@@ -187,26 +216,69 @@ class prowlarr:
         'tv': ['5000'],
     }
 
+    def _is_prowlarr_url(self, target_url: str) -> bool:
+        """Check whether target_url belongs to the configured Prowlarr instance."""
+        if not self.url or not target_url:
+            return False
+        base = self.url.rstrip('/')
+        return target_url == base or target_url.startswith(base + '/') or target_url.startswith(base + '?')
+
+    def _download_to_temp_or_magnet(self, download_url: str, send_api_key: bool) -> Optional[str]:
+        """Download torrent to a temp file or resolve magnet redirect in a single HTTP request."""
+        try:
+            req = urllib.request.Request(download_url)
+            req.add_header('User-Agent', _get_browser_user_agent())
+            if send_api_key and self.api_key:
+                req.add_header('X-Api-Key', self.api_key)
+
+            opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(CookieJar()))
+            with opener.open(req, timeout=self.timeout) as resp:
+                data = resp.read()
+                if resp.headers.get('Content-Encoding', '').lower() == 'gzip':
+                    data = gzip.decompress(data)
+
+            if data.startswith(b'magnet:?'):
+                return data.decode('utf-8', errors='replace').strip()
+
+            fd, tmp_path = tempfile.mkstemp(suffix='.torrent')
+            try:
+                with os.fdopen(fd, 'wb') as tmp_file:
+                    tmp_file.write(data)
+            except Exception:
+                try:
+                    os.unlink(tmp_path)
+                except OSError:
+                    pass
+                return None
+            return tmp_path
+        except urllib.error.HTTPError as e:
+            if e.code in (301, 302, 303, 307, 308):
+                redirect_url = e.headers.get('Location')
+                if redirect_url and redirect_url.startswith('magnet:?'):
+                    return redirect_url
+            return None
+        except Exception:
+            return None
+
     def download_torrent(self, download_url: str) -> None:
         """Handle torrent or magnet download request from qBittorrent."""
         if download_url.startswith('magnet:?'):
             print(f"{download_url} {download_url}")
             return
 
-        is_local_prowlarr = download_url.startswith(self.url)
+        is_local_prowlarr = self._is_prowlarr_url(download_url)
         _proxy_manager.enable_proxy(not is_local_prowlarr)
 
         try:
-            response = self.get_response(download_url)
+            result = self._download_to_temp_or_magnet(download_url, send_api_key=is_local_prowlarr)
+            if result is not None:
+                print(f"{result} {download_url}")
+            elif helpers is not None:
+                print(helpers.download_file(download_url))
+            else:
+                print(download_url)
         finally:
             _proxy_manager.enable_proxy(False)
-
-        if response is not None and response.startswith('magnet:?'):
-            print(f"{response} {download_url}")
-        elif helpers is not None:
-            print(helpers.download_file(download_url))
-        else:
-            print(download_url)
 
     def format_release(self, item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Parse raw release item from Prowlarr into standardized dictionary for prettyPrinter."""
@@ -255,10 +327,13 @@ class prowlarr:
             else:
                 formatted_name = f"{cleaned_title}{flag_mid} [{indexer}]"
 
-        # Determine download link: prefer magnetUrl, fallback to downloadUrl
+        # Determine download link: prefer magnetUrl, fallback to downloadUrl or infoHash magnet
         magnet_url = item.get('magnetUrl')
         download_url = item.get('downloadUrl')
-        chosen_link = magnet_url if magnet_url else download_url
+        info_hash = item.get('infoHash')
+        chosen_link = magnet_url or download_url
+        if not chosen_link and isinstance(info_hash, str) and info_hash.strip():
+            chosen_link = f"magnet:?xt=urn:btih:{info_hash.strip()}&dn={urllib.parse.quote(cleaned_title)}"
 
         if not chosen_link:
             return None
@@ -333,13 +408,12 @@ class prowlarr:
 
         return active_indexers
 
-    def search_single_indexer(self, what: str, categories: Optional[List[str]], indexer_id: Union[int, str]) -> int:
+    def search_single_indexer(self, what: str, categories: Optional[List[str]], indexer_id: Union[int, str]) -> Tuple[int, Optional[str]]:
         """Search a single indexer and emit results progressively to qBittorrent."""
-        params_list: List[tuple[str, str]] = [
+        params_list: List[Tuple[str, str]] = [
             ('query', what),
             ('type', 'search'),
             ('indexerIds', str(indexer_id)),
-            ('apikey', self.api_key),
         ]
         if categories:
             for cat_id in categories:
@@ -348,18 +422,19 @@ class prowlarr:
         query_string = urllib.parse.urlencode(params_list)
         search_endpoint = f"{self.url}/api/v1/search?{query_string}"
 
-        _proxy_manager.enable_proxy(False)
-        response_text = self.get_response(search_endpoint)
-        if not response_text:
-            return 0
+        response_text, err = self._fetch_response(search_endpoint)
+        if response_text is None:
+            return 0, err or f"Failed to query indexer {indexer_id}"
 
         try:
             results = json.loads(response_text)
         except json.JSONDecodeError:
-            return 0
+            return 0, "Invalid JSON response received from Prowlarr"
 
         if not isinstance(results, list):
-            return 0
+            if isinstance(results, dict) and 'message' in results:
+                return 0, f"Prowlarr API error: {results['message']}"
+            return 0, "Unexpected response schema from Prowlarr"
 
         count = 0
         for item in results:
@@ -367,7 +442,7 @@ class prowlarr:
             if res:
                 self.pretty_printer_thread_safe(res)
                 count += 1
-        return count
+        return count, None
 
     def search(self, what: str, cat: str = 'all') -> None:
         what = urllib.parse.unquote(what).strip()
@@ -383,31 +458,48 @@ class prowlarr:
             self.handle_error("API key is not configured in prowlarr.json", what)
             return
 
+        # Ensure local Prowlarr requests bypass global proxy once before spawning worker threads
+        _proxy_manager.enable_proxy(False)
+
         # Multi-threaded concurrent search across indexers for progressive instant results
         if self.multithreaded and self.thread_count > 1:
             active_indexers = self.get_indexers(what)
             if active_indexers is None:
                 return  # error already reported by get_indexers
-            if active_indexers:
-                workers = max(1, min(len(active_indexers), self.thread_count))
-                with ThreadPoolExecutor(max_workers=workers) as executor:
-                    futures = [
-                        executor.submit(self.search_single_indexer, what, categories, idx['id'])
-                        for idx in active_indexers
-                    ]
-                    for future in as_completed(futures):
-                        try:
-                            future.result()
-                        except Exception:
-                            pass
+            if not active_indexers:
+                return  # no enabled torrent indexers configured in Prowlarr
+
+            indexer_ids = [idx['id'] for idx in active_indexers if 'id' in idx]
+            if not indexer_ids:
                 return
 
+            workers = max(1, min(len(indexer_ids), self.thread_count))
+            succeeded_indexers = 0
+            last_worker_error: Optional[str] = None
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                futures = [
+                    executor.submit(self.search_single_indexer, what, categories, idx_id)
+                    for idx_id in indexer_ids
+                ]
+                for future in as_completed(futures):
+                    try:
+                        _, worker_err = future.result()
+                        if worker_err is None:
+                            succeeded_indexers += 1
+                        else:
+                            last_worker_error = worker_err
+                    except Exception as exc:
+                        last_worker_error = str(exc)
+
+            if succeeded_indexers == 0 and last_worker_error:
+                self.handle_error(last_worker_error, what)
+            return
+
         # Fallback to single monolithic search query (indexerIds=-2)
-        params_list: List[tuple[str, str]] = [
+        params_list: List[Tuple[str, str]] = [
             ('query', what),
             ('type', 'search'),
             ('indexerIds', '-2'),
-            ('apikey', self.api_key),
         ]
         if categories:
             for cat_id in categories:
@@ -416,7 +508,6 @@ class prowlarr:
         query_string = urllib.parse.urlencode(params_list)
         search_endpoint = f"{self.url}/api/v1/search?{query_string}"
 
-        _proxy_manager.enable_proxy(False)
         response_text = self.get_response(search_endpoint)
 
         if response_text is None:
@@ -446,62 +537,64 @@ class prowlarr:
             if res:
                 self.pretty_printer_thread_safe(res)
 
-    def get_response(self, query_url: str) -> Optional[str]:
-        """Send HTTP GET request to Prowlarr API with proper headers and cookie handling."""
-        self.last_error = None
+    def _fetch_response(self, query_url: str) -> Tuple[Optional[str], Optional[str]]:
+        """Thread-safe HTTP GET helper returning (response_text, error_message)."""
         try:
             req = urllib.request.Request(query_url)
             req.add_header('User-Agent', _get_browser_user_agent())
-            req.add_header('X-Api-Key', self.api_key)
+            if self._is_prowlarr_url(query_url) and self.api_key:
+                req.add_header('X-Api-Key', self.api_key)
             req.add_header('Accept', 'application/json, text/plain, */*')
 
             opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(CookieJar()))
             with opener.open(req, timeout=self.timeout) as resp:
                 charset = resp.headers.get_content_charset() or 'utf-8'
-                return resp.read().decode(charset, errors='replace')
+                return resp.read().decode(charset, errors='replace'), None
         except urllib.error.HTTPError as e:
-            # Handle 302/301 redirects to magnet links in download_torrent
+            # Handle 302/301 redirects to magnet links
             if e.code in (301, 302, 303, 307, 308):
                 redirect_url = e.headers.get('Location')
                 if redirect_url and redirect_url.startswith('magnet:?'):
-                    return redirect_url
+                    return redirect_url, None
 
             if e.code == 401:
-                self.last_error = "Invalid API key (HTTP 401 Unauthorized)"
+                return None, "Invalid API key (HTTP 401 Unauthorized)"
             elif e.code == 403:
-                self.last_error = "Access forbidden (HTTP 403 Forbidden)"
+                return None, "Access forbidden (HTTP 403 Forbidden)"
             elif e.code == 404:
-                self.last_error = "Endpoint not found (HTTP 404 - check URL or URL Base)"
+                return None, "Endpoint not found (HTTP 404 - check URL or URL Base)"
             elif e.code == 500:
-                self.last_error = "Prowlarr server error (HTTP 500 Internal Server Error)"
+                return None, "Prowlarr server error (HTTP 500 Internal Server Error)"
             elif e.code == 502:
-                self.last_error = "Bad Gateway (HTTP 502 - reverse proxy cannot reach Prowlarr)"
+                return None, "Bad Gateway (HTTP 502 - reverse proxy cannot reach Prowlarr)"
             elif e.code == 503:
-                self.last_error = "Service Unavailable (HTTP 503 - Prowlarr is busy or restarting)"
+                return None, "Service Unavailable (HTTP 503 - Prowlarr is busy or restarting)"
             elif e.code == 504:
-                self.last_error = "Gateway Timeout (HTTP 504 - reverse proxy timed out waiting for Prowlarr)"
+                return None, "Gateway Timeout (HTTP 504 - reverse proxy timed out waiting for Prowlarr)"
             else:
-                self.last_error = f"HTTP Error {e.code}: {e.reason}"
-            return None
+                return None, f"HTTP Error {e.code}: {e.reason}"
         except urllib.error.URLError as e:
             reason = e.reason
             if isinstance(reason, (socket.timeout, TimeoutError)) or "timed out" in str(reason).lower():
-                self.last_error = f"Request timed out after {self.timeout}s (Prowlarr indexers responded too slowly)"
+                return None, f"Request timed out after {self.timeout}s (Prowlarr indexers responded too slowly)"
             elif isinstance(reason, ConnectionRefusedError) or "connection refused" in str(reason).lower() or "10061" in str(reason):
-                self.last_error = f"Connection refused (is Prowlarr running at {self.url}?)"
+                return None, f"Connection refused (is Prowlarr running at {self.url}?)"
             elif isinstance(reason, socket.gaierror) or "getaddrinfo failed" in str(reason).lower():
-                self.last_error = f"Cannot resolve host in {self.url} (check address/domain)"
+                return None, f"Cannot resolve host in {self.url} (check address/domain)"
             elif "certificate" in str(reason).lower() or "ssl" in str(reason).lower():
-                self.last_error = f"SSL/TLS certificate error connecting to {self.url}: {reason}"
+                return None, f"SSL/TLS certificate error connecting to {self.url}: {reason}"
             else:
-                self.last_error = f"Network connection failed: {reason}"
-            return None
+                return None, f"Network connection failed: {reason}"
         except (socket.timeout, TimeoutError):
-            self.last_error = f"Request timed out after {self.timeout}s (Prowlarr indexers responded too slowly)"
-            return None
+            return None, f"Request timed out after {self.timeout}s (Prowlarr indexers responded too slowly)"
         except Exception as e:
-            self.last_error = f"Connection error: {e}"
-            return None
+            return None, f"Connection error: {e}"
+
+    def get_response(self, query_url: str) -> Optional[str]:
+        """Send HTTP GET request to Prowlarr API with proper headers and cookie handling."""
+        response_text, err = self._fetch_response(query_url)
+        self.last_error = err
+        return response_text
 
     def handle_error(self, error_msg: str, what: str) -> None:
         """Report errors directly in the qBittorrent search results list."""
